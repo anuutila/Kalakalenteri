@@ -10,8 +10,8 @@ body {
   /*background-attachment: fixed;*/
   margin: 0;
   padding: 1rem;
-  /*padding-left: 10rem;
-  padding-right: 10rem;*/
+  padding-left: 10rem;
+  padding-right: 10rem;
   min-height: 100vh;
 }
 
@@ -93,9 +93,8 @@ h2 {
 
 .tableContainer {
   width: fit-content;
-  max-width: 80vw;
+  /*max-width: 80vw;*/
   margin: auto;
-  
   margin-bottom: 2rem;
   font-size: 1.5rem;
 }
