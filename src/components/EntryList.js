@@ -42,7 +42,7 @@ const Entry = ({ entry, removeEntry }) => {
     <td>{entry.place}</td>
     <td>{entry.time}</td>
     <td>{entry.person}</td>
-    <td ><button className="deleteButton" onClick={removeEntry}>poista</button></td>
+    <td ><button className="button" id="deleteButton" onClick={removeEntry}>poista</button></td>
   </tr>
   )
 }

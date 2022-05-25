@@ -126,21 +126,25 @@ class App extends React.Component {
     console.log(this.state.entries)
     return (
       <div>
-        <h1 className='title' id='title1'>Kalakalenteri</h1>
-        <div className='formContainer'>
-          <InputForm
-            state={this.state}
-            addEntry={this.addEntry}
-            handleFishChange={this.handleFishChange}
-            handleDateChange={this.handleDateChange}
-            handleLengthChange={this.handleLengthChange}
-            handleWeightChange={this.handleWeightChange}
-            handleLureChange={this.handleLureChange}
-            handlePlaceChange={this.handlePlaceChange}
-            handleTimeChange={this.handleTimeChange}
-            handlePersonChange={this.handlePersonChange}
-          />
-        </div>
+        <div className='topShade'> </div>
+        <h1 className='title' id='title1'>KALAKALENTERI</h1>
+        <div className='newEntryContainer'>
+          <h2>Uusi saalis:</h2>
+          <div className='formContainer'>
+            <InputForm
+              state={this.state}
+              addEntry={this.addEntry}
+              handleFishChange={this.handleFishChange}
+              handleDateChange={this.handleDateChange}
+              handleLengthChange={this.handleLengthChange}
+              handleWeightChange={this.handleWeightChange}
+              handleLureChange={this.handleLureChange}
+              handlePlaceChange={this.handlePlaceChange}
+              handleTimeChange={this.handleTimeChange}
+              handlePersonChange={this.handlePersonChange}
+            />
+          </div>
+        </div>  
         <div className='tableContainer'>
           <EntryList 
             entries={this.state.entries}
