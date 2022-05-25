@@ -31,6 +31,7 @@ h1 {
   color: #dddddd;
   text-shadow: 3px 3px 10px black;
   margin: 0;
+  margin-top: 0.4rem;
   padding: 0;
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   position: static;
@@ -39,45 +40,59 @@ h1 {
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 2rem;
   text-align: center;
   margin: 0;
   margin-bottom: 1rem;
 }
 
 .newEntryContainer {
-  width: 18.5rem;
-  margin: 2rem auto;
+  width: 25rem;
+  margin: 4rem auto 4rem;
   background-color: rgba(0, 0, 0, 0.43);
-  padding: 2rem;
+  padding: 3rem;
   padding-top: 1.5rem;
-  font-size: 1.2rem;
+  padding-bottom: 2rem;
+  font-size: 1.5rem;
   color: #ffff;
   box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);
   border-radius: 1rem;
-  line-height: 1.8rem;
+  line-height: 3rem;
+  backdrop-filter: blur(1.5rem);
 }
 
 .formContainer {
-  display: flex;
-  justify-content: center;
+  width: fit-content;
+  /*display: flex;
+  justify-content: center;*/
+  margin: auto;
 }
 
 .entryForm {
-  width: 85%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  width: fit-content;
+  text-align: end;
+  /*display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;*/
 }
 
 .entryForm input {
   margin-left: 0.4rem;
+  font-size: 1.5rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  border-width: 1px;
+  border-color: rgb(74, 74, 74);
+  /*width: 50%;*/
 }
 
 .tableContainer {
   width: fit-content;
   margin: auto;
   margin-bottom: 2rem;
+  font-size: 1.5rem;
 }
 
 .entries {
@@ -88,7 +103,7 @@ h2 {
   
 .entries th, td:not(:last-child) {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 0.8rem;
 }
   
 .entries tbody tr:nth-child(even) :not(:last-child) {background-color: #f2f2f2;}
@@ -121,8 +136,8 @@ h2 {
 
 #submitButton {
   margin-top: 1rem;
-  width: 15.7rem;
-  font-size: 1.2rem;
+  width: 77.5%;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
