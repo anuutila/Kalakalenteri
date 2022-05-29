@@ -50,8 +50,7 @@ h2 {
 }
 
 .newEntryContainer {
-  min-width: 25rem;
-  max-width: 25rem;
+  width: fit-content;
   margin: 4rem auto 4rem;
   background-color: rgba(0, 0, 0, 0.43);
   padding: 3rem;
