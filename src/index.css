@@ -4,7 +4,7 @@ html {
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background-image: url(jarvimaisema.jpg);
+  background-image: url(./images/jarvimaisema.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   /*background-attachment: fixed;*/
