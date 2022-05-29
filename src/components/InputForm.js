@@ -52,7 +52,7 @@ const InputForm = (props) => {
         />
       </div>
       <div>
-        <button type="submit" className="button" id="submitButton">lisää</button>
+        <button type="submit" className="button" id="submitButton">lisää saalis</button>
       </div>
     </form>
   )

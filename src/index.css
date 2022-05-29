@@ -50,7 +50,8 @@ h2 {
 }
 
 .newEntryContainer {
-  width: fit-content;
+  min-width: 25rem;
+  max-width: 25rem;
   margin: 4rem auto 4rem;
   background-color: rgba(0, 0, 0, 0.43);
   padding: 3rem;
@@ -102,18 +103,21 @@ h2 {
 .entries {
   border-collapse: collapse;
   min-width: fit-content;
+  max-width: 80rem;
+  
   /*box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);*/
 }
   
 .entries th, td:not(:last-child) {
   border: 1px solid #ddd;
   padding: 0.8rem;
+  padding-right: 1rem;
 }
   
 .entries tbody tr:nth-child(even) :not(:last-child) {background-color: #f2f2f2;}
 .entries tbody tr:nth-child(odd) :not(:last-child) {background-color: white;}
   
-/*.entries tr:hover {background-color: #ddd;}*/
+.entries tbody tr:hover :not(:last-child) {background-color: #ddd;}
   
 .entries th {
   padding-top: 12px;
@@ -124,7 +128,7 @@ h2 {
 }
 
 #deleteButton {
-  margin: 8px;
+  margin-left: 1rem;
   font-size: 1rem;
   padding:0.4rem 1rem;
   box-shadow:inset 0px -3px 7px 0px #ff523e;

@@ -34,6 +34,11 @@ class App extends React.Component {
 
   addEntry = (event) => {
     event.preventDefault()
+
+    if (!this.state.newFish || !this.state.newDate || !this.state.newPerson) {
+      return window.alert('kalalaji, päivämäärä tai saajan nimi puuttuu')
+    }
+
     const entryObject = {
       fish: this.state.newFish,
       date: this.state.newDate,
@@ -71,7 +76,7 @@ class App extends React.Component {
     return () => {
       const entry = this.state.entries.find(e => e.id === id)
       
-      if (window.confirm(`Poistetaanko ${entry.fish} ${entry.length} ${entry.weight}?`)) {
+      if (window.confirm(`Poistetaanko ${entry.fish}, jonka ${entry.person} nappasi ${entry.date}?`)) {
         entryService
           .remove(id)
           .then(response => {
