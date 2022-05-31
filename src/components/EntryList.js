@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useState } from "react"
+import Modal from "react-modal"
 
 const EntryList = ({ entries, removeEntry }) => {
   return (
@@ -43,6 +44,12 @@ const Entry = ({ entry, removeEntry }) => {
     <td>{entry.time}</td>
     <td>{entry.person}</td>
     <td ><button className="button" id="deleteButton" onClick={removeEntry}>poista</button></td>
+    {/*<td>  
+      <button> muokkaa </button>
+      <Modal>
+
+      </Modal>
+  </td>*/}
   </tr>
   )
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import entryService from './services/entries'
 import InputForm from './components/InputForm';
 import EntryList from './components/EntryList';
+import Statistics from './components/Statistics';
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -14,9 +15,16 @@ class App extends React.Component {
       newLure: '',
       newPlace: '',
       newTime: '',
-      newPerson: ''
+      newPerson: '',
+      isHidden: true
     }
     console.log('constructor')
+  }
+
+  toggleHidden () {
+    this.setState({
+      isHidden: !this.state.isHidden
+    })
   }
 
   componentDidMount() {
@@ -128,9 +136,9 @@ class App extends React.Component {
 
   render() {
     console.log('render')
-    console.log(this.state.entries)
     return (
       <div>
+
         <div className='topShade'> </div>
         <h1 className='title' id='title1'>KALAKALENTERI</h1>
         <div className='newEntryContainer'>
@@ -149,13 +157,21 @@ class App extends React.Component {
               handlePersonChange={this.handlePersonChange}
             />
           </div>
-        </div>  
+        </div> 
+
         <div className='tableContainer'>
+          <div>
+            {!this.state.isHidden && <Statistics entries={this.state.entries} />}
+            <button className='button' id='showButton' onClick={this.toggleHidden.bind(this)}>
+              näytä/piilota statistiikat
+            </button>
+          </div>  
           <EntryList 
             entries={this.state.entries}
             removeEntry={this.removeEntry}
           />
         </div>
+
       </div>
     )
   }

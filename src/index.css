@@ -1,5 +1,7 @@
 html {
   font-size: 16px;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -7,7 +9,7 @@ body {
   background-image: url(./images/jarvimaisema.jpg);
   background-repeat: no-repeat;
   background-size: cover;
-  /*background-attachment: fixed;*/
+  background-attachment: fixed;
   margin: 0;
   padding: 1rem;
   /*padding-left: 3rem;
@@ -57,6 +59,7 @@ h2 {
   padding-top: 1.5rem;
   padding-bottom: 2rem;
   font-size: 1.5rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: #eeeeee;
   box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);
   border-radius: 1rem;
@@ -88,7 +91,48 @@ h2 {
   padding: 0.3rem;
   border-width: 1px;
   border-color: rgb(74, 74, 74);
-  /*width: 50%;*/
+  width: 18rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+::placeholder {
+  color: rgb(135, 135, 135);
+}
+
+input[type=date]:invalid {
+  color: rgb(135, 135, 135);
+}
+
+input[type=time]:invalid {
+  color: rgb(135, 135, 135);
+}
+
+.statisticsContainer {
+  width: fit-content;
+  margin: auto;
+  margin-bottom: 2rem;
+  background-color: rgba(0, 0, 0, 0.43);
+  padding: 2rem;
+  font-size: 1.5rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #eeeeee;
+  box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);
+  border-radius: 1rem;
+  backdrop-filter: blur(1.5rem);
+  text-align: center;
+}
+
+.stats {
+  display: inline-block;
+  vertical-align: top;
+  list-style-type: none;
+  padding: 0;
+  margin: 0 1.5rem;
+}
+
+#totalAmount {
+  font-weight: 700;
+  margin-top: 0;
 }
 
 .tableContainer {
@@ -107,14 +151,14 @@ h2 {
   /*box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);*/
 }
   
-.entries th, td:not(:last-child) {
+.entries th, td:not(:last-child/*,:nth-last-child(2)*/) {
   border: 1px solid #ddd;
   padding: 0.8rem;
   padding-right: 1rem;
 }
   
-.entries tbody tr:nth-child(even) :not(:last-child) {background-color: #f2f2f2;}
-.entries tbody tr:nth-child(odd) :not(:last-child) {background-color: white;}
+.entries tbody tr:nth-child(even) :not(:last-child/*,:nth-last-child(2)*/) {background-color: #f2f2f2;}
+.entries tbody tr:nth-child(odd) :not(:last-child/*,:nth-last-child(2)*/) {background-color: white;}
   
 .entries tbody tr:hover :not(:last-child) {background-color: #ddd;}
   
@@ -144,6 +188,13 @@ h2 {
 #submitButton {
   margin-top: 1rem;
   width: 77.5%;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+#showButton {
+  margin-bottom: 0.5rem;
+  width: fit-content;
   font-size: 1.5rem;
   font-weight: bold;
 }
