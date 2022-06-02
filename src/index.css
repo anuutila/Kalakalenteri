@@ -1,47 +1,56 @@
+* { 
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 html {
   font-size: 16px;
-  max-width: 100%;
-  overflow-x: hidden;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
   background-image: url(./images/jarvimaisema.jpg);
   background-repeat: no-repeat;
   background-size: cover;
-  background-attachment: fixed;
-  margin: 0;
-  padding: 1rem;
-  /*padding-left: 3rem;
-  padding-right: 3rem;*/
-  min-height: 100vh;
+  background-attachment: fixed; 
+}
+
+.rootDiv1 {
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  padding-top: 1rem;
 }
 
 .topShade {
   opacity: 0.85;
-  position: absolute;
+  position: fixed;
+  overflow-x: hidden;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 500%;
   height: 50rem;
   z-index: -1;
   background-image: linear-gradient(to bottom, rgb(0, 125, 192) 0%, rgba(0,0,0,0) 30%);
-  /*background-color: rgba(0, 0, 0, 0.2);*/
 }
 
 h1 {
   font-size: 5rem;
-  text-align: center;
   letter-spacing: 0.9rem; 
   color: #dddddd;
   text-shadow: 3px 3px 10px black;
-  margin: 0;
+  margin: auto;
+  width: fit-content;
   margin-top: 0.4rem;
   padding: 0;
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  position: static;
+  /*position: static;*/
   z-index: 1;
-  transform: translateX(+0.5rem);
+  transform: translateX(+0.5rem);  
 }
 
 h2 {
@@ -69,17 +78,14 @@ h2 {
 
 .formContainer {
   width: fit-content;
-  /*display: flex;
-  justify-content: center;*/
   margin: auto;
+  overflow: auto;
+  white-space: nowrap;
 }
 
 .entryForm {
   width: fit-content;
   text-align: end;
-  /*display: flex;
-  flex-wrap: nowrap;
-  justify-content: flex-end;*/
 }
 
 .entryForm input {
@@ -127,7 +133,7 @@ input[type=time]:invalid {
   vertical-align: top;
   list-style-type: none;
   padding: 0;
-  margin: 0 1.5rem;
+  margin: 1.5rem 1.5rem 0;
 }
 
 #totalAmount {
@@ -137,30 +143,31 @@ input[type=time]:invalid {
 
 .tableContainer {
   width: fit-content;
-  /*max-width: 80vw;*/
   margin: auto;
-  margin-bottom: 2rem;
   font-size: 1.5rem;
+  margin-bottom: 2rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
 }
 
 .entries {
   border-collapse: collapse;
-  min-width: fit-content;
+  width: fit-content;
   max-width: 80rem;
-  
-  /*box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);*/
 }
   
-.entries th, td:not(:last-child/*,:nth-last-child(2)*/) {
+.entries th, td:not(:last-child) {
   border: 1px solid #ddd;
   padding: 0.8rem;
   padding-right: 1rem;
 }
   
-.entries tbody tr:nth-child(even) :not(:last-child/*,:nth-last-child(2)*/) {background-color: #f2f2f2;}
-.entries tbody tr:nth-child(odd) :not(:last-child/*,:nth-last-child(2)*/) {background-color: white;}
+.entries tbody tr:nth-child(even) :not(:last-child) {background-color: #f2f2f2;}
+.entries tbody tr:nth-child(odd) :not(:last-child) {background-color: white;}
   
 .entries tbody tr:hover :not(:last-child) {background-color: #ddd;}
+
+/*,:nth-last-child(2)*/
   
 .entries th {
   padding-top: 12px;
@@ -171,18 +178,38 @@ input[type=time]:invalid {
 }
 
 #deleteButton {
-  margin-left: 1rem;
   font-size: 1rem;
-  padding:0.4rem 1rem;
+  padding: 0.4rem 1rem;
+  width: 100%;
   box-shadow:inset 0px -3px 7px 0px #ff523e;
-	background:linear-gradient(to bottom, #ff5b49 5%, rgb(255, 42, 42) 100%);
-	background-color:#ff5b49;
+	background:linear-gradient(to bottom, #ff6958 5%, rgb(255, 42, 42) 100%);
+	background-color:#ff6958;
   text-shadow:0px 1px 0px #380606;
 }
 
 #deleteButton:hover {
-	background:linear-gradient(to bottom, rgb(255, 42, 42) 5%, #ff5b49 100%);
+	background:linear-gradient(to bottom, rgb(255, 42, 42) 5%, #ff6958 100%);
 	background-color:rgb(255, 42, 42);
+}
+
+#editButton {
+  font-size: 1rem;
+  padding: 0.4rem 1rem;
+  width: 100%;
+  box-shadow:inset 0px -3px 7px 0px rgb(235, 125, 0);
+	background:linear-gradient(to bottom, rgb(255, 163, 59) 5%, rgb(255, 136, 0) 100%);
+	background-color:rgb(255, 163, 59);
+  text-shadow:0px 1px 0px #422805;
+}
+
+#editButton:hover {
+	background:linear-gradient(to bottom, rgb(255, 136, 0) 5%, rgb(255, 163, 59) 100%);
+	background-color:rgb(255, 136, 0);
+}
+
+.removeAndEditButtonContainer {
+  width: 6.5rem;
+  padding: 0.5rem 0 0.5rem 0.5rem;
 }
 
 #submitButton {
@@ -208,7 +235,6 @@ input[type=time]:invalid {
 	display:inline-block;
 	cursor:pointer;
 	color:#ffffff;
-	/* /*font-family:Arial; */
 	padding:0.6rem 1.5rem;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #263666;
@@ -221,4 +247,33 @@ input[type=time]:invalid {
 	position:relative;
 	top:1px;
 }
+
+/*.editModal {
+  position: fixed;
+  top:30%;
+  bottom: 30%;
+  left: 30%;
+  right: 30%;
+  border: 1px solid #ccc;
+  background: #fff;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  color: #0073d8;
+}
+
+.editModalOverlay {
+  position: 'fixed';
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.75);
+}*/
+
+
+
+
 

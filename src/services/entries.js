@@ -16,4 +16,10 @@ const remove = (id) => {
   return axios.delete(`${baseUrl}/${id}`)
 }
 
-export default {getAll, create, remove}
+const entryService = {
+  getAll,
+  create,
+  remove
+}
+
+export default entryService

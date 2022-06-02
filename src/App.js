@@ -80,6 +80,12 @@ class App extends React.Component {
     })
   }
 
+  editEntry = (id) => {
+    //event.preventDefault()
+    console.log('editEntry')
+    console.log(id)
+  }  
+
   removeEntry = (id) => {
     return () => {
       const entry = this.state.entries.find(e => e.id === id)
@@ -137,8 +143,8 @@ class App extends React.Component {
   render() {
     console.log('render')
     return (
-      <div>
-
+      <div className='rootDiv1'>
+        
         <div className='topShade'> </div>
         <h1 className='title' id='title1'>KALAKALENTERI</h1>
         <div className='newEntryContainer'>
@@ -146,7 +152,8 @@ class App extends React.Component {
           <div className='formContainer'>
             <InputForm
               state={this.state}
-              addEntry={this.addEntry}
+              onSubmit={this.addEntry}
+              buttonText={'lisää saalis'}
               handleFishChange={this.handleFishChange}
               handleDateChange={this.handleDateChange}
               handleLengthChange={this.handleLengthChange}
@@ -157,21 +164,30 @@ class App extends React.Component {
               handlePersonChange={this.handlePersonChange}
             />
           </div>
-        </div> 
-
+        </div>
         <div className='tableContainer'>
           <div>
             {!this.state.isHidden && <Statistics entries={this.state.entries} />}
             <button className='button' id='showButton' onClick={this.toggleHidden.bind(this)}>
               näytä/piilota statistiikat
             </button>
-          </div>  
-          <EntryList 
+          </div>
+          <EntryList
             entries={this.state.entries}
             removeEntry={this.removeEntry}
+            state={this.state}
+            onSubmit={this.editEntry}
+            handleFishChange={this.handleFishChange}
+            handleDateChange={this.handleDateChange}
+            handleLengthChange={this.handleLengthChange}
+            handleWeightChange={this.handleWeightChange}
+            handleLureChange={this.handleLureChange}
+            handlePlaceChange={this.handlePlaceChange}
+            handleTimeChange={this.handleTimeChange}
+            handlePersonChange={this.handlePersonChange}
           />
         </div>
-
+        
       </div>
     )
   }

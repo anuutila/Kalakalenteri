@@ -6,7 +6,7 @@ const InputForm = (props) => {
   const uniquePersons = [...new Set(props.state.entries.map(e => e.person))]
 
   return (
-    <form onSubmit={props.addEntry} className='entryForm'>
+    <form onSubmit={props.onSubmit} className='entryForm'>
       <div>
         laji: <input 
           list="fishSpecies"
@@ -85,7 +85,7 @@ const InputForm = (props) => {
         </datalist>
       </div>
       <div>
-        <button type="submit" className="button" id="submitButton">lisää saalis</button>
+        <button type="submit" className="button" id="submitButton">{props.buttonText}</button>
       </div>
     </form>
   )
