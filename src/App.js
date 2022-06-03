@@ -1,8 +1,9 @@
 import React from 'react';
 import entryService from './services/entries'
 import InputForm from './components/InputForm';
-import EntryList from './components/EntryList';
+import EntryTable from './components/EntryTable';
 import Statistics from './components/Statistics';
+import axios from 'axios';
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -16,7 +17,15 @@ class App extends React.Component {
       newPlace: '',
       newTime: '',
       newPerson: '',
-      isHidden: true
+      isHidden: true,
+      editFish: '',
+      editDate: '',
+      editLength: '',
+      editWeight: '',
+      editLure: '',
+      editPlace: '',
+      editTime: '',
+      editPerson: '',
     }
     console.log('constructor')
   }
@@ -80,12 +89,6 @@ class App extends React.Component {
     })
   }
 
-  editEntry = (id) => {
-    //event.preventDefault()
-    console.log('editEntry')
-    console.log(id)
-  }  
-
   removeEntry = (id) => {
     return () => {
       const entry = this.state.entries.find(e => e.id === id)
@@ -107,6 +110,45 @@ class App extends React.Component {
 
     }
   }
+
+  editEntry = (id) => {
+    return () => {
+      console.log(`editEntry ${id}`)
+      const baseUrl = 'api/entries'
+      /*const entry = this.state.entries.find(e => e.id === id)*/
+      const editedEntry = {
+        fish: this.state.editFish,
+        date: this.state.editDate,
+        length: this.state.editLength,
+        weight: this.state.editWeight,
+        lure: this.state.editLure,
+        place: this.state.editPlace,
+        time: this.state.editTime,
+        person: this.state.editPerson
+      }
+
+      axios
+        .put(`${baseUrl}/${id}`, editedEntry)
+        .then(response => {
+          console.log('entry edited')
+          this.setState({
+            entries: this.state.entries.map(entry => entry.id === id ? response.data : entry)
+            /*editFish: '',
+            editDate: '',
+            editLength: '',
+            editWeight: '',
+            editLure: '',
+            editPlace: '',
+            editTime: '',
+            editPerson: '',*/
+          })
+        })
+        .catch(error => {
+          console.log(error)
+          alert("Muokkaus epäonnistui.")
+        })
+    }
+  }  
 
   handleFishChange = (event) => {
     this.setState({ newFish: event.target.value })
@@ -140,6 +182,55 @@ class App extends React.Component {
     this.setState({ newPerson: event.target.value })
   }
 
+
+
+  handleEditFishChange = (event) => {
+    this.setState({ editFish: event.target.value })
+  }
+
+  handleEditDateChange = (event) => {
+    this.setState({ editDate: event.target.value })
+  }
+
+  handleEditLengthChange = (event) => {
+    this.setState({ editLength: event.target.value })
+  }
+
+  handleEditWeightChange = (event) => {
+    this.setState({ editWeight: event.target.value })
+  }
+
+  handleEditLureChange = (event) => {
+    this.setState({ editLure: event.target.value })
+  }
+
+  handleEditPlaceChange = (event) => {
+    this.setState({ editPlace: event.target.value })
+  }
+
+  handleEditTimeChange = (event) => {
+    this.setState({ editTime: event.target.value })
+  }
+
+  handleEditPersonChange = (event) => {
+    this.setState({ editPerson: event.target.value })
+  }
+
+  initializeStateForEdit = (entry) => {
+    return () => {
+      this.setState({ 
+        editFish: entry.fish,
+        editDate: entry.date,
+        editLength: entry.length,
+        editWeight: entry.weight,
+        editLure: entry.lure,
+        editPlace: entry.place,
+        editTime: entry.time,
+        editPerson: entry.person
+      })
+    }  
+  }
+
   render() {
     console.log('render')
     return (
@@ -152,8 +243,7 @@ class App extends React.Component {
           <div className='formContainer'>
             <InputForm
               state={this.state}
-              onSubmit={this.addEntry}
-              buttonText={'lisää saalis'}
+              addEntry={this.addEntry}
               handleFishChange={this.handleFishChange}
               handleDateChange={this.handleDateChange}
               handleLengthChange={this.handleLengthChange}
@@ -172,19 +262,20 @@ class App extends React.Component {
               näytä/piilota statistiikat
             </button>
           </div>
-          <EntryList
+          <EntryTable
             entries={this.state.entries}
             removeEntry={this.removeEntry}
             state={this.state}
-            onSubmit={this.editEntry}
-            handleFishChange={this.handleFishChange}
-            handleDateChange={this.handleDateChange}
-            handleLengthChange={this.handleLengthChange}
-            handleWeightChange={this.handleWeightChange}
-            handleLureChange={this.handleLureChange}
-            handlePlaceChange={this.handlePlaceChange}
-            handleTimeChange={this.handleTimeChange}
-            handlePersonChange={this.handlePersonChange}
+            editEntry={this.editEntry}
+            initializeStateForEdit={this.initializeStateForEdit}
+            handleEditFishChange={this.handleEditFishChange}
+            handleEditDateChange={this.handleEditDateChange}
+            handleEditLengthChange={this.handleEditLengthChange}
+            handleEditWeightChange={this.handleEditWeightChange}
+            handleEditLureChange={this.handleEditLureChange}
+            handleEditPlaceChange={this.handleEditPlaceChange}
+            handleEditTimeChange={this.handleEditTimeChange}
+            handleEditPersonChange={this.handleEditPersonChange}
           />
         </div>
         

@@ -1,16 +1,19 @@
 import React from "react";
 
-const InputForm = (props) => {
+const EditEntryForm = (props) => {
   const uniqueLures = [...new Set(props.state.entries.map(e => e.lure))].filter(lure => lure !== '-')
   const uniquePlaces = [...new Set(props.state.entries.map(e => e.place))].filter(place => place !== '-')
   const uniquePersons = [...new Set(props.state.entries.map(e => e.person))]
 
   return (
-    <form onSubmit={props.addEntry} className='entryForm'>
+    <form className='editEntryForm' onSubmit={(event) => {
+        event.preventDefault();
+        props.editEntry(); 
+        props.closeModal();}} >
       <div>
         laji: <input 
           list="fishSpecies"
-          value={props.state.newFish}
+          value={props.state.editFish}
           onChange={props.handleFishChange}
         />
         <datalist id="fishSpecies">
@@ -23,7 +26,7 @@ const InputForm = (props) => {
         pvm: <input
           type="date" 
           required
-          value={props.state.newDate}
+          value={props.state.editDate}
           onChange={props.handleDateChange}
         />
       </div>
@@ -31,7 +34,7 @@ const InputForm = (props) => {
         pituus: <input 
           type="number"
           placeholder="cm"
-          value={props.state.newLength}
+          value={props.state.editLength}
           onChange={props.handleLengthChange}
         />
       </div>
@@ -41,14 +44,14 @@ const InputForm = (props) => {
           placeholder="kg"
           step="0.1"
           min="0"
-          value={props.state.newWeight}
+          value={props.state.editWeight}
           onChange={props.handleWeightChange}
         />
       </div>
       <div>
         viehe: <input 
           list="lures"
-          value={props.state.newLure}
+          value={props.state.editLure}
           onChange={props.handleLureChange}
         />
         <datalist id="lures">
@@ -58,7 +61,7 @@ const InputForm = (props) => {
       <div>
         paikka: <input 
           list = "places"
-          value={props.state.newPlace}
+          value={props.state.editPlace}
           onChange={props.handlePlaceChange}
         />
         <datalist id="places">
@@ -70,14 +73,14 @@ const InputForm = (props) => {
           type="time"
           step="600" //ei ilmeisesti toimi uusimmassa chromessa
           required
-          value={props.state.newTime}
+          value={props.state.editTime}
           onChange={props.handleTimeChange}
         />
       </div>
       <div>
         saaja: <input 
           list="persons"
-          value={props.state.newPerson}
+          value={props.state.editPerson}
           onChange={props.handlePersonChange}
         />
         <datalist id="persons">
@@ -85,10 +88,11 @@ const InputForm = (props) => {
         </datalist>
       </div>
       <div>
-        <button type="submit" className="button" id="submitButton">lisää saalis</button>
+        <button type="submit" className="button" id="submitEditButton">hyväksy muutokset</button>
+        <button className="button" id="cancelEditButton" onClick={props.closeModal}>Peruuta</button>
       </div>
     </form>
   )
 }
 
-export default InputForm
+export default EditEntryForm

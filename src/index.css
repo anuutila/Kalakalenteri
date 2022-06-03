@@ -15,6 +15,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed; 
+  background-position: center;
 }
 
 .rootDiv1 {
@@ -49,7 +50,7 @@ h1 {
   padding: 0;
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   /*position: static;*/
-  z-index: 1;
+  /*z-index: 1;*/
   transform: translateX(+0.5rem);  
 }
 
@@ -72,11 +73,11 @@ h2 {
   color: #eeeeee;
   box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);
   border-radius: 1rem;
-  line-height: 3rem;
   backdrop-filter: blur(1.5rem);
 }
 
 .formContainer {
+  line-height: 3rem;
   width: fit-content;
   margin: auto;
   overflow: auto;
@@ -101,7 +102,34 @@ h2 {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-::placeholder {
+.editFormContainer {
+  width: fit-content;
+  line-height: 3rem;
+  background-color: #6a6a6a;
+}
+
+.editEntryForm {
+  width: fit-content;
+  text-align: end;
+  font-size: 1.5rem;
+  color: white;
+  padding: 0;
+}
+
+.editEntryForm input {
+  margin-left: 0.4rem;
+  font-size: 1.5rem;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  border-width: 1px;
+  border-color: rgb(0, 0, 0);
+  width: 18rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.entryForm::placeholder {
   color: rgb(135, 135, 135);
 }
 
@@ -177,17 +205,24 @@ input[type=time]:invalid {
   color: white;
 }
 
-#deleteButton {
+#deleteButton, #cancelEditButton{
   font-size: 1rem;
   padding: 0.4rem 1rem;
   width: 100%;
-  box-shadow:inset 0px -3px 7px 0px #ff523e;
+  box-shadow:inset 0px -3px 7px 0px #ff8577;
 	background:linear-gradient(to bottom, #ff6958 5%, rgb(255, 42, 42) 100%);
 	background-color:#ff6958;
   text-shadow:0px 1px 0px #380606;
 }
 
-#deleteButton:hover {
+#cancelEditButton {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+}  
+
+#deleteButton:hover, #cancelEditButton:hover {
 	background:linear-gradient(to bottom, rgb(255, 42, 42) 5%, #ff6958 100%);
 	background-color:rgb(255, 42, 42);
 }
@@ -212,12 +247,16 @@ input[type=time]:invalid {
   padding: 0.5rem 0 0.5rem 0.5rem;
 }
 
-#submitButton {
+#submitButton, #submitEditButton {
   margin-top: 1rem;
-  width: 77.5%;
+  width: 18rem;
   font-size: 1.5rem;
   font-weight: bold;
 }
+
+#submitEditButton {
+  width: 100%;
+}  
 
 #showButton {
   margin-bottom: 0.5rem;
