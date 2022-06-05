@@ -4,16 +4,8 @@ import EditEntryForm from './EditEntryForm'
 Modal.setAppElement('#root')
 
 const EntryTable = (props) => {
-
-  const generateId = () => {
-    return Math.floor(Math.random()*1000000)
-  }
-
   return (
     <table className="entries">
-      <colgroup>
-          <col span="8" className="dataaa"></col>
-      </colgroup>
       <thead>
         <tr>
           <th>laji</th>
@@ -86,7 +78,7 @@ const Entry = (props) => {
     <td>{props.entry.time}</td>
     <td>{props.entry.person}</td>
     <td >
-      <div className="removeAndEditButtonContainer">
+      <div className="deleteAndEditButtonContainer">
         <button className="button" id="deleteButton" onClick={props.removeEntry}>poista</button>
         <button className="button" id="editButton" onClick={() => {openModal(); props.initializeStateForEdit()}}> muokkaa </button>
       </div>  
@@ -116,7 +108,7 @@ const Entry = (props) => {
           }
         }}
       >
-        <h2 style={{color: 'whitesmoke', paddingBottom: '1rem'}}>MUOKKAA SAALISTA</h2>
+        <h2 style={{color: 'whitesmoke', paddingBottom: '1rem'}}>MUOKKAA TIETOJA</h2>
         <div className='editFormContainer'>
           <EditEntryForm
             state={props.state}

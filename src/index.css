@@ -71,7 +71,7 @@ h2 {
   font-size: 1.5rem;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: #eeeeee;
-  box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 1rem 1rem 2rem rgba(0, 0, 0, 0.2);
   border-radius: 1rem;
   backdrop-filter: blur(1.5rem);
 }
@@ -82,6 +82,7 @@ h2 {
   margin: auto;
   overflow: auto;
   white-space: nowrap;
+  padding: 1px;
 }
 
 .entryForm {
@@ -141,12 +142,19 @@ input[type=time]:invalid {
   color: rgb(135, 135, 135);
 }
 
+.statButtonAndRadioContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-right: 6.5rem;
+}
+
 .statisticsContainer {
   width: fit-content;
   margin: auto;
   margin-bottom: 2rem;
   background-color: rgba(0, 0, 0, 0.43);
-  padding: 2rem;
+  
   font-size: 1.5rem;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: #eeeeee;
@@ -162,6 +170,102 @@ input[type=time]:invalid {
   list-style-type: none;
   padding: 0;
   margin: 1.5rem 1.5rem 0;
+}
+.radioGroupContainer {
+  color: #eee;
+  border-radius: 1rem;
+  margin: 0 0 1rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.radioGroupContainer label {
+  margin: 0;
+}
+
+.radioGroupContainer2, #sortLabel {
+  background-color: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(0.25rem);
+}
+
+#sortLabel {
+  padding: 1rem;
+  padding-bottom: 0;
+  width: fit-content;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.radioGroupContainer2 {
+  padding: 1rem;
+  padding-left: 3rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: fill-available;
+  text-shadow: rgb(0, 0, 0) 0 1px 0;
+  color: white;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.radioContainer {
+  display: block;
+  position: relative;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.radioContainer input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0.2rem;
+  left: -2rem;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+.radioContainer:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.radioContainer input:checked ~ .checkmark {
+  background-color: #0096e7;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radioContainer input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radioContainer .checkmark:after {
+  top: 9px;
+  left: 8.5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
 }
 
 #totalAmount {
@@ -179,7 +283,8 @@ input[type=time]:invalid {
 }
 
 .entries {
-  border-collapse: collapse;
+  /*border-collapse: collapse;*/
+  border-spacing: 0;
   width: fit-content;
   max-width: 80rem;
 }
@@ -189,6 +294,11 @@ input[type=time]:invalid {
   padding: 0.8rem;
   padding-right: 1rem;
 }
+
+.entries thead th:last-child {border-top-right-radius: 0.3rem;}
+.entries thead th:first-child {border-top-left-radius: 0.3rem;}
+.entries tbody tr:last-of-type :nth-last-of-type(2) {border-bottom-right-radius: 0.3rem;}
+.entries tbody tr:last-of-type :first-child {border-bottom-left-radius: 0.3rem;}
   
 .entries tbody tr:nth-child(even) :not(:last-child) {background-color: #f2f2f2;}
 .entries tbody tr:nth-child(odd) :not(:last-child) {background-color: white;}
@@ -206,18 +316,21 @@ input[type=time]:invalid {
 }
 
 #deleteButton, #cancelEditButton{
+  border-radius: 0.2rem;
   font-size: 1rem;
+  font-weight: bold;
+  color: whitesmoke;
   padding: 0.4rem 1rem;
   width: 100%;
   box-shadow:inset 0px -3px 7px 0px #ff8577;
 	background:linear-gradient(to bottom, #ff6958 5%, rgb(255, 42, 42) 100%);
 	background-color:#ff6958;
-  text-shadow:0px 1px 0px #380606;
+  text-shadow:0px 1px 0px #000000;
 }
 
 #cancelEditButton {
   font-size: 1.5rem;
-  font-weight: bold;
+  
   margin-top: 1rem;
   padding: 0.6rem 1rem;
 }  
@@ -230,11 +343,15 @@ input[type=time]:invalid {
 #editButton {
   font-size: 1rem;
   padding: 0.4rem 1rem;
+  border-radius: 0.2rem;
   width: 100%;
+  text-align: center;
+  color: whitesmoke;
+  font-weight: bold;
   box-shadow:inset 0px -3px 7px 0px rgb(235, 125, 0);
 	background:linear-gradient(to bottom, rgb(255, 163, 59) 5%, rgb(255, 136, 0) 100%);
 	background-color:rgb(255, 163, 59);
-  text-shadow:0px 1px 0px #422805;
+  text-shadow:0px 1px 0px #000000;
 }
 
 #editButton:hover {
@@ -242,7 +359,7 @@ input[type=time]:invalid {
 	background-color:rgb(255, 136, 0);
 }
 
-.removeAndEditButtonContainer {
+.deleteAndEditButtonContainer {
   width: 6.5rem;
   padding: 0.5rem 0 0.5rem 0.5rem;
 }
@@ -258,9 +375,9 @@ input[type=time]:invalid {
   width: 100%;
 }  
 
-#showButton {
+#showStatsButton {
   margin-bottom: 0.5rem;
-  width: fit-content;
+  width: max-content;
   font-size: 1.5rem;
   font-weight: bold;
 }

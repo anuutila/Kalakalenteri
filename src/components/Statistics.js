@@ -8,7 +8,7 @@ const Statistics = ({ entries }) => {
     console.log(uniqueFish)
     
     return (
-      <div className='statisticsContainer'>
+      <div style={{margin: '2rem'}}>
         <p id="totalAmount">Kalojen kokonaismäärä: {entries.length} </p>
         <ul className="stats">
           {uniquePersons.map(person => 

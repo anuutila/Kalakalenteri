@@ -36,8 +36,89 @@ class App extends React.Component {
     })
   }
 
+  sortEntries(event) {
+    if (event.target.value === 'FISH') {
+      this.setState({ entries: this.state.entries.sort((a, b) => a.fish.localeCompare(b.fish)) })
+    }
+
+    if (event.target.value === 'DATE') {
+      this.setState({ entries: this.state.entries.sort(function(a,b) {
+        a = a.date.split('-').join('');
+        b = b.date.split('-').join('');
+        console.log(a)
+        return a.localeCompare(b);
+        })
+      })
+    }
+
+    if (event.target.value === 'LENGTH') {
+      this.setState({ entries: this.state.entries.sort((a, b) => {
+        if (a.length === "-") {
+          return 1
+        }
+        if (b.length === "-") {
+          return -1
+        }
+        return b.length - a.length;}) 
+      })  
+    }
+
+    if (event.target.value === 'WEIGHT') {
+      this.setState({ entries: this.state.entries.sort((a, b) => {
+        if (a.weight === "-") {
+          return 1
+        }
+        if (b.weight === "-") {
+          return -1
+        }
+        return b.weight - a.weight;}) 
+      })  
+    }
+
+    if (event.target.value === 'LURE') {
+      this.setState({ entries: this.state.entries.sort((a, b) => {
+        if (a.lure === "-") {
+          return 1
+        }
+        if (b.lure === "-") {
+          return -1
+        }
+        return a.lure.localeCompare(b.lure)}) 
+      })  
+    }
+  
+    if (event.target.value === 'PLACE') {
+      this.setState({ entries: this.state.entries.sort((a, b) => {
+        if (a.place === "-") {
+          return 1
+        }
+        if (b.place === "-") {
+          return -1
+        }
+        return a.place.localeCompare(b.place)}) 
+      })  
+    }
+
+    if (event.target.value === 'TIME') {
+      this.setState({ entries: this.state.entries.sort(function(a,b) {
+        a = a.time.split(':').join('');
+        b = b.time.split(':').join('');
+        console.log(a)
+        return a.localeCompare(b);
+        })
+      })
+    }
+
+    if (event.target.value === 'PERSON') {
+      this.setState({ entries: this.state.entries.sort((a, b) => a.person.localeCompare(b.person)) })
+    }
+    
+    
+  }
+
   componentDidMount() {
     console.log('did mount')
+    
     entryService
       .getAll()
       .then(response => {
@@ -255,12 +336,55 @@ class App extends React.Component {
             />
           </div>
         </div>
+        <div className='statisticsContainer'>
+          {!this.state.isHidden && <Statistics entries={this.state.entries} />}
+        </div>
         <div className='tableContainer'>
-          <div>
-            {!this.state.isHidden && <Statistics entries={this.state.entries} />}
-            <button className='button' id='showButton' onClick={this.toggleHidden.bind(this)}>
-              näytä/piilota statistiikat
-            </button>
+          <div className='statButtonAndRadioContainer'>
+            <div>
+              <button className='button' id='showStatsButton' onClick={this.toggleHidden.bind(this)}>
+                {this.state.isHidden ? 'näytä tilastot' : 'piilota tilastot'}
+              </button>
+            </div>
+            <div className='radioGroupContainer'>
+              <div id='sortLabel'>
+                <label><strong>järjestä saalistiedot:</strong></label>
+              </div>
+              <div className='radioGroupContainer2' onChange={this.sortEntries.bind(this)}>
+                <label className='radioContainer'>laji
+                  <input type="radio" value="FISH" name="sortBy"/>
+                  <span className="checkmark"></span>
+                </label>
+                <label className='radioContainer'>pvm.
+                  <input type="radio" value="DATE" name="sortBy"/>
+                  <span className="checkmark"></span>
+                </label>
+                <label className='radioContainer'>pituus
+                  <input type="radio" value="LENGTH" name="sortBy"/>
+                  <span className="checkmark"></span>
+                </label>
+                <label className='radioContainer'>paino
+                  <input type="radio" value="WEIGHT" name="sortBy"/>
+                  <span className="checkmark"></span>
+                </label>
+                <label className='radioContainer'>viehe
+                  <input type="radio" value="LURE" name="sortBy"/>
+                  <span className="checkmark"></span>
+                </label>
+                <label className='radioContainer'>paikka
+                  <input type="radio" value="PLACE" name="sortBy"/>
+                  <span className="checkmark"></span>
+                </label>
+                <label className='radioContainer'>aika
+                  <input type="radio" value="TIME" name="sortBy"/>
+                  <span className="checkmark"></span>
+                </label>
+                <label className='radioContainer'>saaja
+                  <input type="radio" value="PERSON" name="sortBy"/>
+                  <span className="checkmark"></span>
+                </label>
+              </div>
+            </div>
           </div>
           <EntryTable
             entries={this.state.entries}
