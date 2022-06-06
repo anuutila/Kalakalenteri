@@ -152,9 +152,9 @@ input[type=time]:invalid {
 .statisticsContainer {
   width: fit-content;
   margin: auto;
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
+  padding: 2.5rem;
   background-color: rgba(0, 0, 0, 0.43);
-  
   font-size: 1.5rem;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: #eeeeee;
@@ -174,7 +174,7 @@ input[type=time]:invalid {
 .radioGroupContainer {
   color: #eee;
   border-radius: 1rem;
-  margin: 0 0 1rem;
+  margin: 0;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
@@ -182,31 +182,21 @@ input[type=time]:invalid {
   margin: 0;
 }
 
-.radioGroupContainer2, #sortLabel {
-  background-color: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(0.25rem);
-}
-
-#sortLabel {
-  padding: 1rem;
-  padding-bottom: 0;
-  width: fit-content;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-}
-
 .radioGroupContainer2 {
   padding: 1rem;
   padding-left: 3rem;
+  margin-right: 6.5rem;
+  margin-bottom: 0.5rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: fill-available;
+  width: stretch;
+  background-color: rgba(0, 0, 0, 0.5);
   text-shadow: rgb(0, 0, 0) 0 1px 0;
-  color: white;
-  border-bottom-left-radius: 1rem;
-  border-bottom-right-radius: 1rem;
-  border-top-right-radius: 1rem;
+  box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(1.5rem);
+  color: whitesmoke;
+  border-radius: 1rem;
 }
 
 .radioContainer {
@@ -375,11 +365,15 @@ input[type=time]:invalid {
   width: 100%;
 }  
 
-#showStatsButton {
+#showStatsButton, #showSortingButton {
   margin-bottom: 0.5rem;
   width: max-content;
   font-size: 1.5rem;
   font-weight: bold;
+}
+
+#showSortingButton {
+  margin-right: -1px;
 }
 
 .button {

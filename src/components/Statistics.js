@@ -8,20 +8,20 @@ const Statistics = ({ entries }) => {
     console.log(uniqueFish)
     
     return (
-      <div style={{margin: '2rem'}}>
+      <div className="statisticsContainer">
         <p id="totalAmount">Kalojen kokonaismäärä: {entries.length} </p>
         <ul className="stats">
-          {uniquePersons.map(person => 
+          {uniquePersons.map(person =>
             <li key={person}>
               {person}: {entries.filter(e => e.person === person).length}
-            </li> 
+            </li>
           )}
         </ul>
         <ul className="stats">
-          {uniqueFish.map(fish => 
+          {uniqueFish.map(fish =>
             <li key={fish}>
               {fish}: {entries.filter(e => e.fish === fish).length}
-            </li> 
+            </li>
           )}
         </ul>
       </div>
