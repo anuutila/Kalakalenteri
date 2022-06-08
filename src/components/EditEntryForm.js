@@ -34,6 +34,8 @@ const EditEntryForm = (props) => {
         pituus: <input 
           type="number"
           placeholder="cm"
+          step="0.1"
+          min="0"
           value={props.state.editLength}
           onChange={props.handleLengthChange}
         />
@@ -42,7 +44,7 @@ const EditEntryForm = (props) => {
         paino: <input 
           type="number"
           placeholder="kg"
-          step="0.1"
+          step="0.01"
           min="0"
           value={props.state.editWeight}
           onChange={props.handleWeightChange}
