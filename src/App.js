@@ -4,6 +4,8 @@ import InputForm from './components/InputForm';
 import EntryTable from './components/EntryTable';
 import Statistics from './components/Statistics';
 import axios from 'axios';
+
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -31,122 +33,6 @@ class App extends React.Component {
     console.log('constructor')
   }
 
-  toggleStatsHidden() {
-    this.setState({
-      statsAreHidden: !this.state.statsAreHidden
-    })
-  }
-
-  handleSortButtonClick(event) {
-    this.setState({
-      sortingIsHidden: !this.state.sortingIsHidden,
-      entries: this.state.entries.sort(function(a,b) {
-        a = a.time.split(':').join('');
-        b = b.time.split(':').join('');
-        return a.localeCompare(b);})
-        
-      .sort(function(a,b) {
-        a = a.date.split('-').join('');
-        b = b.date.split('-').join('');
-        return a.localeCompare(b);})
-    })
-  }  
-
-  sortEntries(event) {
-    if (event.target.value === 'FISH') {
-      this.setState({ entries: this.state.entries.sort((a, b) => a.fish.localeCompare(b.fish)) })
-    }
-
-    if (event.target.value === 'DATE') {
-      this.setState({ entries: this.state.entries.sort(function(a,b) {
-        a = a.date.split('-').join('');
-        b = b.date.split('-').join('');
-        console.log(a)
-        return a.localeCompare(b);
-        })
-      })
-    }
-
-    if (event.target.value === 'LENGTH') {
-      this.setState({ entries: this.state.entries.sort((a, b) => {
-        if (a.length === "-") {
-          return 1
-        }
-        if (b.length === "-") {
-          return -1
-        }
-        return b.length - a.length;}) 
-      })  
-    }
-
-    if (event.target.value === 'WEIGHT') {
-      this.setState({ entries: this.state.entries.sort((a, b) => {
-        if (a.weight === "-") {
-          return 1
-        }
-        if (b.weight === "-") {
-          return -1
-        }
-        return b.weight - a.weight;}) 
-      })  
-    }
-
-    if (event.target.value === 'LURE') {
-      this.setState({ entries: this.state.entries.sort((a, b) => {
-        if (a.lure === "-") {
-          return 1
-        }
-        if (b.lure === "-") {
-          return -1
-        }
-        return a.lure.localeCompare(b.lure)}) 
-      })  
-    }
-  
-    if (event.target.value === 'PLACE') {
-      this.setState({ entries: this.state.entries.sort((a, b) => {
-        if (a.place === "-") {
-          return 1
-        }
-        if (b.place === "-") {
-          return -1
-        }
-        return a.place.localeCompare(b.place)}) 
-      })  
-    }
-
-    if (event.target.value === 'TIME') {
-      this.setState({ entries: this.state.entries.sort(function(a,b) {
-        a = a.time.split(':').join('');
-        b = b.time.split(':').join('');
-        console.log(a)
-        return a.localeCompare(b);
-        })
-      })
-    }
-
-    if (event.target.value === 'PERSON') {
-      this.setState({ entries: this.state.entries.sort((a, b) => a.person.localeCompare(b.person)) })
-    }
-    
-  }
-
-  /*defaultSort() {
-    console.log('default sort')
-    console.log(this.state.entries)
-    this.setState({ entries: this.state.entries.sort(function(a,b) {
-      a = a.time.split(':').join('');
-      b = b.time.split(':').join('');
-      return a.localeCompare(b);})
-      
-    .sort(function(a,b) {
-      a = a.date.split('-').join('');
-      b = b.date.split('-').join('');
-      return a.localeCompare(b);})
-      
-    })
-  }*/
-  
   componentDidMount() {
     console.log('did mount')
     
@@ -349,6 +235,122 @@ class App extends React.Component {
       })
     }  
   }
+
+  toggleStatsHidden() {
+    this.setState({
+      statsAreHidden: !this.state.statsAreHidden
+    })
+  }
+
+  handleSortButtonClick(event) {
+    this.setState({
+      sortingIsHidden: !this.state.sortingIsHidden,
+      entries: this.state.entries.sort(function(a,b) {
+        a = a.time.split(':').join('');
+        b = b.time.split(':').join('');
+        return a.localeCompare(b);})
+        
+      .sort(function(a,b) {
+        a = a.date.split('-').join('');
+        b = b.date.split('-').join('');
+        return a.localeCompare(b);})
+    })
+  }  
+
+  sortEntries(event) {
+    if (event.target.value === 'FISH') {
+      this.setState({ entries: this.state.entries.sort((a, b) => a.fish.localeCompare(b.fish)) })
+    }
+
+    if (event.target.value === 'DATE') {
+      this.setState({ entries: this.state.entries.sort(function(a,b) {
+        a = a.date.split('-').join('');
+        b = b.date.split('-').join('');
+        console.log(a)
+        return a.localeCompare(b);
+        })
+      })
+    }
+
+    if (event.target.value === 'LENGTH') {
+      this.setState({ entries: this.state.entries.sort((a, b) => {
+        if (a.length === "-") {
+          return 1
+        }
+        if (b.length === "-") {
+          return -1
+        }
+        return b.length - a.length;}) 
+      })  
+    }
+
+    if (event.target.value === 'WEIGHT') {
+      this.setState({ entries: this.state.entries.sort((a, b) => {
+        if (a.weight === "-") {
+          return 1
+        }
+        if (b.weight === "-") {
+          return -1
+        }
+        return b.weight - a.weight;}) 
+      })  
+    }
+
+    if (event.target.value === 'LURE') {
+      this.setState({ entries: this.state.entries.sort((a, b) => {
+        if (a.lure === "-") {
+          return 1
+        }
+        if (b.lure === "-") {
+          return -1
+        }
+        return a.lure.localeCompare(b.lure)}) 
+      })  
+    }
+  
+    if (event.target.value === 'PLACE') {
+      this.setState({ entries: this.state.entries.sort((a, b) => {
+        if (a.place === "-") {
+          return 1
+        }
+        if (b.place === "-") {
+          return -1
+        }
+        return a.place.localeCompare(b.place)}) 
+      })  
+    }
+
+    if (event.target.value === 'TIME') {
+      this.setState({ entries: this.state.entries.sort(function(a,b) {
+        a = a.time.split(':').join('');
+        b = b.time.split(':').join('');
+        console.log(a)
+        return a.localeCompare(b);
+        })
+      })
+    }
+
+    if (event.target.value === 'PERSON') {
+      this.setState({ entries: this.state.entries.sort((a, b) => a.person.localeCompare(b.person)) })
+    }
+    
+  }
+
+  /*defaultSort() {
+    console.log('default sort')
+    console.log(this.state.entries)
+    this.setState({ entries: this.state.entries.sort(function(a,b) {
+      a = a.time.split(':').join('');
+      b = b.time.split(':').join('');
+      return a.localeCompare(b);})
+      
+    .sort(function(a,b) {
+      a = a.date.split('-').join('');
+      b = b.date.split('-').join('');
+      return a.localeCompare(b);})
+      
+    })
+  }*/
 
   render() {
     console.log('render')

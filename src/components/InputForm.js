@@ -39,7 +39,6 @@ const InputForm = (props) => {
         paino: <input 
           type="number"
           placeholder="kg"
-          step="0.1"
           min="0"
           value={props.state.newWeight}
           onChange={props.handleWeightChange}

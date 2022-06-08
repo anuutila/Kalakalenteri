@@ -151,6 +151,7 @@ input[type=time]:invalid {
 
 .statisticsContainer {
   width: fit-content;
+  min-width: 30.7rem;
   margin: auto;
   margin-bottom: 4rem;
   padding: 2.5rem;
