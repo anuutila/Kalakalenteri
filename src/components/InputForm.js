@@ -31,6 +31,9 @@ const InputForm = (props) => {
         pituus: <input 
           type="number"
           placeholder="cm"
+          step="0.1"
+          min="0"
+          max="999"
           value={props.state.newLength}
           onChange={props.handleLengthChange}
         />
@@ -39,7 +42,9 @@ const InputForm = (props) => {
         paino: <input 
           type="number"
           placeholder="kg"
+          step="0.01"
           min="0"
+          max="999"
           value={props.state.newWeight}
           onChange={props.handleWeightChange}
         />
