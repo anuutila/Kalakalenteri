@@ -1,11 +1,16 @@
 import React from "react"
 
 const Statistics = ({ entries }) => {
-    console.log(entries)
     const uniquePersons = [...new Set(entries.map(e => e.person))] 
-    console.log(uniquePersons)
     const uniqueFish = [...new Set(entries.map(e => e.fish))] 
-    console.log(uniqueFish)
+    
+    uniquePersons.sort(function(a,b){
+      return (entries.filter(e => e.person === b).length) - (entries.filter(e => e.person === a).length)
+    });
+
+    uniqueFish.sort(function(a,b){
+      return (entries.filter(e => e.fish === b).length) - (entries.filter(e => e.fish === a).length)
+    });
     
     return (
       <div className="statisticsContainer">

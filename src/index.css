@@ -130,7 +130,7 @@ h2 {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.entryForm::placeholder {
+.entryForm ::placeholder {
   color: rgb(135, 135, 135);
 }
 
@@ -151,7 +151,7 @@ input[type=time]:invalid {
 
 .statisticsContainer {
   width: fit-content;
-  min-width: 30.7rem;
+  min-width: 29.5rem;
   margin: auto;
   margin-bottom: 4rem;
   padding: 2.5rem;
@@ -165,12 +165,16 @@ input[type=time]:invalid {
   text-align: center;
 }
 
+.statisticsContainer ul{
+  text-align: end;
+}  
+
 .stats {
   display: inline-block;
   vertical-align: top;
   list-style-type: none;
   padding: 0;
-  margin: 1.5rem 1.5rem 0;
+  margin: 2rem 2rem 0 2rem;
 }
 .radioGroupContainer {
   color: #eee;
