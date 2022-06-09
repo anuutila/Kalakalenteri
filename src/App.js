@@ -384,7 +384,7 @@ class App extends React.Component {
             <div>
               <button className='button' id='showSortingButton' onClick={
                 this.handleSortButtonClick.bind(this)}>
-                {this.state.sortingIsHidden ? 'järjestä merkinnät' : 'palauta oletusjärjestys'}
+                {this.state.sortingIsHidden ? 'järjestä taulu' : 'palauta oletusjärjestys'}
               </button>
               <button className='button' id='showStatsButton' onClick={this.toggleStatsHidden.bind(this)}>
                 {this.state.statsAreHidden ? 'näytä tilastot' : 'piilota tilastot'}
