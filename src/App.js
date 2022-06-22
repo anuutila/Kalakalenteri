@@ -3,8 +3,8 @@ import entryService from './services/entries'
 import InputForm from './components/InputForm';
 import EntryTable from './components/EntryTable';
 import Statistics from './components/Statistics';
-import axios from 'axios';
-
+import StatsAndSortButtons from './components/StatsAndSortButtons';
+import RadioGroup from './components/RadioGroup';
 
 class App extends React.Component {
   constructor(props) {
@@ -40,14 +40,7 @@ class App extends React.Component {
       .getAll()
       .then(response => {
         console.log('promise fulfilled')
-        this.setState({ entries: response.sort(function(a,b) {
-          a = a.time.split(':').join('');
-          b = b.time.split(':').join('');
-          return a.localeCompare(b);})
-        .sort(function(a,b) {
-          a = a.date.split('-').join('');
-          b = b.date.split('-').join('');
-          return a.localeCompare(b);}) })
+        this.setState({ entries: this.defaultSort(response)})
       })
       .catch(error => {
         console.log('fail')
@@ -75,10 +68,9 @@ class App extends React.Component {
     entryService
       .create(entryObject)
       .then(response => {
-        console.log(response)
         console.log('entry added')
         this.setState({
-          entries: this.state.entries.concat(response),
+          entries: this.defaultSort(this.state.entries.concat(response)),
           newFish: '',
           newDate: '',
           newLength: '',
@@ -118,9 +110,6 @@ class App extends React.Component {
 
   editEntry = (id) => {
     return () => {
-      console.log(`editEntry ${id}`)
-      const baseUrl = 'api/entries'
-      /*const entry = this.state.entries.find(e => e.id === id)*/
       const editedEntry = {
         fish: this.state.editFish,
         date: this.state.editDate,
@@ -132,20 +121,12 @@ class App extends React.Component {
         person: this.state.editPerson
       }
 
-      axios
-        .put(`${baseUrl}/${id}`, editedEntry)
+      entryService
+        .edit(id, editedEntry)
         .then(response => {
           console.log('entry edited')
           this.setState({
-            entries: this.state.entries.map(entry => entry.id === id ? response.data : entry)
-            /*editFish: '',
-            editDate: '',
-            editLength: '',
-            editWeight: '',
-            editLure: '',
-            editPlace: '',
-            editTime: '',
-            editPerson: '',*/
+            entries: this.state.entries.map(entry => entry.id === id ? response : entry)
           })
         })
         .catch(error => {
@@ -237,199 +218,164 @@ class App extends React.Component {
   }
 
   toggleStatsHidden() {
-    this.setState({
-      statsAreHidden: !this.state.statsAreHidden
-    })
+    this.setState({ statsAreHidden: !this.state.statsAreHidden })
   }
 
   handleSortButtonClick(event) {
-    this.setState({
+    this.setState({ 
       sortingIsHidden: !this.state.sortingIsHidden,
-      entries: this.state.entries.sort(function(a,b) {
-        a = a.time.split(':').join('');
-        b = b.time.split(':').join('');
-        return a.localeCompare(b);})
-        
-      .sort(function(a,b) {
-        a = a.date.split('-').join('');
-        b = b.date.split('-').join('');
-        return a.localeCompare(b);})
+      entries: this.defaultSort(this.state.entries) 
     })
   }  
 
   sortEntries(event) {
-    if (event.target.value === 'FISH') {
-      this.setState({ entries: this.state.entries.sort((a, b) => a.fish.localeCompare(b.fish)) })
+    const sort = event.target.value
+    switch (sort) {
+      case 'FISH':
+        this.setState({ entries: this.sortByFish(this.state.entries) })
+        break
+      case 'DATE':
+        this.setState({ entries: this.sortByDate(this.state.entries) })
+        break
+      case 'LENGTH':
+        this.setState({ entries: this.sortByLength(this.state.entries) })
+        break
+      case 'WEIGHT':
+        this.setState({ entries: this.sortByWeight(this.state.entries) })
+        break
+      case 'LURE':
+        this.setState({ entries: this.sortByLure(this.state.entries) })
+        break
+      case 'PLACE':
+        this.setState({ entries: this.sortByPlace(this.state.entries) })
+        break
+      case 'TIME':
+        this.setState({ entries: this.sortByTime(this.state.entries) })
+        break
+      case 'PERSON':
+        this.setState({ entries: this.sortByPerson(this.state.entries) })
+        break
+      default:
+        break
     }
-
-    if (event.target.value === 'DATE') {
-      this.setState({ entries: this.state.entries.sort(function(a,b) {
-        a = a.date.split('-').join('');
-        b = b.date.split('-').join('');
-        console.log(a)
-        return a.localeCompare(b);
-        })
-      })
-    }
-
-    if (event.target.value === 'LENGTH') {
-      this.setState({ entries: this.state.entries.sort((a, b) => {
-        if (a.length === "-") {
-          return 1
-        }
-        if (b.length === "-") {
-          return -1
-        }
-        return b.length - a.length;}) 
-      })  
-    }
-
-    if (event.target.value === 'WEIGHT') {
-      this.setState({ entries: this.state.entries.sort((a, b) => {
-        if (a.weight === "-") {
-          return 1
-        }
-        if (b.weight === "-") {
-          return -1
-        }
-        return b.weight - a.weight;}) 
-      })  
-    }
-
-    if (event.target.value === 'LURE') {
-      this.setState({ entries: this.state.entries.sort((a, b) => {
-        if (a.lure === "-") {
-          return 1
-        }
-        if (b.lure === "-") {
-          return -1
-        }
-        return a.lure.localeCompare(b.lure)}) 
-      })  
-    }
-  
-    if (event.target.value === 'PLACE') {
-      this.setState({ entries: this.state.entries.sort((a, b) => {
-        if (a.place === "-") {
-          return 1
-        }
-        if (b.place === "-") {
-          return -1
-        }
-        return a.place.localeCompare(b.place)}) 
-      })  
-    }
-
-    if (event.target.value === 'TIME') {
-      this.setState({ entries: this.state.entries.sort(function(a,b) {
-        a = a.time.split(':').join('');
-        b = b.time.split(':').join('');
-        console.log(a)
-        return a.localeCompare(b);
-        })
-      })
-    }
-
-    if (event.target.value === 'PERSON') {
-      this.setState({ entries: this.state.entries.sort((a, b) => a.person.localeCompare(b.person)) })
-    }
-    
   }
 
-  /*defaultSort() {
-    console.log('default sort')
-    console.log(this.state.entries)
-    this.setState({ entries: this.state.entries.sort(function(a,b) {
-      a = a.time.split(':').join('');
-      b = b.time.split(':').join('');
-      return a.localeCompare(b);})
-      
-    .sort(function(a,b) {
-      a = a.date.split('-').join('');
-      b = b.date.split('-').join('');
-      return a.localeCompare(b);})
-      
+  sortByFish(entries) {
+    return entries.sort((a, b) => a.fish.localeCompare(b.fish))
+  }
+
+  sortByDate(entries) {
+    entries.sort(function(a,b) {
+      a = a.date.split('-').join('')
+      b = b.date.split('-').join('')
+      return a.localeCompare(b)
     })
-  }*/
+    return entries
+  }
+
+  sortByLength(entries) {
+    entries.sort((a, b) => {
+      if (a.length === "-") {
+        return 1
+      }
+      if (b.length === "-") {
+        return -1
+      }
+      return b.length - a.length
+    }) 
+    return entries
+  }
+
+  sortByWeight(entries) {
+    entries.sort((a, b) => {
+      if (a.weight === "-") {
+        return 1
+      }
+      if (b.weight === "-") {
+        return -1
+      }
+      return b.weight - a.weight
+    }) 
+    return entries
+  }
+
+  sortByLure(entries) {
+    entries.sort((a, b) => {
+      if (a.lure === "-") {
+        return 1
+      }
+      if (b.lure === "-") {
+        return -1
+      }
+      return a.lure.localeCompare(b.lure)
+    }) 
+    return entries
+  }
+
+  sortByPlace(entries) {
+    entries.sort((a, b) => {
+      if (a.place === "-") {
+        return 1
+      }
+      if (b.place === "-") {
+        return -1
+      }
+      return a.place.localeCompare(b.place)
+    }) 
+    return entries  
+  }
+
+  sortByTime(entries) {
+    entries.sort(function(a,b) {
+      a = a.time.split(':').join('')
+      b = b.time.split(':').join('')
+      return a.localeCompare(b)
+    })
+    return entries
+  }
+
+  sortByPerson(entries) {
+    return entries.sort((a, b) => a.person.localeCompare(b.person))
+  }
+
+  defaultSort(entries) {
+    return this.sortByDate(this.sortByTime(entries)).reverse()
+  }
 
   render() {
     console.log('render')
     return (
-      <div className='rootDiv1'>
+      <div className='rootDiv'>
         
         <div className='topShade'> </div>
         <h1 className='title' id='title1'>KALAKALENTERI</h1>
-        <div className='newEntryContainer'>
-          <h2>UUSI SAALIS</h2>
-          <div className='formContainer'>
+        <div style={{maxWidth: "fit-content", margin: "auto"}}>
+          <div className='newEntryContainer'>
+            <h2>UUSI SAALIS</h2>
             <InputForm
               state={this.state}
               addEntry={this.addEntry}
               handleFishChange={this.handleFishChange}
               handleDateChange={this.handleDateChange}
               handleLengthChange={this.handleLengthChange}
-              handleWeightChange={this.handleWeightChange}
+               handleWeightChange={this.handleWeightChange}
               handleLureChange={this.handleLureChange}
               handlePlaceChange={this.handlePlaceChange}
               handleTimeChange={this.handleTimeChange}
               handlePersonChange={this.handlePersonChange}
             />
           </div>
-        </div>
-        <div>
           {!this.state.statsAreHidden && <Statistics entries={this.state.entries} />}
         </div>
         <div className='tableContainer'>
-          <div className='statAndSortButtonContainer'>
-            <div>
-              <button className='button' id='showSortingButton' onClick={
-                this.handleSortButtonClick.bind(this)}>
-                {this.state.sortingIsHidden ? 'järjestä taulu' : 'palauta oletusjärjestys'}
-              </button>
-              <button className='button' id='showStatsButton' onClick={this.toggleStatsHidden.bind(this)}>
-                {this.state.statsAreHidden ? 'näytä tilastot' : 'piilota tilastot'}
-              </button>
-            </div>
-          </div>  
-          <div className='radioGroupContainer'>
-            {!this.state.sortingIsHidden && 
-            <div className='radioGroupContainer2' onChange={this.sortEntries.bind(this)}>
-              <label className='radioContainer'>laji
-                <input type="radio" value="FISH" name="sortBy"/>
-                <span className="checkmark"></span>
-              </label>
-              <label className='radioContainer'>pvm.
-                <input type="radio" value="DATE" name="sortBy"/>
-                <span className="checkmark"></span>
-              </label>
-              <label className='radioContainer'>pituus
-                <input type="radio" value="LENGTH" name="sortBy"/>
-                <span className="checkmark"></span>
-              </label>
-              <label className='radioContainer'>paino
-                <input type="radio" value="WEIGHT" name="sortBy"/>
-                <span className="checkmark"></span>
-              </label>
-              <label className='radioContainer'>viehe
-                <input type="radio" value="LURE" name="sortBy"/>
-                <span className="checkmark"></span>
-              </label>
-              <label className='radioContainer'>paikka
-                <input type="radio" value="PLACE" name="sortBy"/>
-                <span className="checkmark"></span>
-              </label>
-              <label className='radioContainer'>aika
-                <input type="radio" value="TIME" name="sortBy"/>
-                <span className="checkmark"></span>
-              </label>
-              <label className='radioContainer'>saaja
-                <input type="radio" value="PERSON" name="sortBy"/>
-                <span className="checkmark"></span>
-              </label>
-            </div>
-            }
-          </div>
-          
+          <StatsAndSortButtons 
+            handleSortButtonClick={this.handleSortButtonClick.bind(this)}
+            toggleStatsHidden={this.toggleStatsHidden.bind(this)}
+            sortingIsHidden={this.state.sortingIsHidden}
+            statsAreHidden={this.state.statsAreHidden}
+          />
+          {!this.state.sortingIsHidden && <RadioGroup 
+            sortEntries={this.sortEntries.bind(this)}/>}
           <EntryTable
             entries={this.state.entries}
             removeEntry={this.removeEntry}

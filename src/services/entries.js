@@ -16,10 +16,16 @@ const remove = (id) => {
   return axios.delete(`${baseUrl}/${id}`)
 }
 
+const edit = (id, editedEntry) => {
+  const request = axios.put(`${baseUrl}/${id}`, editedEntry)
+  return request.then(response => response.data)
+}
+
 const entryService = {
   getAll,
   create,
-  remove
+  remove,
+  edit
 }
 
 export default entryService

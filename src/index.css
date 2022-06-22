@@ -18,7 +18,7 @@ body {
   background-position: center;
 }
 
-.rootDiv1 {
+.rootDiv {
   display: flex;
   width: fit-content;
   flex-direction: column;
@@ -150,8 +150,6 @@ input[type=time]:invalid {
 }
 
 .statisticsContainer {
-  width: fit-content;
-  min-width: 29.5rem;
   margin: auto;
   margin-bottom: 4rem;
   padding: 2.5rem;
