@@ -1,9 +1,9 @@
 import react from "react"
 
-const RadioGroup = ({ sortEntries }) => {
+const RadioGroup = ({ sortEntries, radioGroupAnimation }) => {
   return (
-  <div className='radioGroupContainer'> 
-    <div className='radioGroupContainer2' onChange={sortEntries}>
+  <div className={`radioGroupContainer${radioGroupAnimation ? ' appear' : ' disappear'}`}> 
+    <div className={`radioGroupContainer2${radioGroupAnimation ? ' appear' : ' disappear'}`} onChange={sortEntries}>
       <label className='radioContainer'>laji
         <input type="radio" value="FISH" name="sortBy"/>
         <span className="checkmark"></span>

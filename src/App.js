@@ -20,6 +20,8 @@ class App extends React.Component {
       newTime: '',
       newPerson: '',
       statsAreHidden: true,
+      statsWindowAnimation: false,
+      radioGroupAnimation: false,
       sortingIsHidden: true,
       editFish: '',
       editDate: '',
@@ -218,13 +220,26 @@ class App extends React.Component {
   }
 
   toggleStatsHidden() {
-    this.setState({ statsAreHidden: !this.state.statsAreHidden })
+    if (this.state.statsWindowAnimation) {
+      this.setState({ statsWindowAnimation: false })
+      setTimeout(() => {this.setState({ statsAreHidden: true })}, 295)
+      return
+    }
+    this.setState({ 
+      statsAreHidden: false,
+      statsWindowAnimation: true  })
   }
 
   handleSortButtonClick(event) {
+    if (this.state.radioGroupAnimation) {
+      this.setState({ radioGroupAnimation: false })
+      setTimeout(() => {this.setState({ sortingIsHidden: true })}, 290)
+      return
+    }
     this.setState({ 
-      sortingIsHidden: !this.state.sortingIsHidden,
-      entries: this.defaultSort(this.state.entries) 
+      sortingIsHidden: false,
+      entries: this.defaultSort(this.state.entries),
+      radioGroupAnimation: true
     })
   }  
 
@@ -342,14 +357,15 @@ class App extends React.Component {
     return this.sortByDate(this.sortByTime(entries)).reverse()
   }
 
+
   render() {
     console.log('render')
     return (
       <div className='rootDiv'>
-        
+
         <div className='topShade'> </div>
-        <h1 className='title' id='title1'>KALAKALENTERI</h1>
-        <div style={{maxWidth: "fit-content", margin: "auto"}}>
+        <h1 className='title' id='title1'>KALAPÄIVÄKIRJA</h1>
+        <div className='newEntryAndStatisticsContainer'>
           <div className='newEntryContainer'>
             <h2>UUSI SAALIS</h2>
             <InputForm
@@ -365,7 +381,8 @@ class App extends React.Component {
               handlePersonChange={this.handlePersonChange}
             />
           </div>
-          {!this.state.statsAreHidden && <Statistics entries={this.state.entries} />}
+          {!this.state.statsAreHidden && 
+            <Statistics entries={this.state.entries} statsWindowAnimation={this.state.statsWindowAnimation} />}
         </div>
         <div className='tableContainer'>
           <StatsAndSortButtons 
@@ -375,7 +392,8 @@ class App extends React.Component {
             statsAreHidden={this.state.statsAreHidden}
           />
           {!this.state.sortingIsHidden && <RadioGroup 
-            sortEntries={this.sortEntries.bind(this)}/>}
+            sortEntries={this.sortEntries.bind(this)}
+            radioGroupAnimation={this.state.radioGroupAnimation} />}
           <EntryTable
             entries={this.state.entries}
             removeEntry={this.removeEntry}
