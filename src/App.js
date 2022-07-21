@@ -222,7 +222,7 @@ class App extends React.Component {
   toggleStatsHidden() {
     if (this.state.statsWindowAnimation) {
       this.setState({ statsWindowAnimation: false })
-      setTimeout(() => {this.setState({ statsAreHidden: true })}, 295)
+      setTimeout(() => {this.setState({ statsAreHidden: true })}, 250)
       return
     }
     this.setState({ 
@@ -233,7 +233,7 @@ class App extends React.Component {
   handleSortButtonClick(event) {
     if (this.state.radioGroupAnimation) {
       this.setState({ radioGroupAnimation: false })
-      setTimeout(() => {this.setState({ sortingIsHidden: true })}, 290)
+      setTimeout(() => {this.setState({ sortingIsHidden: true })}, 250)
       return
     }
     this.setState({ 
