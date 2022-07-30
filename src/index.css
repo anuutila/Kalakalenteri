@@ -56,15 +56,8 @@ h1 {
   transform: translateX(+0.5rem); 
 }
 
-h2 {
-  font-size: 2rem;
-  text-align: center;
-  margin: 0;
-  margin-bottom: 1rem;
-}
-
 .newEntryAndStatisticsContainer {
-  max-width: fit-content;
+  width: fit-content;
   margin: auto;
 }
 
@@ -81,6 +74,13 @@ h2 {
   box-shadow: 1rem 1rem 2rem rgba(0, 0, 0, 0.2);
   border-radius: 1rem;
   backdrop-filter: blur(1.5rem);
+}
+
+.title2 {
+  font-size: 2rem;
+  text-align: center;
+  margin: 0;
+  margin-bottom: 1rem;
 }
 
 .formContainer {
@@ -108,6 +108,13 @@ h2 {
   border-color: rgb(74, 74, 74);
   width: 18rem;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+input#locationCheckbox {
+  width: 2rem;
+  height: 2rem;
+  margin: .5rem;
+  transform: translate(0, .5rem);
 }
 
 .editFormContainer {
@@ -409,6 +416,27 @@ input[type=time]:invalid {
   color: white;
 }
 
+.mapLinkContainer {
+  padding-top: .8rem;
+}
+
+#mapLink:link {
+  color: #0096e7;
+}
+
+#mapLink:visited {
+  color: #0096e7;
+}
+
+#mapLink:hover {
+  color: #000000;
+}
+
+#mapLink:active {
+  color: #ffffff;
+  background-color: #000000;
+}
+
 #deleteButton, #cancelEditButton{
   border-radius: 0.2rem;
   font-size: 1rem;
@@ -527,7 +555,56 @@ input[type=time]:invalid {
   background-color: rgba(255, 255, 255, 0.75);
 }*/
 
+.laatikko {
+  width: fit-content;
+  margin: auto;
+  background-color: red;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+/*
+@media (max-width: 768px) {
+  .newEntryAndStatisticsContainer {
+    width:100%;
+  }
+
+  .newEntryContainer {
+    width:90vw;
+  
+  }
+
+  .title2 {
+    font-size: 4rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  
+  .laatikko {
+    font-size: 1.5rem;
+    width: 90%;
+  }
 
 
+}
+*/
 
+@media (max-width: 768px) {
+  .laatikko {
+    width:90vw;
+  }
 
+}
+
+footer {
+  /* background-color: #282828; */
+  margin-top: 2rem;
+  color: rgb(80, 80, 80);
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: 1rem;
+  margin: auto;
+  
+}

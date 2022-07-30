@@ -33,6 +33,7 @@ const EntryTable = (props) => {
             handleWeightChange={props.handleEditWeightChange}
             handleLureChange={props.handleEditLureChange}
             handlePlaceChange={props.handleEditPlaceChange}
+            handleCoordinatesChange={props.handleEditCoordinatesChange}
             handleTimeChange={props.handleEditTimeChange}
             handlePersonChange={props.handleEditPersonChange}
           />
@@ -67,6 +68,16 @@ const Entry = (props) => {
     return(`${day}.${month}.${year}`)
   }  
 
+  function getLatitude() {
+    const latitude = props.entry.coordinates.split(', ')[0]
+    return latitude
+  }
+
+  function getLongitude() {
+    const longitude = props.entry.coordinates.split(', ')[1]
+    return longitude
+  }
+
   return (
   <tr>
     <td>{props.entry.fish}</td>
@@ -74,7 +85,13 @@ const Entry = (props) => {
     <td>{props.entry.length}</td>
     <td>{props.entry.weight}</td>
     <td>{props.entry.lure}</td>
-    <td>{props.entry.place}</td>
+    <td>{props.entry.place}
+      <br></br>
+      {props.entry.coordinates === '-' ? '' : 
+      <div className="mapLinkContainer">
+        <a id="mapLink" href={`https://www.google.com/maps/search/?api=1&query=${getLatitude()}%2C${getLongitude()}&zoom12`}>kartta</a>
+      </div>}
+    </td>
     <td>{props.entry.time}</td>
     <td>{props.entry.person}</td>
     <td >
@@ -119,6 +136,7 @@ const Entry = (props) => {
             handleWeightChange={props.handleWeightChange}
             handleLureChange={props.handleLureChange}
             handlePlaceChange={props.handlePlaceChange}
+            handleCoordinatesChange={props.handleCoordinatesChange}
             handleTimeChange={props.handleTimeChange}
             handlePersonChange={props.handlePersonChange}
             closeModal={closeModal}

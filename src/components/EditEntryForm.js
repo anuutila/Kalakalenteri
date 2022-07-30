@@ -71,6 +71,13 @@ const EditEntryForm = (props) => {
         </datalist>
       </div>
       <div>
+        sijainti: <input 
+          placeholder="xx.xxxx, yy.yyyy"
+          value={props.state.editCoordinates}
+          onChange={props.handleCoordinatesChange}
+        />
+      </div>
+      <div>
         aika: <input 
           type="time"
           step="600" //ei ilmeisesti toimi uusimmassa chromessa

@@ -90,6 +90,10 @@ const InputForm = (props) => {
           </datalist>
         </div>
         <div>
+          <label htmlFor="locationCheckbox">käytä GPS-sijaintia</label>
+          <input id="locationCheckbox" name="locationCheckbox" type="checkbox" onChange={props.togglelocationCheckbox}></input>
+        </div>
+        <div>
           <button type="submit" className="button" id="submitButton">lisää saalis</button>
         </div>
       </form>

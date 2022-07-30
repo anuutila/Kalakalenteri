@@ -17,6 +17,7 @@ class App extends React.Component {
       newWeight: '',
       newLure: '',
       newPlace: '',
+      newCoordinates: '',
       newTime: '',
       newPerson: '',
       statsAreHidden: true,
@@ -29,6 +30,7 @@ class App extends React.Component {
       editWeight: '',
       editLure: '',
       editPlace: '',
+      editCoordinates: '',
       editTime: '',
       editPerson: '',
     }
@@ -63,6 +65,7 @@ class App extends React.Component {
       weight: this.state.newWeight,
       lure: this.state.newLure,
       place: this.state.newPlace,
+      coordinates: this.state.newCoordinates,
       time: this.state.newTime,
       person: this.state.newPerson
     }
@@ -80,8 +83,10 @@ class App extends React.Component {
           newLure: '',
           newPlace: '',
           newTime: '',
-          newPerson: ''
+          newPerson: '',
+          newCoordinates: '',
         })
+        document.getElementById("locationCheckbox").checked = false;
       })
     .catch(error => {
       console.log('fail')
@@ -119,6 +124,7 @@ class App extends React.Component {
         weight: this.state.editWeight,
         lure: this.state.editLure,
         place: this.state.editPlace,
+        coordinates: this.state.editCoordinates,
         time: this.state.editTime,
         person: this.state.editPerson
       }
@@ -133,7 +139,11 @@ class App extends React.Component {
         })
         .catch(error => {
           console.log(error)
-          alert("Muokkaus epäonnistui.")
+          if (error.response) {
+            const errorMessage = error.response.data.error
+            console.log(errorMessage)
+            alert(`Muokkaus epäonnistui\n${errorMessage}`)
+          }
         })
     }
   }  
@@ -160,6 +170,10 @@ class App extends React.Component {
 
   handlePlaceChange = (event) => {
     this.setState({ newPlace: event.target.value })
+  }
+
+  handleCoordinatesChange = (event) => {
+    this.setState({ newCoordinates: event.target.value })
   }
 
   handleTimeChange = (event) => {
@@ -196,6 +210,10 @@ class App extends React.Component {
     this.setState({ editPlace: event.target.value })
   }
 
+  handleEditCoordinatesChange = (event) => {
+    this.setState({ editCoordinates: event.target.value })
+  }
+
   handleEditTimeChange = (event) => {
     this.setState({ editTime: event.target.value })
   }
@@ -211,13 +229,57 @@ class App extends React.Component {
         editDate: entry.date,
         editLength: entry.length,
         editWeight: entry.weight,
-        editLure: entry.lure,
-        editPlace: entry.place,
+        editLure: entry.lure === '-' ? '' : entry.lure,
+        editPlace: entry.place === '-' ? '' : entry.place,
+        editCoordinates: entry.coordinates === '-' ? '' : entry.coordinates,
         editTime: entry.time,
         editPerson: entry.person
       })
     }  
   }
+
+  getLocation() {
+      const success = (position) => {
+        console.log(position)
+        this.setState({ 
+          newCoordinates: `${position.coords.latitude}, ${position.coords.longitude}`})
+      }
+      
+      function error() {
+        alert('Sijaintitietojen hakeminen epäonnistui.')
+        document.getElementById("locationCheckbox").checked = false;
+      }
+      
+      const options = {
+        enableHighAccuracy: true
+      }
+  
+      navigator.geolocation.getCurrentPosition(success, error, options)
+  }  
+
+  geolocationAvailable = () => {
+    if ("geolocation" in navigator) {
+      return true
+    } else {
+      return false
+    }
+  }
+    
+  togglelocationCheckbox = () => {
+    if (!this.geolocationAvailable) {
+      return window.alert('Sijaintitiedot eivät ole saatavilla')
+    }
+    switch (document.getElementById("locationCheckbox").checked) {
+      case true:
+        this.getLocation()
+        break
+      case false:
+        this.setState({ newCoordinates: ''})
+        break
+      default:
+        break
+    }
+  }  
 
   toggleStatsHidden() {
     if (this.state.statsWindowAnimation) {
@@ -363,35 +425,38 @@ class App extends React.Component {
     return (
       <div className='rootDiv'>
 
-        <div className='topShade'> </div>
-        <h1 className='title' id='title1'>KALAPÄIVÄKIRJA</h1>
+        <div className='topShade'></div>
+        <h1 className='title1'>KALAPÄIVÄKIRJA</h1>
+        {/* <div className='laatikko'>
+          <p>{this.state.newCoordinates}</p>
+          {<a href={`https://www.google.com/maps/search/?api=1&query=${this.getLatitude()}%2C${this.getLongitude()}&zoom15`}>kartta</a>}
+        </div> */}
         <div className='newEntryAndStatisticsContainer'>
           <div className='newEntryContainer'>
-            <h2>UUSI SAALIS</h2>
+            <h2 className='title2'>UUSI SAALIS</h2>
             <InputForm
               state={this.state}
               addEntry={this.addEntry}
               handleFishChange={this.handleFishChange}
               handleDateChange={this.handleDateChange}
               handleLengthChange={this.handleLengthChange}
-               handleWeightChange={this.handleWeightChange}
+              handleWeightChange={this.handleWeightChange}
               handleLureChange={this.handleLureChange}
               handlePlaceChange={this.handlePlaceChange}
               handleTimeChange={this.handleTimeChange}
               handlePersonChange={this.handlePersonChange}
-            />
+              togglelocationCheckbox={this.togglelocationCheckbox} />
           </div>
-          {!this.state.statsAreHidden && 
+          {!this.state.statsAreHidden &&
             <Statistics entries={this.state.entries} statsWindowAnimation={this.state.statsWindowAnimation} />}
         </div>
         <div className='tableContainer'>
-          <StatsAndSortButtons 
+          <StatsAndSortButtons
             handleSortButtonClick={this.handleSortButtonClick.bind(this)}
             toggleStatsHidden={this.toggleStatsHidden.bind(this)}
             sortingIsHidden={this.state.sortingIsHidden}
-            statsAreHidden={this.state.statsAreHidden}
-          />
-          {!this.state.sortingIsHidden && <RadioGroup 
+            statsAreHidden={this.state.statsAreHidden} />
+          {!this.state.sortingIsHidden && <RadioGroup
             sortEntries={this.sortEntries.bind(this)}
             radioGroupAnimation={this.state.radioGroupAnimation} />}
           <EntryTable
@@ -406,11 +471,12 @@ class App extends React.Component {
             handleEditWeightChange={this.handleEditWeightChange}
             handleEditLureChange={this.handleEditLureChange}
             handleEditPlaceChange={this.handleEditPlaceChange}
+            handleEditCoordinatesChange={this.handleEditCoordinatesChange}
             handleEditTimeChange={this.handleEditTimeChange}
-            handleEditPersonChange={this.handleEditPersonChange}
-          />
+            handleEditPersonChange={this.handleEditPersonChange} />
         </div>
-        
+        <footer>made with <span style={{color:"#0096e7"}}>&#10084;</span> by Akseli</footer>
+
       </div>
     )
   }
