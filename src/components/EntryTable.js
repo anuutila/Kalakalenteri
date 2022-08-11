@@ -9,11 +9,11 @@ const EntryTable = (props) => {
       <thead>
         <tr>
           <th>laji</th>
-          <th>pvm.</th>
           <th>pituus cm</th>
           <th>paino kg</th>
           <th>viehe</th>
           <th>paikka</th>
+          <th>pvm.</th>
           <th>aika</th>
           <th>saaja</th>
         </tr>
@@ -81,7 +81,6 @@ const Entry = (props) => {
   return (
   <tr>
     <td>{props.entry.fish}</td>
-    <td>{formatDate(props.entry.date)}</td>
     <td>{props.entry.length}</td>
     <td>{props.entry.weight}</td>
     <td>{props.entry.lure}</td>
@@ -92,6 +91,7 @@ const Entry = (props) => {
         <a id="mapLink" href={`https://www.google.com/maps/search/?api=1&query=${getLatitude()}%2C${getLongitude()}&zoom12`}>kartta</a>
       </div>}
     </td>
+    <td>{formatDate(props.entry.date)}</td>
     <td>{props.entry.time}</td>
     <td>{props.entry.person}</td>
     <td >
@@ -121,11 +121,11 @@ const Entry = (props) => {
             /*WebkitOverflowScrolling: 'touch',*/
             borderRadius: '0.5rem',
             outline: 'none',
-            padding: '2.5rem'
+            padding: '2rem'
           }
         }}
       >
-        <h2 style={{color: 'whitesmoke', paddingBottom: '1rem'}}>MUOKKAA TIETOJA</h2>
+        <h2 id='editEntryTitle'>MUOKKAA TIETOJA</h2>
         <div className='editFormContainer'>
           <EditEntryForm
             state={props.state}

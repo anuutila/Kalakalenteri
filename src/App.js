@@ -6,6 +6,9 @@ import Statistics from './components/Statistics';
 import StatsAndSortButtons from './components/StatsAndSortButtons';
 import RadioGroup from './components/RadioGroup';
 
+// taulun sarakkeiden järjestystä muutettu
+// tehty parempi soveltuvuus mobiiliselaimille
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -238,7 +241,7 @@ class App extends React.Component {
     }  
   }
 
-  getLocation() {
+  getGeolocation() {
       const success = (position) => {
         console.log(position)
         this.setState({ 
@@ -251,7 +254,9 @@ class App extends React.Component {
       }
       
       const options = {
-        enableHighAccuracy: true
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
       }
   
       navigator.geolocation.getCurrentPosition(success, error, options)
@@ -271,7 +276,7 @@ class App extends React.Component {
     }
     switch (document.getElementById("locationCheckbox").checked) {
       case true:
-        this.getLocation()
+        this.getGeolocation()
         break
       case false:
         this.setState({ newCoordinates: ''})
@@ -293,6 +298,7 @@ class App extends React.Component {
   }
 
   handleSortButtonClick(event) {
+    this.setState({ entries: this.defaultSort(this.state.entries) })
     if (this.state.radioGroupAnimation) {
       this.setState({ radioGroupAnimation: false })
       setTimeout(() => {this.setState({ sortingIsHidden: true })}, 250)
@@ -300,7 +306,6 @@ class App extends React.Component {
     }
     this.setState({ 
       sortingIsHidden: false,
-      entries: this.defaultSort(this.state.entries),
       radioGroupAnimation: true
     })
   }  
@@ -424,9 +429,13 @@ class App extends React.Component {
     console.log('render')
     return (
       <div className='rootDiv'>
-
+        <div className='img'></div>
         <div className='topShade'></div>
         <h1 className='title1'>KALAPÄIVÄKIRJA</h1>
+        <div className='title1-mobile'>
+            <span id='title1-mobile-row1'>KALA</span>
+            <span id='title1-mobile-row2'>PÄIVÄKIRJA</span>
+        </div>
         {/* <div className='laatikko'>
           <p>{this.state.newCoordinates}</p>
           {<a href={`https://www.google.com/maps/search/?api=1&query=${this.getLatitude()}%2C${this.getLongitude()}&zoom15`}>kartta</a>}
@@ -450,7 +459,7 @@ class App extends React.Component {
           {!this.state.statsAreHidden &&
             <Statistics entries={this.state.entries} statsWindowAnimation={this.state.statsWindowAnimation} />}
         </div>
-        <div className='tableContainer'>
+        <div className='tableContainer' /*style={{marginTop:`${this.state.statsAreHidden ? 10 : 1}rem`}}*/>
           <StatsAndSortButtons
             handleSortButtonClick={this.handleSortButtonClick.bind(this)}
             toggleStatsHidden={this.toggleStatsHidden.bind(this)}
@@ -475,8 +484,8 @@ class App extends React.Component {
             handleEditTimeChange={this.handleEditTimeChange}
             handleEditPersonChange={this.handleEditPersonChange} />
         </div>
-        <footer>made with <span style={{color:"#0096e7"}}>&#10084;</span> by Akseli</footer>
-
+        <footer>made with <span id='footerHeart' style={{color:"#0096e7"}}>&#10084;</span> by Akseli</footer>
+      
       </div>
     )
   }

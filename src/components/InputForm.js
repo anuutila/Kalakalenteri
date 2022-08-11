@@ -21,14 +21,6 @@ const InputForm = (props) => {
           </datalist>
         </div>
         <div>
-          pvm: <input
-            type="date"
-            required
-            value={props.state.newDate}
-            onChange={props.handleDateChange}
-          />
-        </div>
-        <div>
           pituus: <input
             type="number"
             placeholder="cm"
@@ -69,6 +61,14 @@ const InputForm = (props) => {
           <datalist id="places">
             {uniquePlaces.map(place => <option key={place} value={place} />)}
           </datalist>
+        </div>
+        <div>
+          pvm: <input
+            type="date"
+            required
+            value={props.state.newDate}
+            onChange={props.handleDateChange}
+          />
         </div>
         <div>
           aika: <input

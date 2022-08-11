@@ -23,14 +23,6 @@ const EditEntryForm = (props) => {
         </datalist>
       </div>
       <div>
-        pvm: <input
-          type="date" 
-          required
-          value={props.state.editDate}
-          onChange={props.handleDateChange}
-        />
-      </div>
-      <div>
         pituus: <input 
           type="number"
           placeholder="cm"
@@ -75,6 +67,14 @@ const EditEntryForm = (props) => {
           placeholder="xx.xxxx, yy.yyyy"
           value={props.state.editCoordinates}
           onChange={props.handleCoordinatesChange}
+        />
+      </div>
+      <div>
+        pvm: <input
+          type="date" 
+          required
+          value={props.state.editDate}
+          onChange={props.handleDateChange}
         />
       </div>
       <div>
