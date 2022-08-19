@@ -529,7 +529,7 @@ input[type=time]:invalid {
 
 #deleteButton, #cancelEditButton{
   border-radius: 0.2rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: bold;
   color: whitesmoke;
   padding: 0.4rem 1rem;
@@ -542,7 +542,6 @@ input[type=time]:invalid {
 
 #cancelEditButton {
   font-size: 1.5rem;
-  
   margin-top: 1rem;
   padding: 0.6rem 1rem;
 }  
@@ -553,8 +552,8 @@ input[type=time]:invalid {
 }
 
 #editButton {
-  font-size: 1.2rem;
-  padding: 0.4rem 0.4rem;
+  font-size: 1.1rem;
+  padding: 0.4rem 0.55rem;
   border-radius: 0.2rem;
   width: 6rem;
   text-align: start;
@@ -1017,13 +1016,17 @@ footer::before {
   .tableContainer {
     width: 100%;
     margin: auto;
-    font-size: 1.5rem;
+    font-size: 1.57rem;
     margin-bottom: 2rem;
-    font-size: 1.8rem;
+  }
+
+  #deleteButton {
+    font-size: 1.2rem;
   }
 
   #editButton {
     padding: 0.4rem 0.5rem;
+    font-size: 1.2rem;
   }
   
 }
