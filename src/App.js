@@ -291,10 +291,10 @@ class App extends React.Component {
       this.setState({ statsWindowAnimation: false })
       if (window.matchMedia("(max-width: 768px)").matches) {
       setTimeout(() => {this.setState({ statsAreHidden: true })}, 440)
-      return
-      }
+      } else {
       setTimeout(() => {this.setState({ statsAreHidden: true })}, 440)
-      
+      }
+      return
     }
     this.setState({ 
       statsAreHidden: false,

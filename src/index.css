@@ -728,7 +728,7 @@ footer::before {
   }
 
   .newEntryContainer {
-    width: 60rem;
+    width: 100%;
     margin-bottom: 8rem;
     margin-top: 6rem;
     padding: 5rem;
@@ -769,7 +769,7 @@ footer::before {
 
   .statisticsContainer {
     margin: auto;
-    width: 60rem;
+    width: 100%;
     margin-bottom: 4rem;
     font-size: 3rem;
     padding: 5rem;
@@ -791,7 +791,7 @@ footer::before {
       font-size: 0;
     }
     100% {
-      width: 60rem;
+      width: 100%;
       height: 100%;
       padding: 5rem;
       font-size: 3rem;
@@ -805,14 +805,14 @@ footer::before {
   
   @keyframes disappear-statistics {
     0% {
-      width: 60rem;
+      width: 100%;
       height: 100%;
       font-size: 3rem;
       padding: 5rem;
       margin-bottom: 4rem;
     }
     30% {
-      width: 60rem;
+      width: 100%;
       height: 100%;
       font-size: 3rem;
       padding: 5rem;
@@ -867,7 +867,7 @@ footer::before {
   .barChartMobile {
     display: block;
     margin: auto;
-    width: 60rem;
+    width: 100%;
     height: 40rem;
     margin-bottom: 5rem;
     background-color: rgba(0, 0, 0, 0.45);
@@ -897,7 +897,7 @@ footer::before {
       padding: 0;
     }
     100% {
-      width: 60rem;
+      width: 100%;
       height: 40rem;
     }
   }
@@ -908,7 +908,7 @@ footer::before {
   
   @keyframes disappear-barChart {
     0% {
-      width: 60rem;
+      width: 100%;
       height: 40rem;
     }
     66% {
