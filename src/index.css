@@ -477,13 +477,11 @@ input[type=time]:invalid {
   margin-bottom: 2rem;
   margin-left: 2rem;
   margin-right: 2rem;
+  max-width: 80rem;
 }
 
 .entries {
-  /*border-collapse: collapse;*/
   border-spacing: 0;
-  width: fit-content;
-  max-width: 80rem;
 }
   
 .entries th, td:not(:last-child) {
@@ -690,6 +688,11 @@ footer::before {
     height: 100rem;
   }
 
+  .rootDiv {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
   .title1 {
     display: none;
   }
@@ -702,7 +705,7 @@ footer::before {
     color: #dddddd;
     text-shadow: 3px 3px 10px black;
     font-weight: bold;
-    width: 50rem;
+    width: fit-content;
     margin: auto;
     margin-top: 4rem;
     display: flex;
@@ -725,6 +728,9 @@ footer::before {
 
   .newEntryAndStatisticsContainer {
     font-size: 3.5rem;
+    width: 100%;
+    padding-left: 3rem;
+    padding-right: 3rem;
   }
 
   .newEntryContainer {
@@ -755,7 +761,7 @@ footer::before {
     border-radius: .6rem;
     padding: 0.6rem;
     border-width: 2px;
-    width: 35rem;
+    width: 40rem;
   }
 
   input#locationCheckbox {
@@ -1003,6 +1009,13 @@ footer::before {
     margin-right: -1px;
   }
 
-  
+  .tableContainer {
+    width: 100%;
+    margin: auto;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    
+    
+  }
 
 }
