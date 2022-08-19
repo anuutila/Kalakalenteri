@@ -89,7 +89,7 @@ h1 {
 }
 
 .title2 {
-  color: #e3e3e3;
+  color: #dddddd;
   text-shadow: rgba(0, 0, 0, 0.6) 0.1rem 0.1rem 0.5rem;
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
@@ -700,14 +700,14 @@ footer::before {
   .title1-mobile {
     padding: 0;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 7rem;
+    font-size: 8rem;
     letter-spacing: 0.9rem; 
     color: #dddddd;
-    text-shadow: 3px 3px 10px black;
+    text-shadow: 5px 5px 17px black;
     font-weight: bold;
     width: fit-content;
     margin: auto;
-    margin-top: 4rem;
+    margin-top: 7rem;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -727,7 +727,7 @@ footer::before {
   }
 
   .newEntryAndStatisticsContainer {
-    font-size: 3.5rem;
+    font-size: 4rem;
     width: 100%;
     padding-left: 3rem;
     padding-right: 3rem;
@@ -736,38 +736,39 @@ footer::before {
   .newEntryContainer {
     width: 100%;
     margin-bottom: 8rem;
-    margin-top: 6rem;
+    margin-top: 7rem;
     padding: 5rem;
     padding-top: 3rem;
     padding-bottom: 4rem;
-    box-shadow: 1rem 1rem 3rem rgba(0, 0, 0, 0.3);
+    box-shadow: 1rem 1rem 2rem rgba(0, 0, 0, 0.3);
     border-radius: 2rem;
     backdrop-filter: blur(5rem);
   }
 
   .title2 {
-    font-size: 4rem;
+    font-size: 5rem;
     margin-bottom: 2rem;
+    text-shadow: rgba(0, 0, 0, 0.6) 0.2rem 0.2rem 0.5rem;
   }
 
   .formContainer {
-    line-height: 6.5rem;
+    line-height: 7.5rem;
     padding: 2px;
   }
 
   .entryForm input {
     margin-left: 0.8rem;
-    font-size: 3.5rem;
-    border-radius: .6rem;
-    padding: 0.6rem;
+    font-size: 4rem;
+    border-radius: .7rem;
+    padding: 0.7rem;
     border-width: 2px;
     width: 40rem;
   }
 
   input#locationCheckbox {
-    width: 4rem;
-    height: 4rem;
-    margin: 1rem;
+    width: 4.5rem;
+    height: 4.5rem;
+    margin: 2rem;
     margin-right: 0;
     margin-top: 2.5rem;
     transform: translate(0, 1rem);
@@ -777,7 +778,7 @@ footer::before {
     margin: auto;
     width: 100%;
     margin-bottom: 4rem;
-    font-size: 3rem;
+    font-size: 3.5rem;
     padding: 5rem;
     box-shadow: 1rem 1rem 3rem rgba(0, 0, 0, 0.3);
     border-radius: 2rem;
@@ -800,7 +801,7 @@ footer::before {
       width: 100%;
       height: 100%;
       padding: 5rem;
-      font-size: 3rem;
+      font-size: 3.5rem;
       margin-bottom: 4rem;
     }
   }
@@ -813,7 +814,7 @@ footer::before {
     0% {
       width: 100%;
       height: 100%;
-      font-size: 3rem;
+      font-size: 3.5rem;
       padding: 5rem;
       margin-bottom: 4rem;
     }
@@ -834,7 +835,7 @@ footer::before {
   }
 
   .stats {
-    margin: 3rem 4rem 0 4rem;
+    margin: 3rem 4.5rem 0 4.5rem;
   }
 
   .stats.appear {
@@ -859,7 +860,7 @@ footer::before {
   
     }
     30% {
-      margin: 3rem 4rem 0 4rem;
+      margin: 3rem 4.5rem 0 4.5rem;
     }
     100% {
       margin: 0;
@@ -946,7 +947,7 @@ footer::before {
     }
     90% {
       opacity: 0;
-      display: block;
+      display: none;
     }
     100% {
       opacity: 1;
@@ -993,8 +994,8 @@ footer::before {
 
   #submitButton {
     margin-top: 2.5rem;
-    width: 32rem;
-    font-size: 3.5rem;
+    width: 40rem;
+    font-size: 4rem;
     font-weight: bold;
   }
 
@@ -1014,8 +1015,7 @@ footer::before {
     margin: auto;
     font-size: 1.5rem;
     margin-bottom: 2rem;
-    
-    
   }
 
+  
 }
