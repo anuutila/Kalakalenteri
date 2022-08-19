@@ -6,7 +6,6 @@
 
 :root {
   --theme-color: #0096e7;
-  
 }
 
 /* * { outline: 1px solid red; } */
@@ -23,7 +22,7 @@ body {
   background-size: cover;
   background-attachment: fixed; 
   background-position: center;
-  
+  background-color: #111111;
 }
 
 .rootDiv {
@@ -76,17 +75,17 @@ h1 {
 }
 
 .newEntryContainer {
-  width: fit-content;
+  width: 30.7rem;
   margin: auto;
   margin-bottom: 4rem;
   margin-top: 4rem;
-  background-color: rgba(0, 0, 0, 0.43);
+  background-color: rgba(0, 0, 0, 0.45);  /*0.43*/
   padding: 3rem;
   padding-top: 1.5rem;
   padding-bottom: 2rem;
   box-shadow: 1rem 1rem 2rem rgba(0, 0, 0, 0.2);
   border-radius: 1rem;
-  backdrop-filter: blur(1.5rem);
+  backdrop-filter: blur(2.5rem);  /*1.5rem*/
 }
 
 .title2 {
@@ -187,13 +186,14 @@ input[type=time]:invalid {
 
 
 .statisticsContainer {
+  width: 30.7rem;
   margin: auto;
   margin-bottom: 4rem;
   padding: 2.5rem;
-  background-color: rgba(0, 0, 0, 0.43);
+  background-color: rgba(0, 0, 0, 0.45);
   box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);
   border-radius: 1rem;
-  backdrop-filter: blur(1.5rem);
+  backdrop-filter: blur(2.5rem);
   text-align: center;
   white-space: nowrap;
 }
@@ -211,19 +211,30 @@ input[type=time]:invalid {
     font-size: 0;
   }
   100% {
-    width: 100%;
+    width: 30.7rem;
     height: 100%;
+    padding: 2.5rem;
+    font-size: 1.5rem;
   }
 }
 
 .statisticsContainer.disappear {
-  animation: disappear-statistics 0.3s ease-in-out;
+  animation: disappear-statistics 0.45s ease-in-out;
 }
 
 @keyframes disappear-statistics {
   0% {
-    width: 100%;
+    width: 30.7rem;
     height: 100%;
+    font-size: 1.5rem;
+    padding: 2.5rem;
+  }
+  30% {
+    width: 30.7rem;
+    height: 100%;
+    font-size: 1.5rem;
+    padding: 2.5rem;
+    margin-bottom: 4rem;
   }
   100% {
     width: 0;
@@ -258,16 +269,81 @@ input[type=time]:invalid {
 }
 
 .stats.disappear {
-  animation: disappear-stats 0.3s ease-in-out;
+  animation: disappear-stats 0.45s ease-in-out;
 }
 
 @keyframes disappear-stats {
   0% {
 
   }
+  30% {
+    margin: 2rem 2rem 0 2rem;
+  }
   100% {
     margin: 0;
   }
+}
+
+.barChart {
+  margin: auto;
+  width: 60rem;
+  height: 35rem;
+  margin-bottom: 4rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2.5rem;
+  box-shadow: 1rem 1rem 2rem rgba(0, 0, 0, 0.2);
+  border-radius: 1rem;
+  backdrop-filter: blur(2.5rem);
+}
+
+.barChart.appear {
+  animation: appear-barChart 0.45s ease-in-out;
+}
+
+@keyframes appear-barChart {
+  0% {
+    width: 0;
+    height: 0;
+    margin-bottom: 0;
+    padding: 0;
+  }
+  30% {
+    width: 0;
+    height: 0;
+    margin-bottom: 0;
+    padding: 0;
+  }
+  100% {
+    width: 60rem;
+    height: 35rem;
+  }
+}
+
+.barChart.disappear {
+  animation: disappear-barChart 0.45s ease-in-out;
+}
+
+@keyframes disappear-barChart {
+  0% {
+    width: 60rem;
+    height: 35rem;
+  }
+  66% {
+    width: 0;
+    height: 0;
+    margin-bottom: 0;
+    padding: 0;
+  }
+  100% {
+    width: 0;
+    height: 0;
+    margin-bottom: 0;
+    padding: 0;
+  }
+}
+
+.barChartMobile {
+  display: none;
 }
 
 .radioGroupContainer {
@@ -610,20 +686,8 @@ footer::before {
 }
 
 @media (max-width: 768px) {
-  body {
-    background-color: #111111;
-  }
-
   .topShade {
-    opacity: 0.85;
-    position: fixed;
-    overflow-x: hidden;
-    top: 0;
-    left: 0;
-    width: 500%;
     height: 100rem;
-    z-index: -1;
-    background-image: linear-gradient(to bottom, rgb(0, 125, 192) 0%, rgba(0,0,0,0) 30%);
   }
 
   .title1 {
@@ -664,6 +728,7 @@ footer::before {
   }
 
   .newEntryContainer {
+    width: 60rem;
     margin-bottom: 8rem;
     margin-top: 6rem;
     padding: 5rem;
@@ -671,7 +736,7 @@ footer::before {
     padding-bottom: 4rem;
     box-shadow: 1rem 1rem 3rem rgba(0, 0, 0, 0.3);
     border-radius: 2rem;
-    backdrop-filter: blur(2rem);
+    backdrop-filter: blur(5rem);
   }
 
   .title2 {
@@ -690,7 +755,7 @@ footer::before {
     border-radius: .6rem;
     padding: 0.6rem;
     border-width: 2px;
-    width: 32rem;
+    width: 35rem;
   }
 
   input#locationCheckbox {
@@ -703,12 +768,207 @@ footer::before {
   }
 
   .statisticsContainer {
-    margin-bottom: 8rem;
+    margin: auto;
+    width: 60rem;
+    margin-bottom: 4rem;
     font-size: 3rem;
     padding: 5rem;
     box-shadow: 1rem 1rem 3rem rgba(0, 0, 0, 0.3);
     border-radius: 2rem;
-    backdrop-filter: blur(2rem);
+    backdrop-filter: blur(5rem);
+  }
+
+  .statisticsContainer.appear {
+    animation: appear-statistics 0.3s ease-in-out;
+  }
+  
+  @keyframes appear-statistics {
+    0% {
+      width: 0;
+      height: 0;
+      margin-bottom: 0;
+      padding: 0;
+      font-size: 0;
+    }
+    100% {
+      width: 60rem;
+      height: 100%;
+      padding: 5rem;
+      font-size: 3rem;
+      margin-bottom: 4rem;
+    }
+  }
+  
+  .statisticsContainer.disappear {
+    animation: disappear-statistics 0.45s ease-in-out;
+  }
+  
+  @keyframes disappear-statistics {
+    0% {
+      width: 60rem;
+      height: 100%;
+      font-size: 3rem;
+      padding: 5rem;
+      margin-bottom: 4rem;
+    }
+    30% {
+      width: 60rem;
+      height: 100%;
+      font-size: 3rem;
+      padding: 5rem;
+      margin-bottom: 4rem;
+    }
+    100% {
+      width: 0;
+      height: 0;
+      margin-bottom: 0;
+      padding: 0;
+      font-size: 0;
+    }
+  }
+
+  .stats {
+    margin: 3rem 4rem 0 4rem;
+  }
+
+  .stats.appear {
+    animation: appear-stats 0.3s ease-in-out;
+  }
+  
+  @keyframes appear-stats {
+    0% {
+      margin: 0;
+    }
+    100% {
+  
+    }
+  }
+  
+  .stats.disappear {
+    animation: disappear-stats 0.45s ease-in-out;
+  }
+  
+  @keyframes disappear-stats {
+    0% {
+  
+    }
+    30% {
+      margin: 3rem 4rem 0 4rem;
+    }
+    100% {
+      margin: 0;
+    }
+  }
+
+  .barChart {
+     display: none; 
+  }
+
+  .barChartMobile {
+    display: block;
+    margin: auto;
+    width: 60rem;
+    height: 40rem;
+    margin-bottom: 5rem;
+    background-color: rgba(0, 0, 0, 0.45);
+    padding: 2rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    box-shadow: 1rem 1rem 2rem rgba(0, 0, 0, 0.2);
+    border-radius: 2rem;
+    backdrop-filter: blur(5rem);
+  }
+
+  .barChartMobile.appear {
+    animation: appear-barChart 0.45s ease-in-out;
+  }
+  
+  @keyframes appear-barChart {
+    0% {
+      width: 0;
+      height: 0;
+      margin-bottom: 0;
+      padding: 0;
+    }
+    30% {
+      width: 0;
+      height: 0;
+      margin-bottom: 0;
+      padding: 0;
+    }
+    100% {
+      width: 60rem;
+      height: 40rem;
+    }
+  }
+  
+  .barChartMobile.disappear {
+    animation: disappear-barChart 0.45s ease-in-out;
+  }
+  
+  @keyframes disappear-barChart {
+    0% {
+      width: 60rem;
+      height: 40rem;
+    }
+    66% {
+      width: 0;
+      height: 0;
+      margin-bottom: 0;
+      padding: 0;
+    }
+    100% {
+      width: 0;
+      height: 0;
+      margin-bottom: 0;
+      padding: 0;
+    }
+  }
+
+  .barChartMobileCanvas.appear {
+    animation: appear-barChartCanvas 0.45s ease-in-out;
+  }
+
+  @keyframes appear-barChartCanvas {
+    0% {
+      opacity: 0;
+      display: none;
+    }
+    89% {
+      opacity: 0;
+      display: none;
+    }
+    90% {
+      opacity: 0;
+      display: block;
+    }
+    100% {
+      opacity: 1;
+      display: block;
+    }
+  }
+
+  .barChartMobileCanvas.disappear {
+    animation: disappear-barChartCanvas 0.45s ease-in-out;
+  }
+
+  @keyframes disappear-barChartCanvas {
+    0% {
+      opacity: 1;
+      display: block;
+    }
+    10% {
+      opacity: 0;
+      display: block;
+    }
+    11% {
+      opacity: 0;
+      display: none;
+    }
+    100% {
+      opacity: 0;
+      display: none;
+    }
   }
 
   .button {

@@ -1,14 +1,16 @@
 {
-  "name": "kalakalenteri",
+  "name": "kalakapaivakirja",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "axios": "^0.27.2",
+    "chart.js": "^3.9.1",
     "json-server": "^0.17.0",
     "react": "^18.1.0",
+    "react-chartjs-2": "^4.3.1",
     "react-dom": "^18.1.0",
     "react-modal": "^3.15.1",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

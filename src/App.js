@@ -1,13 +1,13 @@
 import React from 'react';
+
 import entryService from './services/entries'
 import InputForm from './components/InputForm';
 import EntryTable from './components/EntryTable';
 import Statistics from './components/Statistics';
 import StatsAndSortButtons from './components/StatsAndSortButtons';
 import RadioGroup from './components/RadioGroup';
-
-// taulun sarakkeiden järjestystä muutettu
-// tehty parempi soveltuvuus mobiiliselaimille
+import BarChart from './components/BarChart';
+import BarChartMobile from './components/BarChartMobile';
 
 class App extends React.Component {
   constructor(props) {
@@ -25,8 +25,8 @@ class App extends React.Component {
       newPerson: '',
       statsAreHidden: true,
       statsWindowAnimation: false,
-      radioGroupAnimation: false,
       sortingIsHidden: true,
+      radioGroupAnimation: false,
       editFish: '',
       editDate: '',
       editLength: '',
@@ -289,8 +289,12 @@ class App extends React.Component {
   toggleStatsHidden() {
     if (this.state.statsWindowAnimation) {
       this.setState({ statsWindowAnimation: false })
-      setTimeout(() => {this.setState({ statsAreHidden: true })}, 250)
+      if (window.matchMedia("(max-width: 768px)").matches) {
+      setTimeout(() => {this.setState({ statsAreHidden: true })}, 440)
       return
+      }
+      setTimeout(() => {this.setState({ statsAreHidden: true })}, 440)
+      
     }
     this.setState({ 
       statsAreHidden: false,
@@ -436,10 +440,6 @@ class App extends React.Component {
             <span id='title1-mobile-row1'>KALA</span>
             <span id='title1-mobile-row2'>PÄIVÄKIRJA</span>
         </div>
-        {/* <div className='laatikko'>
-          <p>{this.state.newCoordinates}</p>
-          {<a href={`https://www.google.com/maps/search/?api=1&query=${this.getLatitude()}%2C${this.getLongitude()}&zoom15`}>kartta</a>}
-        </div> */}
         <div className='newEntryAndStatisticsContainer'>
           <div className='newEntryContainer'>
             <h2 className='title2'>UUSI SAALIS</h2>
@@ -457,8 +457,12 @@ class App extends React.Component {
               togglelocationCheckbox={this.togglelocationCheckbox} />
           </div>
           {!this.state.statsAreHidden &&
-            <Statistics entries={this.state.entries} statsWindowAnimation={this.state.statsWindowAnimation} />}
+            <Statistics entries={this.state.entries} statsWindowAnimation={this.state.statsWindowAnimation}/> }
+          {!this.state.statsAreHidden &&<BarChart entries={this.state.entries} statsWindowAnimation={this.state.statsWindowAnimation}/>}
+          {!this.state.statsAreHidden &&<BarChartMobile entries={this.state.entries} statsWindowAnimation={this.state.statsWindowAnimation}/>}
         </div>
+        
+        
         <div className='tableContainer' /*style={{marginTop:`${this.state.statsAreHidden ? 10 : 1}rem`}}*/>
           <StatsAndSortButtons
             handleSortButtonClick={this.handleSortButtonClick.bind(this)}
