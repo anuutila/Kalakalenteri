@@ -97,7 +97,7 @@ const Entry = (props) => {
     <td >
       <div className="deleteAndEditButtonContainer">
         <button className="button" id="deleteButton" onClick={props.removeEntry}>poista</button>
-        <button className="button" id="editButton" onClick={() => {openModal(); props.initializeStateForEdit()}}> muokkaa </button>
+        <button className="button" id="editButton" onClick={() => {openModal(); props.initializeStateForEdit()}}>muokkaa</button>
       </div>  
       <Modal isOpen={modalIsOpen} shouldCloseOnOverlayClick={false} onRequestClose={() => setModalIsOpen(false)}
         style={{

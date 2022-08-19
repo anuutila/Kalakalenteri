@@ -529,7 +529,7 @@ input[type=time]:invalid {
 
 #deleteButton, #cancelEditButton{
   border-radius: 0.2rem;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: bold;
   color: whitesmoke;
   padding: 0.4rem 1rem;
@@ -553,11 +553,11 @@ input[type=time]:invalid {
 }
 
 #editButton {
-  font-size: 1rem;
-  padding: 0.4rem 1rem;
+  font-size: 1.2rem;
+  padding: 0.4rem 0.4rem;
   border-radius: 0.2rem;
-  width: 100%;
-  text-align: center;
+  width: 6rem;
+  text-align: start;
   color: whitesmoke;
   font-weight: bold;
   box-shadow:inset 0px -3px 7px 0px rgb(235, 125, 0);
@@ -572,8 +572,12 @@ input[type=time]:invalid {
 }
 
 .deleteAndEditButtonContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 6.5rem;
   padding: 0.5rem 0 0.5rem 0.5rem;
+  font-size: 1.2rem;
 }
 
 #submitButton, #submitEditButton {
@@ -1015,7 +1019,11 @@ footer::before {
     margin: auto;
     font-size: 1.5rem;
     margin-bottom: 2rem;
+    font-size: 1.8rem;
   }
 
+  #editButton {
+    padding: 0.4rem 0.5rem;
+  }
   
 }
