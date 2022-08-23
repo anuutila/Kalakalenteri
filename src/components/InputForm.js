@@ -1,10 +1,7 @@
 import React from "react";
+import { uniqueLures, uniquePersons, uniquePlaces } from "../utils/EntriesFunctions";
 
 const InputForm = (props) => {
-  const uniqueLures = [...new Set(props.state.entries.map(e => e.lure))].filter(lure => lure !== '-')
-  const uniquePlaces = [...new Set(props.state.entries.map(e => e.place))].filter(place => place !== '-')
-  const uniquePersons = [...new Set(props.state.entries.map(e => e.person))]
-
   return (
     <div className='formContainer'>
       <form onSubmit={props.addEntry} className='entryForm'>
@@ -49,7 +46,7 @@ const InputForm = (props) => {
             onChange={props.handleLureChange}
           />
           <datalist id="lures">
-            {uniqueLures.map(lure => <option key={lure} value={lure} />)}
+            {uniqueLures(props.entries).map(lure => <option key={lure} value={lure} />)}
           </datalist>
         </div>
         <div>
@@ -59,7 +56,7 @@ const InputForm = (props) => {
             onChange={props.handlePlaceChange}
           />
           <datalist id="places">
-            {uniquePlaces.map(place => <option key={place} value={place} />)}
+            {uniquePlaces(props.entries).map(place => <option key={place} value={place} />)}
           </datalist>
         </div>
         <div>
@@ -73,7 +70,7 @@ const InputForm = (props) => {
         <div>
           aika: <input
             type="time"
-            step="600" //ei ilmeisesti toimi uusimmassa chromessa
+            //step="600" ei ilmeisesti toimi uusimmassa chromessa
             required
             value={props.state.newTime}
             onChange={props.handleTimeChange}
@@ -86,7 +83,7 @@ const InputForm = (props) => {
             onChange={props.handlePersonChange}
           />
           <datalist id="persons">
-            {uniquePersons.map(person => <option key={person} value={person} />)}
+            {uniquePersons(props.entries).map(person => <option key={person} value={person} />)}
           </datalist>
         </div>
         <div>

@@ -23,6 +23,7 @@ const EntryTable = (props) => {
           <Entry 
             key={entry.id} 
             entry={entry} 
+            entries={props.entries}
             removeEntry={props.removeEntry(entry.id)}
             state={props.state}
             editEntry={props.editEntry(entry.id)}
@@ -129,6 +130,7 @@ const Entry = (props) => {
         <div className='editFormContainer'>
           <EditEntryForm
             state={props.state}
+            entries={props.entries}
             editEntry={props.editEntry}
             handleFishChange={props.handleFishChange}
             handleDateChange={props.handleDateChange}

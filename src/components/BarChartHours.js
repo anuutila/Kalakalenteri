@@ -2,67 +2,35 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';
 
+import { chartColors2, halfOfHours } from '../utils/ChartAssets';
+import { fishAmountAtDiffHours, uniqueFishSpecies } from '../utils/EntriesFunctions';
+import { sortByCustomAlphabet } from '../utils/SortingUtils';
 
 
+const BarChartHours = ({ entries, statsWindowAnimation }) => {
 
-const BarChart = ({ entries, statsWindowAnimation }) => {
+  const sortedFishSpecies = sortByCustomAlphabet(uniqueFishSpecies(entries));
 
-  const customAlphabet = 'kahbcdefgijlmnopqrstuvwxyzåäö'
-
-  const uniqueFishSpecies = [...new Set(entries.map(e => e.fish))]
-    .sort((a, b) => {
-      return customAlphabet.indexOf(a.substring(0,1)) - customAlphabet.indexOf(b.substring(0,1))});
-
-  console.log(uniqueFishSpecies);  
-
-  const hours = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11',
-  '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']
-
-  const halfOfHours = ['00', '', '02', '', '04', '', '06', '', '08', '', '10', '', 
-  '12', '', '14', '', '16', '', '18', '', '20', '', '22', '', '24']
-
-  //const chartColors = ['rgb(190, 85, 255)','rgb(255, 230, 75)', 'rgb(75, 234, 172)', 'rgb(255, 131, 112)', 'rgb(75, 131, 255)'] 
-  const chartColors2 = ['rgb(75, 131, 255)','rgb(255, 131, 112)', 'rgb(255, 230, 75)', 'rgb(190, 85, 255)', 'rgb(75, 234, 172)']
-  //const chartColors3 = ['rgb(0, 107, 164)', 'rgb(255, 128, 14)', 'rgb(89, 89, 89)', 'rgb(171, 171, 171)']
-
-  // const chartColors = ['#1363df','#47b5ff','#dff6ff',]
-
-  function fishAmountAtDiffHours(species) { 
-    const fishAmounts = []
-    for (let i = 0; i < species.length; i++) {
-      fishAmounts.push(
-        hours.map(hour => {
-          return {
-            time: hour,
-            species: species[i],
-            amount: entries
-              .filter(e => e.time.substring(0, 2) === hour)
-              .filter(e => e.fish === species[i])
-              .length
-          }    
-        })
-      )  
-    }  
-    return fishAmounts
-  }
-
-  const customDatasets = fishAmountAtDiffHours(uniqueFishSpecies).map(data => {
-    return {
-      label: data[0].species,
-      data: data.map(d => d.amount),
-      backgroundColor: chartColors2[uniqueFishSpecies.indexOf(data[0].species)],
-      borderColor: '#000000',
-      borderWidth: 1
-    }
+  const datasets = fishAmountAtDiffHours(entries)
+    .map(data => {
+      return {
+        label: data[0].species,
+        data: data.map(d => d.amount),
+        backgroundColor: chartColors2[ 
+          sortedFishSpecies.indexOf(data[0].species)],
+        borderColor: '#000000',
+        borderWidth: 1
+      }
   });
 
   const data = {
     labels: halfOfHours,
-    datasets: customDatasets
+    datasets: datasets
   };
 
   const options = {
     maintainAspectRatio: false,
+    // barThickness: 25,
     scales: {
       x: {
         stacked: true,
@@ -72,6 +40,7 @@ const BarChart = ({ entries, statsWindowAnimation }) => {
           color: 'white',
           font: {
             size: 20,
+            family: "'Noto Sans'"
           }
         },
         ticks: {
@@ -93,12 +62,14 @@ const BarChart = ({ entries, statsWindowAnimation }) => {
           color: 'white',
           font: {
             size: 20,
+            family: "'Noto Sans'"
           }
         },
         ticks: {
           color: '#ffffff',
           font: {
             size: 20,
+            family: "'Noto Sans'"
           },
           callback: function(value, index, ticks) {
             if (Math.floor(value) === value) {
@@ -130,9 +101,15 @@ const BarChart = ({ entries, statsWindowAnimation }) => {
           padding: 30,
           color: 'white',
           font: {
-            size: 24,
+            size: 20,
             family: "'Noto Sans'"
           }
+        },
+        onHover: (event, chartElement) => {
+          event.native.target.style.cursor = 'pointer';
+        },
+        onLeave: (event, chartElement) => {
+          event.native.target.style.cursor = 'default';
         }
       },
       tooltip:{
@@ -169,7 +146,7 @@ const BarChart = ({ entries, statsWindowAnimation }) => {
   }; 
 
   return (
-    <div className={`barChart${statsWindowAnimation ? ' appear' : ' disappear'}`}>
+    <div className={`barChartHoursContainer${statsWindowAnimation ? ' appear' : ' disappear'}`}>
       <Bar
         data={data}
         options={options}
@@ -179,4 +156,4 @@ const BarChart = ({ entries, statsWindowAnimation }) => {
   )
 }    
 
-export default BarChart
+export default BarChartHours

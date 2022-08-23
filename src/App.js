@@ -6,8 +6,8 @@ import EntryTable from './components/EntryTable';
 import Statistics from './components/Statistics';
 import StatsAndSortButtons from './components/StatsAndSortButtons';
 import RadioGroup from './components/RadioGroup';
-import BarChart from './components/BarChart';
-import BarChartMobile from './components/BarChartMobile';
+import BarChartHours from './components/BarChartHours';
+import BarChartHoursMobile from './components/BarChartHoursMobile';
 
 class App extends React.Component {
   constructor(props) {
@@ -445,6 +445,7 @@ class App extends React.Component {
             <h2 className='title2'>UUSI SAALIS</h2>
             <InputForm
               state={this.state}
+              entries={this.state.entries}
               addEntry={this.addEntry}
               handleFishChange={this.handleFishChange}
               handleDateChange={this.handleDateChange}
@@ -456,10 +457,10 @@ class App extends React.Component {
               handlePersonChange={this.handlePersonChange}
               togglelocationCheckbox={this.togglelocationCheckbox} />
           </div>
-          {!this.state.statsAreHidden &&
-            <Statistics entries={this.state.entries} statsWindowAnimation={this.state.statsWindowAnimation}/> }
-          {!this.state.statsAreHidden &&<BarChart entries={this.state.entries} statsWindowAnimation={this.state.statsWindowAnimation}/>}
-          {!this.state.statsAreHidden &&<BarChartMobile entries={this.state.entries} statsWindowAnimation={this.state.statsWindowAnimation}/>}
+          <div className='statisticsContainer'>
+            {!this.state.statsAreHidden &&
+              <Statistics entries={this.state.entries} statsWindowAnimation={this.state.statsWindowAnimation}/> }
+          </div>
         </div>
         
         

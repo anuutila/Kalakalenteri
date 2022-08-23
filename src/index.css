@@ -65,7 +65,8 @@ h1 {
 }
 
 .newEntryAndStatisticsContainer {
-  width: fit-content;
+  width: 100%;
+  max-width: 84rem;
   margin: auto;
   font-size: 1.5rem;
   font-family: 'Noto Sans', sans-serif;
@@ -74,18 +75,22 @@ h1 {
   letter-spacing: 1px;
 }
 
+.newEntryContainer, .barChartHoursContainer, 
+.radioGroupContainer, .barChartRankingsContainer, .doughnutChartSpeciesContainer {
+  background-color: rgba(0, 0, 0, 0.45);  /*0.43*/
+  box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);
+  border-radius: 1rem;
+  backdrop-filter: blur(2.5rem);  /*1.5rem*/
+}
+
 .newEntryContainer {
   width: 30.7rem;
   margin: auto;
   margin-bottom: 4rem;
   margin-top: 4rem;
-  background-color: rgba(0, 0, 0, 0.45);  /*0.43*/
   padding: 3rem;
   padding-top: 1.5rem;
   padding-bottom: 2rem;
-  box-shadow: 1rem 1rem 2rem rgba(0, 0, 0, 0.2);
-  border-radius: 1rem;
-  backdrop-filter: blur(2.5rem);  /*1.5rem*/
 }
 
 .title2 {
@@ -118,7 +123,7 @@ h1 {
   margin-left: 0.4rem;
   font-size: 1.5rem;
   background-color: rgba(0, 0, 0, 0.3);
-  color: #ffffff;
+  color: #eeeeee;
   border-radius: 0.3rem;
   padding: 0.3rem;
   border-width: 1px;
@@ -147,7 +152,7 @@ input#locationCheckbox {
   width: fit-content;
   text-align: end;
   font-size: 1.5rem;
-  color: white;
+  color: #ffffff;
   padding: 0;
 }
 
@@ -186,19 +191,54 @@ input[type=time]:invalid {
 
 
 .statisticsContainer {
-  width: 30.7rem;
   margin: auto;
   margin-bottom: 4rem;
-  padding: 2.5rem;
-  background-color: rgba(0, 0, 0, 0.45);
-  box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);
-  border-radius: 1rem;
-  backdrop-filter: blur(2.5rem);
-  text-align: center;
-  white-space: nowrap;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-.statisticsContainer.appear {
+.statisticsContainer2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  margin-left: 10rem;
+  margin-right: 10rem;
+}
+
+.statisticsContainer3 {
+  margin-left: 10rem;
+  margin-right: 10rem;
+}
+
+.barChartRankingsMobileContainer {
+  display: none;
+}
+
+.barChartRankingsContainer {
+  padding: 2rem;
+  width: calc(50% - 1.6rem);
+  height: 45rem;
+  
+}
+
+.doughnutChartSpeciesMobileContainer {
+  display: none;
+}
+
+.doughnutChartSpeciesContainer {
+  padding: 2rem;
+  padding-top: 1.375rem;
+  padding-bottom: 2rem;
+
+  width: calc(50% - 1.6rem);
+  
+  height: 45rem;  /*33rem*/
+  
+}
+
+/* .statisticsContainer.appear {
   animation: appear-statistics 0.3s ease-in-out;
 }
 
@@ -282,25 +322,21 @@ input[type=time]:invalid {
   100% {
     margin: 0;
   }
-}
+} */
 
-.barChart {
+.barChartHoursContainer {
   margin: auto;
-  width: 60rem;
+  width: 100%;
   height: 35rem;
-  margin-bottom: 4rem;
   background-color: rgba(0, 0, 0, 0.5);
   padding: 2.5rem;
-  box-shadow: 1rem 1rem 2rem rgba(0, 0, 0, 0.2);
-  border-radius: 1rem;
-  backdrop-filter: blur(2.5rem);
 }
 
-.barChart.appear {
-  animation: appear-barChart 0.45s ease-in-out;
+/* .barChartHoursContainer.appear {
+  animation: appear-barChartHoursContainer 0.45s ease-in-out;
 }
 
-@keyframes appear-barChart {
+@keyframes appear-barChartHoursContainer {
   0% {
     width: 0;
     height: 0;
@@ -319,11 +355,11 @@ input[type=time]:invalid {
   }
 }
 
-.barChart.disappear {
-  animation: disappear-barChart 0.45s ease-in-out;
+.barChartHoursContainer.disappear {
+  animation: disappear-barChartHours 0.45s ease-in-out;
 }
 
-@keyframes disappear-barChart {
+@keyframes disappear-barChartHoursContainer {
   0% {
     width: 60rem;
     height: 35rem;
@@ -340,14 +376,14 @@ input[type=time]:invalid {
     margin-bottom: 0;
     padding: 0;
   }
-}
+} */
 
-.barChartMobile {
+.barChartHoursMobileContainer {
   display: none;
 }
 
 .radioGroupContainer {
-  color: #eee;
+  color: #eeeeee;
   border-radius: 1rem;
   margin-right: 6.5rem;
   margin-bottom: 0.5rem;
@@ -355,10 +391,6 @@ input[type=time]:invalid {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   background-color: rgba(0, 0, 0, 0.5);
   text-shadow: rgb(0, 0, 0) 0 1px 0;
-  box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(1.5rem);
-  color: whitesmoke;
-  border-radius: 1rem;
   overflow: hidden;
 }
 
@@ -495,8 +527,8 @@ input[type=time]:invalid {
 .entries tbody tr:last-of-type :nth-last-of-type(2) {border-bottom-right-radius: 0.3rem;}
 .entries tbody tr:last-of-type :first-child {border-bottom-left-radius: 0.3rem;}
   
-.entries tbody tr:nth-child(even) :not(:last-child) {background-color: #f2f2f2;}
-.entries tbody tr:nth-child(odd) :not(:last-child) {background-color: white;}
+.entries tbody tr:nth-child(even) :not(:last-child) {background-color: #efefef;} /*#f2f2f2*/
+.entries tbody tr:nth-child(odd) :not(:last-child) {background-color: #fdfdfd;} /*white*/
   
 .entries tbody tr:hover :not(:last-child) {background-color: #ddd;}
 
@@ -648,16 +680,6 @@ input[type=time]:invalid {
   background-color: rgba(255, 255, 255, 0.75);
 }*/
 
-.laatikko {
-  width: fit-content;
-  margin: auto;
-  background-color: red;
-  font-size: 2rem;
-  font-weight: bold;
-  text-align: center;
-  font-family: 'Times New Roman', Times, serif;
-}
-
 footer {
   /* background-color: #282828; */
   margin-top: 2rem;
@@ -736,6 +758,14 @@ footer::before {
     padding-right: 3rem;
   }
 
+  .newEntryContainer, .barChartHoursMobileContainer, 
+  .radioGroupContainer, .barChartRankingsMobileContainer, .doughnutChartSpeciesMobileContainer {
+    box-shadow: 1rem 1rem 2rem rgba(0, 0, 0, 0.3);
+    border-radius: 2rem;
+    backdrop-filter: blur(5rem);
+    background-color: rgba(0, 0, 0, 0.45);
+  } 
+
   .newEntryContainer {
     width: 100%;
     margin-bottom: 8rem;
@@ -743,9 +773,7 @@ footer::before {
     padding: 5rem;
     padding-top: 3rem;
     padding-bottom: 4rem;
-    box-shadow: 1rem 1rem 2rem rgba(0, 0, 0, 0.3);
-    border-radius: 2rem;
-    backdrop-filter: blur(5rem);
+    
   }
 
   .title2 {
@@ -777,7 +805,7 @@ footer::before {
     transform: translate(0, 1rem);
   }
 
-  .statisticsContainer {
+  /* .statisticsContainer {
     margin: auto;
     width: 100%;
     margin-bottom: 4rem;
@@ -786,9 +814,9 @@ footer::before {
     box-shadow: 1rem 1rem 3rem rgba(0, 0, 0, 0.3);
     border-radius: 2rem;
     backdrop-filter: blur(5rem);
-  }
+  } */
 
-  .statisticsContainer.appear {
+  /* .statisticsContainer.appear {
     animation: appear-statistics 0.3s ease-in-out;
   }
   
@@ -868,32 +896,75 @@ footer::before {
     100% {
       margin: 0;
     }
+  } */
+
+  .statisticsContainer {
+    margin: auto;
+    margin-bottom: 4rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+  .statisticsContainer2 {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    margin-bottom: 3rem;
+  }
+  
+  .statisticsContainer3 {
+    margin: 0;
   }
 
-  .barChart {
+  .barChartRankingsContainer {
+    display: none;
+  }
+
+  .barChartRankingsMobileContainer {
+    display: block;
+    padding: 4rem;
+    padding-left: 2rem;
+    padding-bottom: 3rem;
+    width: 100%;
+    height: 100rem;
+    margin-bottom: 3rem;
+  }
+
+  .doughnutChartSpeciesContainer {
+    display: none;
+  }
+  
+  .doughnutChartSpeciesMobileContainer {
+    display: block;
+    width: 100%;
+    height: 80rem;
+    padding: 3rem;
+    /* padding-top: 1.375rem;
+    padding-bottom: 2rem; */
+    
+  }
+
+  .barChartHoursContainer {
      display: none; 
   }
 
-  .barChartMobile {
+  .barChartHoursMobileContainer {
     display: block;
     margin: auto;
     width: 100%;
-    height: 40rem;
+    height: 110rem;
     margin-bottom: 5rem;
-    background-color: rgba(0, 0, 0, 0.45);
-    padding: 2rem;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    box-shadow: 1rem 1rem 2rem rgba(0, 0, 0, 0.2);
-    border-radius: 2rem;
-    backdrop-filter: blur(5rem);
+    padding: 3rem;
+    padding-top: 4rem;
   }
 
-  .barChartMobile.appear {
-    animation: appear-barChart 0.45s ease-in-out;
+  /* .barChartHoursMobileContainer.appear {
+    animation: appear-barChartHoursContainerMobile 0.45s ease-in-out;
   }
   
-  @keyframes appear-barChart {
+  @keyframes appear-barChartHoursMobileContainer {
     0% {
       width: 0;
       height: 0;
@@ -912,11 +983,11 @@ footer::before {
     }
   }
   
-  .barChartMobile.disappear {
-    animation: disappear-barChart 0.45s ease-in-out;
+  .barChartHoursMobileContainer.disappear {
+    animation: disappear-barChartHoursMobileContainer 0.45s ease-in-out;
   }
   
-  @keyframes disappear-barChart {
+  @keyframes disappear-barChartHoursMobileContainer {
     0% {
       width: 100%;
       height: 40rem;
@@ -935,11 +1006,11 @@ footer::before {
     }
   }
 
-  .barChartMobileCanvas.appear {
-    animation: appear-barChartCanvas 0.45s ease-in-out;
+  .barChartHoursMobileCanvas.appear {
+    animation: appear-barChartHoursMobileCanvas 0.45s ease-in-out;
   }
 
-  @keyframes appear-barChartCanvas {
+  @keyframes appear-barChartHoursMobileCanvas {
     0% {
       opacity: 0;
       display: none;
@@ -958,11 +1029,11 @@ footer::before {
     }
   }
 
-  .barChartMobileCanvas.disappear {
-    animation: disappear-barChartCanvas 0.45s ease-in-out;
+  .barChartHoursMobileCanvas.disappear {
+    animation: disappear-barChartHoursMobileCanvas 0.45s ease-in-out;
   }
 
-  @keyframes disappear-barChartCanvas {
+  @keyframes disappear-barChartHoursMobileCanvas {
     0% {
       opacity: 1;
       display: block;
@@ -979,7 +1050,7 @@ footer::before {
       opacity: 0;
       display: none;
     }
-  }
+  } */
 
   .button {
     box-shadow:inset 0px -6px 10px 0px #29bbff;

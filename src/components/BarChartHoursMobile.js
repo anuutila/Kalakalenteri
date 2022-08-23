@@ -5,7 +5,7 @@ import { Chart as ChartJS } from 'chart.js/auto';
 
 
 
-const BarChartMobile = ({ entries, statsWindowAnimation }) => {
+const BarChartHoursMobile = ({ entries, statsWindowAnimation }) => {
 
   const customAlphabet = 'kahbcdefgijlmnopqrstuvwxyzåäö'
 
@@ -50,7 +50,7 @@ const BarChartMobile = ({ entries, statsWindowAnimation }) => {
       data: data.map(d => d.amount),
       backgroundColor: chartColors2[uniqueFishSpecies.indexOf(data[0].species)],
       borderColor: '#000000',
-      borderWidth: 1
+      borderWidth: 2
     }
   });
 
@@ -61,22 +61,26 @@ const BarChartMobile = ({ entries, statsWindowAnimation }) => {
 
   const options = {
     maintainAspectRatio: false,
+    
+    indexAxis: 'y',
     scales: {
-      x: {
+      y: {
         stacked: true,
         title: {
           display: true,
           text: 'kellonaika',
           color: 'white',
+          padding: 16,
           font: {
-            size: 26,
+            size: 40,
             weight: 'bold'
           }
         },
         ticks: {
           color: '#ffffff',
+          padding: 10,
           font: {
-            size: 26,
+            size: 40,
             weight: 'bold'
           }
         },
@@ -85,21 +89,22 @@ const BarChartMobile = ({ entries, statsWindowAnimation }) => {
           color: 'transparent',
         }
       },
-      y: {
+      x: {
         stacked: true,
         title: {
           display: true,
           text: 'määrä',
           color: 'white',
+          padding: 16,
           font: {
-            size: 26,
+            size: 40,
             weight: 'bold'
           }
         },
         ticks: {
           color: '#ffffff',
           font: {
-            size: 26,
+            size: 40,
             weight: 'bold'
           },
           callback: function(value, index, ticks) {
@@ -110,18 +115,19 @@ const BarChartMobile = ({ entries, statsWindowAnimation }) => {
         },
         grid: {
           drawBorder: false,
-          color: 'rgba(255, 255, 255, 0.5)'
+          color: 'rgba(255, 255, 255, 0.5)',
+          lineWidth: 2
         }
       }
     },
     plugins: {
       title:{
         display:true,
-        text:'Saaliiden määrä eri kellonaikoina',
-        padding: 5,
-        color: 'white',
+        text:'Saalismäärät eri kellonaikoina',
+        padding: 0,
+        color: '#ffffff',
           font: {
-            size: 36,
+            size: 60,
             weight: 'bold'
           }
       },
@@ -129,10 +135,10 @@ const BarChartMobile = ({ entries, statsWindowAnimation }) => {
         position:'top',
         display:true,
         labels: {
-          padding: 30,
+          padding: 60,
           color: 'white',
           font: {
-            size: 26,
+            size: 40,
             weight: 'bold'
           }
         }
@@ -144,14 +150,14 @@ const BarChartMobile = ({ entries, statsWindowAnimation }) => {
             return `klo ${item.dataIndex}:00-${item.dataIndex + 1}:00`;
           }
         },
-        caretSize: 30,
-        boxPadding: 10,
-        padding: 30,
+        caretSize: 40,
+        boxPadding: 15,
+        padding: 40,
         titleFont: {
-          size: 36,
+          size: 40,
         },
         bodyFont: {
-          size: 36,
+          size: 40,
         },
       }
     }
@@ -163,14 +169,14 @@ const BarChartMobile = ({ entries, statsWindowAnimation }) => {
       const originalFit = chart.legend.fit;
       chart.legend.fit = function fit() {
         originalFit.bind(chart.legend)();
-        return this.height += 25;
+        return this.height += 35;
       }
     }
   }; 
 
   return (
-    <div className={`barChartMobile${statsWindowAnimation ? ' appear' : ' disappear'}`}>
-      <Bar className={`barChartMobileCanvas${statsWindowAnimation ? ' appear' : ' disappear'}`}
+    <div className={`barChartHoursMobileContainer${statsWindowAnimation ? ' appear' : ' disappear'}`}>
+      <Bar className={`barChartHoursMobileCanvas${statsWindowAnimation ? ' appear' : ' disappear'}`}
         data={data}
         options={options}
         plugins={[legendMargin]}
@@ -179,4 +185,4 @@ const BarChartMobile = ({ entries, statsWindowAnimation }) => {
   )
 }    
 
-export default BarChartMobile
+export default BarChartHoursMobile
