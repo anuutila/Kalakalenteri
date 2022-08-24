@@ -1,6 +1,7 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 import { chartColors2 } from '../utils/ChartAssets';
 import { fishCaughtByDiffPersons, 
@@ -39,10 +40,14 @@ const BarChartRankings = ({ entries }) => {
   const options = {
     maintainAspectRatio: false,
     indexAxis: 'y',
-    // layout: {
-    //   padding: 10
-    // },
-    // barThickness: 45,
+    interaction: {
+      mode: 'index'
+    },
+    layout: {
+      padding: {
+        right: 22,
+      }
+    },
     scales: {
       x: {
         stacked: true,
@@ -58,6 +63,11 @@ const BarChartRankings = ({ entries }) => {
           color: '#ffffff',
           font: {
             size: 20,
+          },
+          callback: function(value, index, ticks) {
+            if (Math.floor(value) === value) {
+              return value;
+            }  
           }
         },
         grid: {
@@ -81,7 +91,7 @@ const BarChartRankings = ({ entries }) => {
           mirror: false,
           color: '#ffffff',
           font: {
-            size: 20,
+            size: 22,
             family: "'Noto Sans'"
           },
           
@@ -95,7 +105,7 @@ const BarChartRankings = ({ entries }) => {
     plugins: {
       title:{
         display: true,
-        text:'Saalismäärät henkilöittäin',
+        text:'   Saalismäärät henkilöittäin',
         padding: 10,
         color: 'white',
         font: {
@@ -133,6 +143,26 @@ const BarChartRankings = ({ entries }) => {
           size: 20,
           family: "'Noto Sans'"
         },
+      },
+      datalabels: {
+        display: true,
+        anchor: 'end',
+        align: 'right',
+        color: 'white',
+        textStrokeColor: 'black',
+        textStrokeWidth: 3,
+        font: {
+          size: 25,
+          family: "'Noto Sans'",
+          weight: 'bold'
+        },
+        formatter: (value, ctx) => {
+          const total = ctx.chart.$totalizer.totals[ctx.dataIndex]
+          return total
+        },
+        display: function(ctx) {
+           return ctx.datasetIndex === ctx.chart.$totalizer.utmost
+        }
       }
     }
   }
@@ -148,12 +178,35 @@ const BarChartRankings = ({ entries }) => {
     }
   }; 
 
+  const totalizer = {
+    id: 'totalizer',
+  
+    beforeUpdate: chart => {
+      let totals = {}
+      let utmost = 0
+  
+      chart.data.datasets.forEach((dataset, datasetIndex) => {
+        if (chart.isDatasetVisible(datasetIndex)) {
+          utmost = datasetIndex
+          dataset.data.forEach((value, index) => {
+            totals[index] = (totals[index] || 0) + value
+          })
+        }
+      })
+  
+      chart.$totalizer = {
+        totals: totals,
+        utmost: utmost
+      }
+    }
+  };
+
   return (
     <div className='barChartRankingsContainer'>
       <Bar className='barChartRankingsCanvas'
         data={data}
         options={options}
-        plugins={[legendMargin]}
+        plugins={[legendMargin, ChartDataLabels, totalizer]}
       />
     </div>
   )

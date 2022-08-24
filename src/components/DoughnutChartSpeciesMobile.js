@@ -25,10 +25,11 @@ const DoughnutChartSpeciesMobile = ({ entries }) => {
     datalabels: {
       color: '#ffffff',
       textStrokeColor: '#000000',
-      textStrokeWidth: 12,
+      textStrokeWidth: 10,
       font: {
-        size: 90,
-        weight: 'bold'
+        size: 85,
+        weight: 'bold',
+        family: "'Noto Sans'"
       }
     }
   }

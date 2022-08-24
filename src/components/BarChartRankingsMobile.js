@@ -1,6 +1,7 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 import { chartColors2 } from '../utils/ChartAssets';
 import { fishCaughtByDiffPersons, 
@@ -39,10 +40,15 @@ const BarChartRankingsMobile = ({ entries }) => {
   const options = {
     maintainAspectRatio: false,
     indexAxis: 'y',
-    // layout: {
-    //   padding: 10
-    // },
-    // barThickness: 45,
+    interaction: {
+      mode: 'index'
+    },
+    layout: {
+      padding: {
+        right: 100,
+        left: 64,
+      }
+    },
     scales: {
       x: {
         stacked: true,
@@ -61,6 +67,11 @@ const BarChartRankingsMobile = ({ entries }) => {
           font: {
             size: 40,
             weight: 'bold'
+          },
+          callback: function(value, index, ticks) {
+            if (Math.floor(value) === value) {
+              return value;
+            }  
           }
         },
         grid: {
@@ -83,7 +94,7 @@ const BarChartRankingsMobile = ({ entries }) => {
           z: 1,
           mirror: false,
           color: '#ffffff',
-          padding: 20,
+          padding: 10,
           font: {
             size: 40,
             weight: 'bold',
@@ -99,7 +110,7 @@ const BarChartRankingsMobile = ({ entries }) => {
     plugins: {
       title:{
         display: true,
-        text:'Saalismäärät henkilöittäin',
+        text:'  Saalismäärät henkilöittäin',
         padding: 0,
         color: 'white',
         font: {
@@ -129,6 +140,25 @@ const BarChartRankingsMobile = ({ entries }) => {
         bodyFont: {
           size: 40,
         },
+      },
+      datalabels: {
+        display: true,
+        anchor: 'end',
+        align: 'right',
+        color: 'white',
+        textStrokeColor: 'black',
+        textStrokeWidth: 4,
+        font: {
+          size: 55,
+          weight: 'bold'
+        },
+        formatter: (value, ctx) => {
+          const total = ctx.chart.$totalizer.totals[ctx.dataIndex]
+          return total
+        },
+        display: function(ctx) {
+           return ctx.datasetIndex === ctx.chart.$totalizer.utmost
+        }
       }
     }
   }
@@ -144,12 +174,35 @@ const BarChartRankingsMobile = ({ entries }) => {
     }
   }; 
 
+  const totalizer = {
+    id: 'totalizer',
+  
+    beforeUpdate: chart => {
+      let totals = {}
+      let utmost = 0
+  
+      chart.data.datasets.forEach((dataset, datasetIndex) => {
+        if (chart.isDatasetVisible(datasetIndex)) {
+          utmost = datasetIndex
+          dataset.data.forEach((value, index) => {
+            totals[index] = (totals[index] || 0) + value
+          })
+        }
+      })
+  
+      chart.$totalizer = {
+        totals: totals,
+        utmost: utmost
+      }
+    }
+  };
+
   return (
     <div className='barChartRankingsMobileContainer'>
       <Bar 
         data={data}
         options={options}
-        plugins={[legendMargin]}
+        plugins={[legendMargin, ChartDataLabels, totalizer]}
       />
     </div>
   )

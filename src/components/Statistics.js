@@ -1,4 +1,5 @@
 import React from "react"
+import CountUp from 'react-countup';
 
 import BarChartHours from "./BarChartHours"
 import BarChartHoursMobile from "./BarChartHoursMobile"
@@ -8,19 +9,22 @@ import DoughnutChartSpecies from "./DoughnutChartSpecies"
 import DoughnutChartSpeciesMobile from "./DoughnutChartSpeciesMobile"
 
 const Statistics = ({ entries, statsWindowAnimation }) => {
-
-  // const uniquePersons1 = uniquePersons(entries)
-  // const uniqueFishSpecies1 = uniqueFishSpecies(entries)
-  
-  // uniquePersons1.sort(function(a,b){
-  //   return (entries.filter(e => e.person === b).length) - (entries.filter(e => e.person === a).length)
-  // });
-  // uniqueFishSpecies1.sort(function(a,b){
-  //   return (entries.filter(e => e.fish === b).length) - (entries.filter(e => e.fish === a).length)
-  // });
-  
   return (
     <>
+      <div className="statisticsContainer1">
+        <div className="countUpContainer">
+          <div id='countUpTitle'>
+            Saaliiden kokonaismäärä
+          </div>
+          <div id='countUp' data-text={entries.length}>
+            <CountUp 
+              end={entries.length}
+              duration={2}
+              useEasing={true}
+            />
+          </div>
+        </div>
+      </div>
       <div className='statisticsContainer2'>
         <BarChartRankings
           entries={entries}

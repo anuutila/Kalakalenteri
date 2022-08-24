@@ -30,7 +30,9 @@ const BarChartHours = ({ entries, statsWindowAnimation }) => {
 
   const options = {
     maintainAspectRatio: false,
-    // barThickness: 25,
+    interaction: {
+      mode: 'index'
+    },
     scales: {
       x: {
         stacked: true,
@@ -117,6 +119,13 @@ const BarChartHours = ({ entries, statsWindowAnimation }) => {
           title: (items) => {
             const item = items[0];
             return `klo ${item.dataIndex}:00-${item.dataIndex + 1}:00`;
+          },
+          footer: (items) => {
+            let sum = 0;
+            items.forEach((item, index) => {
+              sum += item.dataset.data[item.dataIndex]
+            })
+            return `Yhteensä: ${sum}`;
           }
         },
         caretSize: 10,
@@ -130,6 +139,13 @@ const BarChartHours = ({ entries, statsWindowAnimation }) => {
           size: 20,
           family: "'Noto Sans'"
         },
+        footerFont: {
+          size: 20,
+          family: "'Noto Sans'",
+          weight: 'bold'
+        },
+        titleMarginBottom: 10,
+        footerMarginTop: 10,
       }
     }
   };

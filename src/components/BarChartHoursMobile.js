@@ -59,7 +59,9 @@ const BarChartHoursMobile = ({ entries, statsWindowAnimation }) => {
 
   const options = {
     maintainAspectRatio: false,
-    
+    interaction: {
+      mode: 'index'
+    },
     indexAxis: 'y',
     scales: {
       y: {
@@ -139,13 +141,20 @@ const BarChartHoursMobile = ({ entries, statsWindowAnimation }) => {
             size: 40,
             weight: 'bold'
           }
-        }
+        },
       },
       tooltip:{
         callbacks: {
           title: (items) => {
             const item = items[0];
             return `klo ${item.dataIndex}:00-${item.dataIndex + 1}:00`;
+          },
+          footer: (items) => {
+            let sum = 0;
+            items.forEach((item, index) => {
+              sum += item.dataset.data[item.dataIndex]
+            })
+            return `Yhteensä: ${sum}`;
           }
         },
         caretSize: 40,
@@ -157,6 +166,12 @@ const BarChartHoursMobile = ({ entries, statsWindowAnimation }) => {
         bodyFont: {
           size: 40,
         },
+        footerFont: {
+          size: 40,
+          weight: 'bold'
+        },
+        titleMarginBottom: 20,
+        footerMarginTop: 20,
       }
     }
   };
@@ -173,8 +188,8 @@ const BarChartHoursMobile = ({ entries, statsWindowAnimation }) => {
   }; 
 
   return (
-    <div className={`barChartHoursMobileContainer${statsWindowAnimation ? ' appear' : ' disappear'}`}>
-      <Bar className={`barChartHoursMobileCanvas${statsWindowAnimation ? ' appear' : ' disappear'}`}
+    <div className='barChartHoursMobileContainer'>
+      <Bar 
         data={data}
         options={options}
         plugins={[legendMargin]}
