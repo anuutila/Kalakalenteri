@@ -929,7 +929,7 @@ footer::before {
     padding-bottom: 3rem;
     width: 100%;
     height: 100rem;
-    margin-bottom: 3rem;
+    margin-bottom: 6rem;
   }
 
   .doughnutChartSpeciesContainer {
@@ -941,6 +941,7 @@ footer::before {
     width: 100%;
     height: 80rem;
     padding: 3rem;
+    /* margin-bottom: 6rem; */
     /* padding-top: 1.375rem;
     padding-bottom: 2rem; */
     
@@ -958,6 +959,7 @@ footer::before {
     margin-bottom: 5rem;
     padding: 3rem;
     padding-top: 4rem;
+    margin-top: 3rem;
   }
 
   /* .barChartHoursMobileContainer.appear {

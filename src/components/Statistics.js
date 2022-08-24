@@ -1,6 +1,5 @@
 import React from "react"
 
-import { uniqueFishSpecies, uniquePersons } from "../utils/EntriesFunctions"
 import BarChartHours from "./BarChartHours"
 import BarChartHoursMobile from "./BarChartHoursMobile"
 import BarChartRankings from "./BarChartRankings"
@@ -10,15 +9,15 @@ import DoughnutChartSpeciesMobile from "./DoughnutChartSpeciesMobile"
 
 const Statistics = ({ entries, statsWindowAnimation }) => {
 
-  const uniquePersons1 = uniquePersons(entries)
-  const uniqueFishSpecies1 = uniqueFishSpecies(entries)
+  // const uniquePersons1 = uniquePersons(entries)
+  // const uniqueFishSpecies1 = uniqueFishSpecies(entries)
   
-  uniquePersons1.sort(function(a,b){
-    return (entries.filter(e => e.person === b).length) - (entries.filter(e => e.person === a).length)
-  });
-  uniqueFishSpecies1.sort(function(a,b){
-    return (entries.filter(e => e.fish === b).length) - (entries.filter(e => e.fish === a).length)
-  });
+  // uniquePersons1.sort(function(a,b){
+  //   return (entries.filter(e => e.person === b).length) - (entries.filter(e => e.person === a).length)
+  // });
+  // uniqueFishSpecies1.sort(function(a,b){
+  //   return (entries.filter(e => e.fish === b).length) - (entries.filter(e => e.fish === a).length)
+  // });
   
   return (
     <>
