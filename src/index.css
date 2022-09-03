@@ -502,13 +502,11 @@ input[type=time]:invalid {
 }
 
 .tableContainer {
-  /* width: fit-content; */
   margin: auto;
   font-size: clamp(1.2rem, 1.5rem, 1.5rem);
   margin-bottom: 2rem;
   margin-left: 2rem;
   margin-right: 2rem;
-  overflow-x: scroll;
   max-width: 85rem;
 }
 
