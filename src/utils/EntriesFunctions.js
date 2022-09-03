@@ -2,7 +2,7 @@ import { allHours } from "./ChartAssets"
 import { sortPersonsByAmountOfFish, sortByCustomAlphabet } from "./SortingUtils"
 
 export function uniqueFishSpecies(entries) { 
-  return [...new Set(entries?.map(e => e.fish))]
+  return [...new Set(entries.map(e => e.fish))]
 }
 
 export function uniqueLures(entries) {
@@ -56,7 +56,6 @@ export function fishCaughtByDiffPersons(entries) {
         }    
       })
     )
-  }  
-  console.log(fishAmounts)
+  }
   return fishAmounts
 }

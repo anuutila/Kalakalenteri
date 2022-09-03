@@ -3,11 +3,11 @@ import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-import { chartColors2 } from '../utils/ChartAssets';
+import { chartColors2 } from '../../utils/ChartAssets';
 import { fishCaughtByDiffPersons, 
          uniqueFishSpecies, 
-         uniquePersons } from '../utils/EntriesFunctions';
-import { sortByCustomAlphabet, sortPersonsByAmountOfFish } from '../utils/SortingUtils';
+         uniquePersons } from '../../utils/EntriesFunctions';
+import { sortByCustomAlphabet, sortPersonsByAmountOfFish } from '../../utils/SortingUtils';
 
 
 const BarChartRankings = ({ entries }) => {
@@ -45,7 +45,8 @@ const BarChartRankings = ({ entries }) => {
     },
     layout: {
       padding: {
-        right: 22,
+        right: 60,
+        left: 40,
       }
     },
     scales: {

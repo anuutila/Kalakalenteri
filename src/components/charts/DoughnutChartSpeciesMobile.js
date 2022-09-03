@@ -4,15 +4,17 @@ import { Chart as ChartJS} from "chart.js/auto";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import DoughnutLabel from "chartjs-plugin-doughnutlabel-rebourne";
 
-import { chartColors2 } from '../utils/ChartAssets';
-import { uniqueFishSpecies } from "../utils/EntriesFunctions";
-import { sortByCustomAlphabet } from "../utils/SortingUtils";
+import { chartColors2 } from '../../utils/ChartAssets';
+import { uniqueFishSpecies } from "../../utils/EntriesFunctions";
+import { sortByCustomAlphabet } from "../../utils/SortingUtils";
 
 const DoughnutChartSpeciesMobile = ({ entries }) => {
 
   const [totalAmount, setTotalAmount] = useState(entries.length);
 
   const sortedFishSpecies = sortByCustomAlphabet(uniqueFishSpecies(entries));
+  // new fontsize based on screen width
+  const fontSizeUnit = window.innerWidth/1000*(5/6)
 
   const customDataset = {
     label: '',
@@ -20,14 +22,14 @@ const DoughnutChartSpeciesMobile = ({ entries }) => {
       .map(fish => entries.filter(e => e.fish === fish).length),
     backgroundColor: chartColors2,
     borderColor: '#000000',
-    borderWidth: 2,
-    offset: 25,
+    borderWidth: fontSizeUnit*2,
+    offset: fontSizeUnit*25,
     datalabels: {
       color: '#ffffff',
       textStrokeColor: '#000000',
-      textStrokeWidth: 10,
+      textStrokeWidth: fontSizeUnit*10,
       font: {
-        size: 85,
+        size: fontSizeUnit*85,
         weight: 'bold',
         family: "'Noto Sans'"
       }
@@ -41,9 +43,9 @@ const DoughnutChartSpeciesMobile = ({ entries }) => {
 
   const options = {
     maintainAspectRatio: false,
-    // hoverOffset: 52,
+    hoverOffset: fontSizeUnit*50,
     layout: {
-      padding: 26
+      padding: fontSizeUnit*25
     },
     plugins: {
       tooltip: {
@@ -52,20 +54,21 @@ const DoughnutChartSpeciesMobile = ({ entries }) => {
       title: {
         display: true,
         text: 'Saaliiden lajijakauma',
-        padding: 0,
+        padding: fontSizeUnit*15,
         color: 'white',
         font: {
-          size: 60,
+          size: fontSizeUnit*60,
           weight: 'bold',
         }
       },
       legend:{
         position:'top',
         labels: {
-          padding: 60,
+          padding: fontSizeUnit*40,
+          boxWidth: fontSizeUnit*70,
           color: 'white',
           font: {
-            size: 40,
+            size: fontSizeUnit*40,
             weight: 'bold',
             
           }
@@ -88,7 +91,7 @@ const DoughnutChartSpeciesMobile = ({ entries }) => {
             text: 'yht.',
             color: '#bbbbbb',
             font: {
-              size: 50,
+              size: fontSizeUnit*50,
               weight: 'bold',
               family: "'Noto Sans'"
             }
@@ -97,7 +100,7 @@ const DoughnutChartSpeciesMobile = ({ entries }) => {
             text: totalAmount,
             color: '#dddddd',
             font: {
-              size: 160,
+              size: fontSizeUnit*160,
               weight: 'bold',
               family: "'Noto Sans'"
             }
@@ -105,7 +108,7 @@ const DoughnutChartSpeciesMobile = ({ entries }) => {
           {
             text: '',
             font: {
-              size: 25,
+              size: fontSizeUnit*25,
             }
           }
         ]
@@ -119,7 +122,7 @@ const DoughnutChartSpeciesMobile = ({ entries }) => {
       const originalFit = chart.legend.fit;
       chart.legend.fit = function fit() {
         originalFit.bind(chart.legend)();
-        return this.height += 35;
+        return this.height += fontSizeUnit*35;
       }
     }
   }; 

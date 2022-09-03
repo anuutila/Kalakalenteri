@@ -2,54 +2,27 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';
 
+import { chartColors2, halfOfHours } from '../../utils/ChartAssets';
+import { fishAmountAtDiffHours, uniqueFishSpecies } from '../../utils/EntriesFunctions';
+import { sortByCustomAlphabet } from '../../utils/SortingUtils';
 
-const BarChartHoursMobile = ({ entries, statsWindowAnimation }) => {
 
-  const customAlphabet = 'kahbcdefgijlmnopqrstuvwxyzåäö'
+const BarChartHoursMobile = ({ entries }) => {
 
-  const uniqueFishSpecies = [...new Set(entries.map(e => e.fish))]
-    .sort((a, b) => {
-      return customAlphabet.indexOf(a.substring(0,1)) - customAlphabet.indexOf(b.substring(0,1))});
+  const sortedFishSpecies = sortByCustomAlphabet(uniqueFishSpecies(entries));
+  // new fontsize based on screen width
+  const fontSizeUnit = window.innerWidth/1000*(5/6)
 
-  console.log(uniqueFishSpecies);  
-
-  const hours = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11',
-  '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']
-
-  const halfOfHours = ['00', '', '02', '', '04', '', '06', '', '08', '', '10', '', 
-  '12', '', '14', '', '16', '', '18', '', '20', '', '22', '', '24']
-
-  //const chartColors = ['rgb(190, 85, 255)','rgb(255, 230, 75)', 'rgb(75, 234, 172)', 'rgb(255, 131, 112)', 'rgb(75, 131, 255)'] 
-  const chartColors2 = ['rgb(75, 131, 255)','rgb(255, 131, 112)', 'rgb(255, 230, 75)', 'rgb(190, 85, 255)', 'rgb(75, 234, 172)']
-  //const chartColors3 = ['rgb(0, 107, 164)', 'rgb(255, 128, 14)', 'rgb(89, 89, 89)', 'rgb(171, 171, 171)']
-
-  function fishAmountAtDiffHours(species) { 
-    const fishAmounts = []
-    for (let i = 0; i < species.length; i++) {
-      fishAmounts.push(
-        hours.map(hour => {
-          return {
-            time: hour,
-            species: species[i],
-            amount: entries
-              .filter(e => e.time.substring(0, 2) === hour)
-              .filter(e => e.fish === species[i])
-              .length
-          }    
-        })
-      )  
-    }  
-    return fishAmounts
-  }
-
-  const customDatasets = fishAmountAtDiffHours(uniqueFishSpecies).map(data => {
-    return {
-      label: data[0].species,
-      data: data.map(d => d.amount),
-      backgroundColor: chartColors2[uniqueFishSpecies.indexOf(data[0].species)],
-      borderColor: '#000000',
-      borderWidth: 2
-    }
+  const customDatasets = fishAmountAtDiffHours(entries)
+    .map(data => {
+      return {
+        label: data[0].species,
+        data: data.map(d => d.amount),
+        backgroundColor: chartColors2[
+          sortedFishSpecies.indexOf(data[0].species)],
+        borderColor: '#000000',
+        borderWidth: fontSizeUnit*2
+      }
   });
 
   const data = {
@@ -70,17 +43,17 @@ const BarChartHoursMobile = ({ entries, statsWindowAnimation }) => {
           display: true,
           text: 'kellonaika',
           color: 'white',
-          padding: 16,
+          padding: fontSizeUnit*16,
           font: {
-            size: 40,
+            size: fontSizeUnit*40,
             weight: 'bold'
           }
         },
         ticks: {
           color: '#ffffff',
-          padding: 10,
+          padding: fontSizeUnit*10,
           font: {
-            size: 40,
+            size: fontSizeUnit*40,
             weight: 'bold'
           }
         },
@@ -95,16 +68,16 @@ const BarChartHoursMobile = ({ entries, statsWindowAnimation }) => {
           display: true,
           text: 'määrä',
           color: 'white',
-          padding: 16,
+          padding: fontSizeUnit*16,
           font: {
-            size: 40,
+            size: fontSizeUnit*40,
             weight: 'bold'
           }
         },
         ticks: {
           color: '#ffffff',
           font: {
-            size: 40,
+            size: fontSizeUnit*40,
             weight: 'bold'
           },
           callback: function(value, index, ticks) {
@@ -116,18 +89,18 @@ const BarChartHoursMobile = ({ entries, statsWindowAnimation }) => {
         grid: {
           drawBorder: false,
           color: 'rgba(255, 255, 255, 0.5)',
-          lineWidth: 2
+          lineWidth: fontSizeUnit*2
         }
       }
     },
     plugins: {
       title:{
         display:true,
-        text:'Saalismäärät eri kellonaikoina',
-        padding: 0,
+        text:' Saalismäärät eri kellonaikoina',
+        padding: fontSizeUnit*15,
         color: '#ffffff',
           font: {
-            size: 60,
+            size: fontSizeUnit*60,
             weight: 'bold'
           }
       },
@@ -135,10 +108,11 @@ const BarChartHoursMobile = ({ entries, statsWindowAnimation }) => {
         position:'top',
         display:true,
         labels: {
-          padding: 60,
+          padding: fontSizeUnit*40,
+          boxWidth: fontSizeUnit*70,
           color: 'white',
           font: {
-            size: 40,
+            size: fontSizeUnit*40,
             weight: 'bold'
           }
         },
@@ -157,21 +131,21 @@ const BarChartHoursMobile = ({ entries, statsWindowAnimation }) => {
             return `Yhteensä: ${sum}`;
           }
         },
-        caretSize: 40,
-        boxPadding: 15,
-        padding: 40,
+        caretSize: fontSizeUnit*40,
+        boxPadding: fontSizeUnit*15,
+        padding: fontSizeUnit*40,
         titleFont: {
-          size: 40,
+          size: fontSizeUnit*40,
         },
         bodyFont: {
-          size: 40,
+          size: fontSizeUnit*40,
         },
         footerFont: {
-          size: 40,
+          size: fontSizeUnit*40,
           weight: 'bold'
         },
-        titleMarginBottom: 20,
-        footerMarginTop: 20,
+        titleMarginBottom: fontSizeUnit*20,
+        footerMarginTop: fontSizeUnit*20,
       }
     }
   };
@@ -182,7 +156,7 @@ const BarChartHoursMobile = ({ entries, statsWindowAnimation }) => {
       const originalFit = chart.legend.fit;
       chart.legend.fit = function fit() {
         originalFit.bind(chart.legend)();
-        return this.height += 35;
+        return this.height += fontSizeUnit*30;
       }
     }
   }; 

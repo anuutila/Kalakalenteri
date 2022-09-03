@@ -6,8 +6,8 @@ import EntryTable from './components/EntryTable';
 import Statistics from './components/Statistics';
 import StatsAndSortButtons from './components/StatsAndSortButtons';
 import RadioGroup from './components/RadioGroup';
-import BarChartHours from './components/BarChartHours';
-import BarChartHoursMobile from './components/BarChartHoursMobile';
+import { getDefaultDate } from './utils/helpers';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class App extends React.Component {
     this.state = {
       entries: [],
       newFish: '',
-      newDate: '',
+      newDate: getDefaultDate(),
       newLength: '',
       newWeight: '',
       newLure: '',
@@ -80,7 +80,7 @@ class App extends React.Component {
         this.setState({
           entries: this.defaultSort(this.state.entries.concat(response)),
           newFish: '',
-          newDate: '',
+          newDate: getDefaultDate(),
           newLength: '',
           newWeight: '',
           newLure: '',
@@ -432,8 +432,9 @@ class App extends React.Component {
   render() {
     console.log('render')
     return (
-      <div className='rootDiv'>
-        <div className='img'></div>
+      <>
+      <div className="img"></div>
+      <div className='content'>
         <div className='topShade'></div>
         <h1 className='title1'>KALAPÄIVÄKIRJA</h1>
         <div className='title1-mobile'>
@@ -464,7 +465,7 @@ class App extends React.Component {
         </div>
         
         
-        <div className='tableContainer' /*style={{marginTop:`${this.state.statsAreHidden ? 10 : 1}rem`}}*/>
+        <div className='tableContainer'>
           <StatsAndSortButtons
             handleSortButtonClick={this.handleSortButtonClick.bind(this)}
             toggleStatsHidden={this.toggleStatsHidden.bind(this)}
@@ -492,6 +493,7 @@ class App extends React.Component {
         <footer>made with <span id='footerHeart' style={{color:"#0096e7"}}>&#10084;</span> by Akseli</footer>
       
       </div>
+      </>  
     )
   }
 }

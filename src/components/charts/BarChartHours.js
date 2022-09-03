@@ -2,16 +2,16 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';
 
-import { chartColors2, halfOfHours } from '../utils/ChartAssets';
-import { fishAmountAtDiffHours, uniqueFishSpecies } from '../utils/EntriesFunctions';
-import { sortByCustomAlphabet } from '../utils/SortingUtils';
+import { chartColors2, halfOfHours } from '../../utils/ChartAssets';
+import { fishAmountAtDiffHours, uniqueFishSpecies } from '../../utils/EntriesFunctions';
+import { sortByCustomAlphabet } from '../../utils/SortingUtils';
 
 
-const BarChartHours = ({ entries, statsWindowAnimation }) => {
+const BarChartHours = ({ entries }) => {
 
   const sortedFishSpecies = sortByCustomAlphabet(uniqueFishSpecies(entries));
 
-  const datasets = fishAmountAtDiffHours(entries)
+  const customDatasets = fishAmountAtDiffHours(entries)
     .map(data => {
       return {
         label: data[0].species,
@@ -25,7 +25,7 @@ const BarChartHours = ({ entries, statsWindowAnimation }) => {
 
   const data = {
     labels: halfOfHours,
-    datasets: datasets
+    datasets: customDatasets
   };
 
   const options = {
@@ -162,7 +162,7 @@ const BarChartHours = ({ entries, statsWindowAnimation }) => {
   }; 
 
   return (
-    <div className={`barChartHoursContainer${statsWindowAnimation ? ' appear' : ' disappear'}`}>
+    <div className='barChartHoursContainer'>
       <Bar
         data={data}
         options={options}

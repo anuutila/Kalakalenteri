@@ -4,9 +4,9 @@ import { Chart as ChartJS} from "chart.js/auto";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import DoughnutLabel from "chartjs-plugin-doughnutlabel-rebourne";
 
-import { chartColors2 } from '../utils/ChartAssets';
-import { uniqueFishSpecies } from "../utils/EntriesFunctions";
-import { sortByCustomAlphabet } from "../utils/SortingUtils";
+import { chartColors2 } from '../../utils/ChartAssets';
+import { uniqueFishSpecies } from "../../utils/EntriesFunctions";
+import { sortByCustomAlphabet } from "../../utils/SortingUtils";
 
 const DoughnutChartSpecies = ({ entries }) => {
 
@@ -97,16 +97,16 @@ const DoughnutChartSpecies = ({ entries }) => {
             text: 'yht.',
             color: '#bbbbbb',
             font: {
-              size: 20,
+              size: 25,
               weight: 'bold',
               family: "'Noto Sans'"
             }
           },
           {
-            text: totalAmount,
+            text: 233,
             color: '#dddddd',
             font: {
-              size: 64,
+              size: 85,
               weight: 'bold',
               family: "'Noto Sans'"
             }
@@ -114,7 +114,7 @@ const DoughnutChartSpecies = ({ entries }) => {
           {
             text: '',
             font: {
-              size: 10,
+              size: 12.5,
             }
           }
         ]

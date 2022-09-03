@@ -1,14 +1,14 @@
 import React from "react"
 import CountUp from 'react-countup';
 
-import BarChartHours from "./BarChartHours"
-import BarChartHoursMobile from "./BarChartHoursMobile"
-import BarChartRankings from "./BarChartRankings"
-import BarChartRankingsMobile from "./BarChartRankingsMobile"
-import DoughnutChartSpecies from "./DoughnutChartSpecies"
-import DoughnutChartSpeciesMobile from "./DoughnutChartSpeciesMobile"
+import BarChartHours from "./charts/BarChartHours"
+import BarChartHoursMobile from "./charts/BarChartHoursMobile"
+import BarChartRankings from "./charts/BarChartRankings"
+import BarChartRankingsMobile from "./charts/BarChartRankingsMobile"
+import DoughnutChartSpecies from "./charts/DoughnutChartSpecies"
+import DoughnutChartSpeciesMobile from "./charts/DoughnutChartSpeciesMobile"
 
-const Statistics = ({ entries, statsWindowAnimation }) => {
+const Statistics = ({ entries }) => {
   return (
     <>
       <div className="statisticsContainer1">
@@ -16,10 +16,10 @@ const Statistics = ({ entries, statsWindowAnimation }) => {
           <div id='countUpTitle'>
             Saaliiden kokonaismäärä
           </div>
-          <div id='countUp' data-text={entries.length}>
+          <div id='countUp'>
             <CountUp 
               end={entries.length}
-              duration={2}
+              duration={2.5}
               useEasing={true}
             />
           </div>
@@ -52,22 +52,3 @@ const Statistics = ({ entries, statsWindowAnimation }) => {
 }
 
 export default Statistics
-
-
-// <div className={`statisticsContainer${statsWindowAnimation ? ' appear' : ' disappear'}`}>
-//   <p id="totalAmount">Kalojen kokonaismäärä: {entries.length} </p>
-//   <ul className={`stats${statsWindowAnimation ? ' appear' : ' disappear'}`}>
-//     {uniquePersons.map(person =>
-//       <li key={person}>
-//         {person}: {entries.filter(e => e.person === person).length}
-//       </li>
-//     )}
-//   </ul>
-//   <ul className={`stats${statsWindowAnimation ? ' appear' : ' disappear'}`}>
-//     {uniqueFish.map(fish =>
-//       <li key={fish}>
-//         {fish}: {entries.filter(e => e.fish === fish).length}
-//       </li>
-//     )}
-//     </ul>
-// </div>

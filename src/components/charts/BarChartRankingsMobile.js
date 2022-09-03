@@ -3,11 +3,11 @@ import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-import { chartColors2 } from '../utils/ChartAssets';
+import { chartColors2 } from '../../utils/ChartAssets';
 import { fishCaughtByDiffPersons, 
          uniqueFishSpecies, 
-         uniquePersons } from '../utils/EntriesFunctions';
-import { sortByCustomAlphabet, sortPersonsByAmountOfFish } from '../utils/SortingUtils';
+         uniquePersons } from '../../utils/EntriesFunctions';
+import { sortByCustomAlphabet, sortPersonsByAmountOfFish } from '../../utils/SortingUtils';
 
 
 const BarChartRankingsMobile = ({ entries }) => {
@@ -15,8 +15,9 @@ const BarChartRankingsMobile = ({ entries }) => {
   const sortedFishSpecies = sortByCustomAlphabet(uniqueFishSpecies(entries));
   const persons = uniquePersons(entries);
   const sortedPersons = sortPersonsByAmountOfFish(persons, entries)
-  //   .map(person => `${person}: ${entries.filter(e => e.person === person).length}`
-  // );
+  // new fontsize based on screen width
+  const fontSizeUnit = window.innerWidth/1000*(5/6)
+
 
   const customDatasets = fishCaughtByDiffPersons(entries)
     .map(data => {
@@ -27,7 +28,7 @@ const BarChartRankingsMobile = ({ entries }) => {
           sortedFishSpecies
           .indexOf(data[0].species)],
         borderColor: '#000000',
-        borderWidth: 2
+        borderWidth: fontSizeUnit*2
       }
     }
   );
@@ -45,8 +46,8 @@ const BarChartRankingsMobile = ({ entries }) => {
     },
     layout: {
       padding: {
-        right: 100,
-        left: 64,
+        right: fontSizeUnit*100,
+        left: fontSizeUnit*64,
       }
     },
     scales: {
@@ -56,16 +57,16 @@ const BarChartRankingsMobile = ({ entries }) => {
           display: true,
           text: 'kalojen määrä',
           color: 'white',
-          padding: 16,
+          padding: fontSizeUnit*16,
           font: {
-            size: 40,
+            size: fontSizeUnit*40,
             weight: 'bold'
           }
         },
         ticks: {
           color: '#ffffff',
           font: {
-            size: 40,
+            size: fontSizeUnit*40,
             weight: 'bold'
           },
           callback: function(value, index, ticks) {
@@ -77,7 +78,7 @@ const BarChartRankingsMobile = ({ entries }) => {
         grid: {
           drawBorder: false,
           color: 'rgba(255, 255, 255, 0.5)',
-          lineWidth: 2,
+          lineWidth: fontSizeUnit*2,
         }
       },
       y: {
@@ -94,9 +95,9 @@ const BarChartRankingsMobile = ({ entries }) => {
           z: 1,
           mirror: false,
           color: '#ffffff',
-          padding: 10,
+          padding: fontSizeUnit*10,
           font: {
-            size: 40,
+            size: fontSizeUnit*40,
             weight: 'bold',
           },
           
@@ -111,45 +112,48 @@ const BarChartRankingsMobile = ({ entries }) => {
       title:{
         display: true,
         text:'  Saalismäärät henkilöittäin',
-        padding: 0,
+        padding: fontSizeUnit*15,
         color: 'white',
         font: {
-          size: 60,
+          size: fontSizeUnit*60,
           weight: 'bold'
         }
       },
       legend:{
         position: 'top',
+        align: 'center',
         display: true,
         labels: {
-          padding: 60,
+          padding: fontSizeUnit*40,
+          boxWidth: fontSizeUnit*70,
           color: 'white',
           font: {
-            size: 40,
+            size: fontSizeUnit*40,
             weight: 'bold'
           }
         }
       },
       tooltip:{
-        caretSize: 40,
-        boxPadding: 15,
-        padding: 40,
+        caretSize: fontSizeUnit*40,
+        boxPadding: fontSizeUnit*15,
+        padding: fontSizeUnit*40,
         titleFont: {
-          size: 40,
+          size: fontSizeUnit*40,
         },
         bodyFont: {
-          size: 40,
+          size: fontSizeUnit*40,
         },
       },
       datalabels: {
         display: true,
         anchor: 'end',
         align: 'right',
+        offset: -1,
         color: 'white',
         textStrokeColor: 'black',
-        textStrokeWidth: 4,
+        textStrokeWidth: fontSizeUnit*4,
         font: {
-          size: 55,
+          size: fontSizeUnit*55,
           weight: 'bold'
         },
         formatter: (value, ctx) => {
@@ -169,7 +173,7 @@ const BarChartRankingsMobile = ({ entries }) => {
       const originalFit = chart.legend.fit;
       chart.legend.fit = function fit() {
         originalFit.bind(chart.legend)();
-        return this.height += 35;
+        return this.height += fontSizeUnit*30;
       }
     }
   }; 
@@ -196,6 +200,10 @@ const BarChartRankingsMobile = ({ entries }) => {
       }
     }
   };
+
+  function responsiveFonts() {
+    
+  }
 
   return (
     <div className='barChartRankingsMobileContainer'>
