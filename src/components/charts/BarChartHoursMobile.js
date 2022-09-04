@@ -21,7 +21,7 @@ const BarChartHoursMobile = ({ entries }) => {
         backgroundColor: chartColors2[
           sortedFishSpecies.indexOf(data[0].species)],
         borderColor: '#000000',
-        borderWidth: fontSizeUnit*2
+        borderWidth: fontSizeUnit*2.5
       }
   });
 
@@ -134,6 +134,7 @@ const BarChartHoursMobile = ({ entries }) => {
         caretSize: fontSizeUnit*40,
         boxPadding: fontSizeUnit*15,
         padding: fontSizeUnit*40,
+        multiKeyBackground: 'transparent',
         titleFont: {
           size: fontSizeUnit*40,
         },

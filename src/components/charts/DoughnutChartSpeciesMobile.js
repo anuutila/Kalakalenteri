@@ -22,7 +22,7 @@ const DoughnutChartSpeciesMobile = ({ entries }) => {
       .map(fish => entries.filter(e => e.fish === fish).length),
     backgroundColor: chartColors2,
     borderColor: '#000000',
-    borderWidth: fontSizeUnit*2,
+    borderWidth: fontSizeUnit*2.5,
     offset: fontSizeUnit*25,
     datalabels: {
       color: '#ffffff',

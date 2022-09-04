@@ -131,6 +131,7 @@ const BarChartHours = ({ entries }) => {
         caretSize: 10,
         boxPadding: 10,
         padding: 10,
+        multiKeyBackground: 'transparent',
         titleFont: {
           size: 20,
           family: "'Noto Sans'"
