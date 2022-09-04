@@ -4,23 +4,19 @@
     }
   
     .img {
-      background: url(./images/jarvimaisema2.jpg);
+      background: url(./images/jarvimaisema2.webp);
       background-position: center;
-      background-repeat: no-repeat;
       background-size: cover;
-      position: fixed;
-      height: 100vh;
-      width: 100vw;
-      z-index: -1;
+    }
+
+    .content {
+      padding-left: 2rem;
+      padding-right: 2rem;
     }
   
     .topShade {
       height: 100rem;
-    }
-  
-    .content {
-      padding-left: 2rem;
-      padding-right: 2rem;
+      background-image: linear-gradient(to bottom, rgba(0, 125, 192, 1) 0%, rgba(0, 125, 192, 0.2) 30%, rgba(0, 125, 192, 0) 40%);
     }
   
     .title1 {
@@ -38,22 +34,7 @@
       width: fit-content;
       margin: auto;
       margin-top: 7rem;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    #title1-mobile-row1 {
-      align-self: center;
-    }
-  
-    #title1-mobile-row2 {
-      align-self: center;
-    }
-  
-    #title1-mobile-row3 {
-      align-self: flex-end;
+      display: block;
     }
   
     .newEntryAndStatisticsContainer {

@@ -437,10 +437,9 @@ class App extends React.Component {
       <div className='content'>
         <div className='topShade'></div>
         <h1 className='title1'>KALAPÄIVÄKIRJA</h1>
-        <div className='title1-mobile'>
-            <span id='title1-mobile-row1'>KALA</span>
-            <span id='title1-mobile-row2'>PÄIVÄKIRJA</span>
-        </div>
+        <h1 className='title1-mobile'>
+            KALA<br/>PÄIVÄKIRJA
+        </h1>
         <div className='newEntryAndStatisticsContainer'>
           <div className='newEntryContainer'>
             <h2 className='title2'>UUSI SAALIS</h2>
