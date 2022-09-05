@@ -235,3 +235,14 @@
     }
     
   }
+
+@media (display-mode: standalone) {
+  .title1-mobile {
+    margin-top: 8rem;
+  }
+
+  .newEntryContainer {
+    margin-bottom: 10rem;
+    margin-top: 8rem;
+  }
+}

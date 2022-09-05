@@ -2,7 +2,7 @@
 const ignored = self.__WB_MANIFEST;
 
 // Files to cache
-const cacheName = 'kalapaivakirja-v4';
+const cacheName = 'kalapaivakirja-v5';
 const contentToCache = [
   '/',
   '/index.html'
