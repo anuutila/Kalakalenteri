@@ -147,7 +147,6 @@ const BarChartRankings = ({ entries }) => {
         },
       },
       datalabels: {
-        display: true,
         anchor: 'end',
         align: 'right',
         color: 'white',

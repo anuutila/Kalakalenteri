@@ -146,7 +146,6 @@ const BarChartRankingsMobile = ({ entries }) => {
         },
       },
       datalabels: {
-        display: true,
         anchor: 'end',
         align: 'right',
         offset: -1,
@@ -201,10 +200,6 @@ const BarChartRankingsMobile = ({ entries }) => {
       }
     }
   };
-
-  function responsiveFonts() {
-    
-  }
 
   return (
     <div className='barChartRankingsMobileContainer'>
