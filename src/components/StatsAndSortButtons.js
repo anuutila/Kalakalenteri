@@ -3,10 +3,12 @@ import React from "react"
 const StatsAndSortButtons = (props) => {
 
   function scrollToStats() {
-    window.scrollTo({
-      top: 805,
-      behavior: 'smooth'
-    });
+    const element = document.getElementById("submitButton");
+    element.scrollIntoView({behavior: "smooth", block: "start"});
+    // window.scrollTo({
+    //   top: windo,
+    //   behavior: 'smooth'
+    // });
   }
 
   return (
