@@ -2,7 +2,7 @@
 const ignored = self.__WB_MANIFEST;
 
 // Files to cache
-const cacheName = 'kalapaivakirja-v6';
+const cacheName = 'kalapaivakirja-v2';
 const contentToCache = [
   '/',
   '/index.html'
@@ -38,7 +38,7 @@ self.addEventListener('fetch', (e) => {
   // check if request is made by chrome extensions or web page
   // if request is made for web page url must contains http.
   if (!(e.request.url.indexOf('http') === 0)) return; // skip the request. if request is not made with http protocol
-  if (e.request.url.includes('entries')) return;
+  if (e.request.url.includes('entries') && e.request.method !== "GET") return;
 
   e.respondWith((async () => {
     const r = await caches.match(e.request);
