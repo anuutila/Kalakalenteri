@@ -463,7 +463,6 @@ class App extends React.Component {
           </div>
         </div>
         
-        
         <div className='tableContainer'>
           <StatsAndSortButtons
             handleSortButtonClick={this.handleSortButtonClick.bind(this)}
