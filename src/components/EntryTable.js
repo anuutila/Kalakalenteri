@@ -25,18 +25,10 @@ const EntryTable = (props) => {
             entry={entry} 
             entries={props.entries}
             removeEntry={props.removeEntry(entry.id)}
-            state={props.state}
+            editValues={props.editValues}
             editEntry={props.editEntry(entry.id)}
             initializeStateForEdit={props.initializeStateForEdit(entry)}
-            handleFishChange={props.handleEditFishChange}
-            handleDateChange={props.handleEditDateChange}
-            handleLengthChange={props.handleEditLengthChange}
-            handleWeightChange={props.handleEditWeightChange}
-            handleLureChange={props.handleEditLureChange}
-            handlePlaceChange={props.handleEditPlaceChange}
-            handleCoordinatesChange={props.handleEditCoordinatesChange}
-            handleTimeChange={props.handleEditTimeChange}
-            handlePersonChange={props.handleEditPersonChange}
+            handleChange={props.handleChange}
           />
         )}
       </tbody>
@@ -129,18 +121,10 @@ const Entry = (props) => {
         <h2 id='editEntryTitle'>MUOKKAA TIETOJA</h2>
         <div className='editFormContainer'>
           <EditEntryForm
-            state={props.state}
+            editValues={props.editValues}
             entries={props.entries}
             editEntry={props.editEntry}
-            handleFishChange={props.handleFishChange}
-            handleDateChange={props.handleDateChange}
-            handleLengthChange={props.handleLengthChange}
-            handleWeightChange={props.handleWeightChange}
-            handleLureChange={props.handleLureChange}
-            handlePlaceChange={props.handlePlaceChange}
-            handleCoordinatesChange={props.handleCoordinatesChange}
-            handleTimeChange={props.handleTimeChange}
-            handlePersonChange={props.handlePersonChange}
+            handleChange={props.handleChange}
             closeModal={closeModal}
           />
         </div>

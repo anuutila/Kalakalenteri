@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useEffect, useState } from 'react';
 
 import entryService from './services/entries'
 import InputForm from './components/InputForm';
@@ -6,108 +6,99 @@ import EntryTable from './components/EntryTable';
 import Statistics from './components/Statistics';
 import StatsAndSortButtons from './components/StatsAndSortButtons';
 import RadioGroup from './components/RadioGroup';
-import { getDefaultDate } from './utils/helpers';
+import { getDefaultDate, geolocationAvailable } from './utils/helpers';
+import {
+  sortByFish, sortByLength, sortByWeight, sortByLure, sortByPlace,
+  sortByDate, sortByTime, sortByPerson, defaultSort
+} from './utils/SortingUtils';
 
-
-class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      entries: [],
-      newFish: '',
-      newDate: getDefaultDate(),
-      newLength: '',
-      newWeight: '',
-      newLure: '',
-      newPlace: '',
-      newCoordinates: '',
-      newTime: '',
-      newPerson: '',
-      statsAreHidden: true,
-      statsWindowAnimation: false,
-      sortingIsHidden: true,
-      radioGroupAnimation: false,
-      editFish: '',
-      editDate: '',
-      editLength: '',
-      editWeight: '',
-      editLure: '',
-      editPlace: '',
-      editCoordinates: '',
-      editTime: '',
-      editPerson: '',
-    }
-    console.log('constructor')
+const App = () => {
+  const initialNewValues = {
+    newFish: '',
+    newLength: '',
+    newWeight: '',
+    newLure: '',
+    newPlace: '',
+    newCoordinates: '',
+    newDate: getDefaultDate(),
+    newTime: '',
+    newPerson: '',
   }
+  const initialEditValues = {
+    editFish: '',
+    editLength: '',
+    editWeight: '',
+    editLure: '',
+    editPlace: '',
+    editCoordinates: '',
+    editDate: '',
+    editTime: '',
+    editPerson: ''
+  }  
+  const [entries, setEntries] = useState([])
+  const [newValues, setNewValues] = useState(initialNewValues)
+  const [editValues, setEditValues] = useState(initialEditValues)
+  const [statsAreHidden, setStatsAreHidden] = useState(true)
+  const [statsWindowAnimation, setStatsWindowAnimation] = useState(false)
+  const [sortingIsHidden, setSortingIsHidden] = useState(true)
+  const [radioGroupAnimation, setRadioGroupAnimation] = useState(false)
 
-  componentDidMount() {
+  useEffect(() => {
     console.log('did mount')
     
     entryService
       .getAll()
       .then(response => {
         console.log('promise fulfilled')
-        this.setState({ entries: this.defaultSort(response)})
+        setEntries(defaultSort(response))
       })
       .catch(error => {
         console.log('fail')
       })
-  }
+  }, [])
 
-  addEntry = (event) => {
+  const addEntry = (event) => {
     event.preventDefault()
 
-    if (!this.state.newFish || !this.state.newDate || !this.state.newPerson) {
+    if (!newValues.newFish || !newValues.newDate || !newValues.newPerson) {
       return window.alert('kalalaji, päivämäärä tai saajan nimi puuttuu')
     }
 
     const entryObject = {
-      fish: this.state.newFish,
-      date: this.state.newDate,
-      length: this.state.newLength,
-      weight: this.state.newWeight,
-      lure: this.state.newLure,
-      place: this.state.newPlace,
-      coordinates: this.state.newCoordinates,
-      time: this.state.newTime,
-      person: this.state.newPerson
+      fish: newValues.newFish,
+      date: newValues.newDate,
+      length: newValues.newLength,
+      weight: newValues.newWeight,
+      lure: newValues.newLure,
+      place: newValues.newPlace,
+      coordinates: newValues.newCoordinates,
+      time: newValues.newTime,
+      person: newValues.newPerson
     }
 
     entryService
       .create(entryObject)
       .then(response => {
         console.log('entry added')
-        this.setState({
-          entries: this.defaultSort(this.state.entries.concat(response)),
-          newFish: '',
-          newDate: getDefaultDate(),
-          newLength: '',
-          newWeight: '',
-          newLure: '',
-          newPlace: '',
-          newTime: '',
-          newPerson: '',
-          newCoordinates: '',
-        })
+        setEntries(defaultSort(entries.concat(response)))
+        setNewValues(initialNewValues)
         document.getElementById("locationCheckbox").checked = false;
       })
-    .catch(error => {
-      console.log('fail')
-    })
+      .catch(error => {
+        console.log('fail')
+      })
   }
 
-  removeEntry = (id) => {
+  const removeEntry = (id) => {
     return () => {
-      const entry = this.state.entries.find(e => e.id === id)
-      
+      const entry = entries.find(e => e.id === id)
+
       if (window.confirm(`Poistetaanko ${entry.fish}, jonka ${entry.person} nappasi ${entry.date}?`)) {
         entryService
           .remove(id)
           .then(response => {
             console.log('entry removed')
-            this.setState({ 
-              entries: this.state.entries.filter(e => e.id !== id) 
-            })
+            setEntries(entries.filter(e => e.id !== id))
           })
           .catch(error => {
             console.log(error)
@@ -118,27 +109,25 @@ class App extends React.Component {
     }
   }
 
-  editEntry = (id) => {
+  const editEntry = (id) => {
     return () => {
       const editedEntry = {
-        fish: this.state.editFish,
-        date: this.state.editDate,
-        length: this.state.editLength,
-        weight: this.state.editWeight,
-        lure: this.state.editLure,
-        place: this.state.editPlace,
-        coordinates: this.state.editCoordinates,
-        time: this.state.editTime,
-        person: this.state.editPerson
+        fish: editValues.editFish,
+        date: editValues.editDate,
+        length: editValues.editLength,
+        weight: editValues.editWeight,
+        lure: editValues.editLure,
+        place: editValues.editPlace,
+        coordinates: editValues.editCoordinates,
+        time: editValues.editTime,
+        person: editValues.editPerson
       }
 
       entryService
         .edit(id, editedEntry)
         .then(response => {
           console.log('entry edited')
-          this.setState({
-            entries: this.state.entries.map(entry => entry.id === id ? response : entry)
-          })
+          setEntries(entries.map(entry => entry.id === id ? response : entry))
         })
         .catch(error => {
           console.log(error)
@@ -149,85 +138,19 @@ class App extends React.Component {
           }
         })
     }
-  }  
-
-  handleFishChange = (event) => {
-    this.setState({ newFish: event.target.value })
   }
 
-  handleDateChange = (event) => {
-    this.setState({ newDate: event.target.value })
+  const handleNewValuesChange = (event) => {
+    setNewValues({ ...newValues, [event.target.name]: event.target.value })
+  }
+  
+  const handleEditValuesChange = (event) => {
+    setEditValues({ ...editValues, [event.target.name]: event.target.value })
   }
 
-  handleLengthChange = (event) => {
-    this.setState({ newLength: event.target.value })
-  }
-
-  handleWeightChange = (event) => {
-    this.setState({ newWeight: event.target.value })
-  }
-
-  handleLureChange = (event) => {
-    this.setState({ newLure: event.target.value })
-  }
-
-  handlePlaceChange = (event) => {
-    this.setState({ newPlace: event.target.value })
-  }
-
-  handleCoordinatesChange = (event) => {
-    this.setState({ newCoordinates: event.target.value })
-  }
-
-  handleTimeChange = (event) => {
-    this.setState({ newTime: event.target.value })
-  }
-
-  handlePersonChange = (event) => {
-    this.setState({ newPerson: event.target.value })
-  }
-
-
-
-  handleEditFishChange = (event) => {
-    this.setState({ editFish: event.target.value })
-  }
-
-  handleEditDateChange = (event) => {
-    this.setState({ editDate: event.target.value })
-  }
-
-  handleEditLengthChange = (event) => {
-    this.setState({ editLength: event.target.value })
-  }
-
-  handleEditWeightChange = (event) => {
-    this.setState({ editWeight: event.target.value })
-  }
-
-  handleEditLureChange = (event) => {
-    this.setState({ editLure: event.target.value })
-  }
-
-  handleEditPlaceChange = (event) => {
-    this.setState({ editPlace: event.target.value })
-  }
-
-  handleEditCoordinatesChange = (event) => {
-    this.setState({ editCoordinates: event.target.value })
-  }
-
-  handleEditTimeChange = (event) => {
-    this.setState({ editTime: event.target.value })
-  }
-
-  handleEditPersonChange = (event) => {
-    this.setState({ editPerson: event.target.value })
-  }
-
-  initializeStateForEdit = (entry) => {
+  const initializeStateForEdit = (entry) => {
     return () => {
-      this.setState({ 
+      setEditValues({
         editFish: entry.fish,
         editDate: entry.date,
         editLength: entry.length,
@@ -238,262 +161,152 @@ class App extends React.Component {
         editTime: entry.time,
         editPerson: entry.person
       })
-    }  
-  }
-
-  getGeolocation() {
-      const success = (position) => {
-        console.log(position)
-        this.setState({ 
-          newCoordinates: `${position.coords.latitude}, ${position.coords.longitude}`})
-      }
-      
-      function error() {
-        alert('Sijaintitietojen hakeminen epäonnistui.')
-        document.getElementById("locationCheckbox").checked = false;
-      }
-      
-      const options = {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0
-      }
-  
-      navigator.geolocation.getCurrentPosition(success, error, options)
-  }  
-
-  geolocationAvailable = () => {
-    if ("geolocation" in navigator) {
-      return true
-    } else {
-      return false
     }
   }
+
+  const getGeolocation = () => {
+    const success = (position) => {
+      console.log(position)
+      setNewValues({ ...newValues, newCoordinates: 
+        `${position.coords.latitude}, ${position.coords.longitude}`
+      })
+    }
     
-  togglelocationCheckbox = () => {
-    if (!this.geolocationAvailable) {
+    function error() {
+      alert('Sijaintitietojen hakeminen epäonnistui.')
+      document.getElementById("locationCheckbox").checked = false;
+    }
+    
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0
+    }
+  
+    navigator.geolocation.getCurrentPosition(success, error, options)
+  }
+
+  const togglelocationCheckbox = () => {
+    if (!geolocationAvailable()) {
       return window.alert('Sijaintitiedot eivät ole saatavilla')
     }
     switch (document.getElementById("locationCheckbox").checked) {
       case true:
-        this.getGeolocation()
+        getGeolocation()
         break
       case false:
-        this.setState({ newCoordinates: ''})
+        setNewValues({ ...newValues, newCoordinates: '' })
         break
       default:
         break
     }
-  }  
+  }
 
-  toggleStatsHidden() {
-    if (this.state.statsWindowAnimation) {
-      this.setState({ statsWindowAnimation: false })
+  const toggleStatsHidden = () => {
+    if (statsWindowAnimation) {
+      setStatsWindowAnimation(false)
       if (window.matchMedia("(max-width: 768px)").matches) {
-      setTimeout(() => {this.setState({ statsAreHidden: true })}, 440)
+        setTimeout(() => { setStatsAreHidden(true) }, 440)
       } else {
-      setTimeout(() => {this.setState({ statsAreHidden: true })}, 440)
+        setTimeout(() => { setStatsAreHidden(true) }, 440)
       }
       return
     }
-    this.setState({ 
-      statsAreHidden: false,
-      statsWindowAnimation: true  })
+    setStatsAreHidden(false)
+    setStatsWindowAnimation(true)
   }
 
-  handleSortButtonClick(event) {
-    this.setState({ entries: this.defaultSort(this.state.entries) })
-    if (this.state.radioGroupAnimation) {
-      this.setState({ radioGroupAnimation: false })
-      setTimeout(() => {this.setState({ sortingIsHidden: true })}, 250)
+  const handleSortButtonClick = (event) => {
+    setEntries(defaultSort(entries))
+    if (radioGroupAnimation) {
+      setRadioGroupAnimation(false)
+      setTimeout(() => { setSortingIsHidden(true) }, 250)
       return
     }
-    this.setState({ 
-      sortingIsHidden: false,
-      radioGroupAnimation: true
-    })
-  }  
+    setSortingIsHidden(false)
+    setRadioGroupAnimation(true)
+  }
 
-  sortEntries(event) {
+  const sortEntries = (event) => {
     const sort = event.target.value
     switch (sort) {
       case 'FISH':
-        this.setState({ entries: this.sortByFish(this.state.entries) })
+        setEntries(sortByFish([...entries]))
         break
       case 'DATE':
-        this.setState({ entries: this.sortByDate(this.state.entries) })
+        setEntries(sortByDate([...entries]))
         break
       case 'LENGTH':
-        this.setState({ entries: this.sortByLength(this.state.entries) })
+        setEntries(sortByLength([...entries]))
         break
       case 'WEIGHT':
-        this.setState({ entries: this.sortByWeight(this.state.entries) })
+        setEntries(sortByWeight([...entries]))
         break
       case 'LURE':
-        this.setState({ entries: this.sortByLure(this.state.entries) })
+        setEntries(sortByLure([...entries]))
         break
       case 'PLACE':
-        this.setState({ entries: this.sortByPlace(this.state.entries) })
+        setEntries(sortByPlace([...entries]))
         break
       case 'TIME':
-        this.setState({ entries: this.sortByTime(this.state.entries) })
+        setEntries(sortByTime([...entries]))
         break
       case 'PERSON':
-        this.setState({ entries: this.sortByPerson(this.state.entries) })
+        setEntries(sortByPerson([...entries]))
         break
       default:
         break
     }
   }
 
-  sortByFish(entries) {
-    return entries.sort((a, b) => a.fish.localeCompare(b.fish))
-  }
-
-  sortByDate(entries) {
-    entries.sort(function(a,b) {
-      a = a.date.split('-').join('')
-      b = b.date.split('-').join('')
-      return a.localeCompare(b)
-    })
-    return entries
-  }
-
-  sortByLength(entries) {
-    entries.sort((a, b) => {
-      if (a.length === "-") {
-        return 1
-      }
-      if (b.length === "-") {
-        return -1
-      }
-      return b.length - a.length
-    }) 
-    return entries
-  }
-
-  sortByWeight(entries) {
-    entries.sort((a, b) => {
-      if (a.weight === "-") {
-        return 1
-      }
-      if (b.weight === "-") {
-        return -1
-      }
-      return b.weight - a.weight
-    }) 
-    return entries
-  }
-
-  sortByLure(entries) {
-    entries.sort((a, b) => {
-      if (a.lure === "-") {
-        return 1
-      }
-      if (b.lure === "-") {
-        return -1
-      }
-      return a.lure.localeCompare(b.lure)
-    }) 
-    return entries
-  }
-
-  sortByPlace(entries) {
-    entries.sort((a, b) => {
-      if (a.place === "-") {
-        return 1
-      }
-      if (b.place === "-") {
-        return -1
-      }
-      return a.place.localeCompare(b.place)
-    }) 
-    return entries  
-  }
-
-  sortByTime(entries) {
-    entries.sort(function(a,b) {
-      a = a.time.split(':').join('')
-      b = b.time.split(':').join('')
-      return a.localeCompare(b)
-    })
-    return entries
-  }
-
-  sortByPerson(entries) {
-    return entries.sort((a, b) => a.person.localeCompare(b.person))
-  }
-
-  defaultSort(entries) {
-    return this.sortByDate(this.sortByTime(entries)).reverse()
-  }
-
-
-  render() {
-    console.log('render')
-    return (
+  return (
+    console.log('render'),
       <>
-      <div className="img"></div>
-      <div className='content'>
-        <div className='topShade'></div>
-        <h1 className='title1'>KALAPÄIVÄKIRJA</h1>
-        <h1 className='title1-mobile'>
+        <div className="img"></div>
+        <div className='content'>
+          <div className='topShade'></div>
+          <h1 className='title1'>KALAPÄIVÄKIRJA</h1>
+          <h1 className='title1-mobile'>
             KALA<br/>PÄIVÄKIRJA
-        </h1>
-        <div className='newEntryAndStatisticsContainer'>
-          <div className='newEntryContainer'>
-            <h2 className='title2'>UUSI SAALIS</h2>
-            <InputForm
-              state={this.state}
-              entries={this.state.entries}
-              addEntry={this.addEntry}
-              handleFishChange={this.handleFishChange}
-              handleDateChange={this.handleDateChange}
-              handleLengthChange={this.handleLengthChange}
-              handleWeightChange={this.handleWeightChange}
-              handleLureChange={this.handleLureChange}
-              handlePlaceChange={this.handlePlaceChange}
-              handleTimeChange={this.handleTimeChange}
-              handlePersonChange={this.handlePersonChange}
-              togglelocationCheckbox={this.togglelocationCheckbox} />
+          </h1>
+          <div className='newEntryAndStatisticsContainer'>
+            <div className='newEntryContainer'>
+              <h2 className='title2'>UUSI SAALIS</h2>
+              <InputForm
+                newValues={newValues}
+                entries={entries}
+                addEntry={addEntry}
+                handleChange={handleNewValuesChange}
+                togglelocationCheckbox={togglelocationCheckbox} />
+            </div>
+            <div className='statisticsContainer' id='statisticsContainer'>
+              {!statsAreHidden &&
+                <Statistics entries={entries} /*statsWindowAnimation={statsWindowAnimation}*/ />}
+            </div>
           </div>
-          <div className='statisticsContainer'>
-            {!this.state.statsAreHidden &&
-              <Statistics entries={this.state.entries} statsWindowAnimation={this.state.statsWindowAnimation}/> }
+          <div className='tableContainer'>
+            <StatsAndSortButtons
+              handleSortButtonClick={handleSortButtonClick}
+              toggleStatsHidden={toggleStatsHidden}
+              sortingIsHidden={sortingIsHidden}
+              statsAreHidden={statsAreHidden} />
+            {!sortingIsHidden && <RadioGroup
+              sortEntries={sortEntries}
+              radioGroupAnimation={radioGroupAnimation} />}
+            <EntryTable
+              entries={entries}
+              removeEntry={removeEntry}
+              editValues={editValues}
+              editEntry={editEntry}
+              initializeStateForEdit={initializeStateForEdit}
+              handleChange={handleEditValuesChange} />
           </div>
+          <footer>made with <span id='footerHeart' style={{ color: "#0096e7" }}>&#10084;</span> by Akseli</footer>
+
         </div>
-        
-        <div className='tableContainer'>
-          <StatsAndSortButtons
-            handleSortButtonClick={this.handleSortButtonClick.bind(this)}
-            toggleStatsHidden={this.toggleStatsHidden.bind(this)}
-            sortingIsHidden={this.state.sortingIsHidden}
-            statsAreHidden={this.state.statsAreHidden} />
-          {!this.state.sortingIsHidden && <RadioGroup
-            sortEntries={this.sortEntries.bind(this)}
-            radioGroupAnimation={this.state.radioGroupAnimation} />}
-          <EntryTable
-            entries={this.state.entries}
-            removeEntry={this.removeEntry}
-            state={this.state}
-            editEntry={this.editEntry}
-            initializeStateForEdit={this.initializeStateForEdit}
-            handleEditFishChange={this.handleEditFishChange}
-            handleEditDateChange={this.handleEditDateChange}
-            handleEditLengthChange={this.handleEditLengthChange}
-            handleEditWeightChange={this.handleEditWeightChange}
-            handleEditLureChange={this.handleEditLureChange}
-            handleEditPlaceChange={this.handleEditPlaceChange}
-            handleEditCoordinatesChange={this.handleEditCoordinatesChange}
-            handleEditTimeChange={this.handleEditTimeChange}
-            handleEditPersonChange={this.handleEditPersonChange} />
-        </div>
-        <footer>made with <span id='footerHeart' style={{color:"#0096e7"}}>&#10084;</span> by Akseli</footer>
-      
-      </div>
-      </>  
-    )
-  }
+      </>
+    
+  )
 }
 
 export default App

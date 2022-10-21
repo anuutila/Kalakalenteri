@@ -6,3 +6,11 @@ export function getDefaultDate() {
   const defaultDate = date.toLocaleDateString('en-CA');
   return defaultDate;
 }
+
+export function geolocationAvailable() {
+  if ("geolocation" in navigator) {
+    return true
+  } else {
+    return false
+  }
+}

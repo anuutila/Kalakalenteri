@@ -1,15 +1,17 @@
 import React from "react";
 import { uniqueLures, uniquePersons, uniquePlaces } from "../utils/EntriesFunctions";
 
-const InputForm = (props) => {
+const InputForm = ({ entries, addEntry, newValues, handleChange, togglelocationCheckbox}) => {
   return (
     <div className='formContainer'>
-      <form onSubmit={props.addEntry} className='entryForm'>
+      <form onSubmit={addEntry} className='entryForm'>
         <div>
           laji: <input
             list="fishSpecies"
-            value={props.state.newFish}
-            onChange={props.handleFishChange}
+            value={newValues.newFish}
+            type="text"
+            onChange={handleChange}
+            name="newFish"
           />
           <datalist id="fishSpecies">
             <option value="hauki"/>
@@ -24,8 +26,9 @@ const InputForm = (props) => {
             step="0.1"
             min="0"
             max="999"
-            value={props.state.newLength}
-            onChange={props.handleLengthChange}
+            value={newValues.newLength}
+            onChange={handleChange}
+            name="newLength"
           />
         </div>
         <div>
@@ -35,36 +38,42 @@ const InputForm = (props) => {
             step="0.01"
             min="0"
             max="999"
-            value={props.state.newWeight}
-            onChange={props.handleWeightChange}
+            value={newValues.newWeight}
+            onChange={handleChange}
+            name="newWeight"
           />
         </div>
         <div>
           viehe: <input
             list="lures"
-            value={props.state.newLure}
-            onChange={props.handleLureChange}
+            type="text"
+            value={newValues.newLure}
+            onChange={handleChange}
+            name="newLure"
           />
           <datalist id="lures">
-            {uniqueLures(props.entries).map(lure => <option key={lure} value={lure} />)}
+            {uniqueLures(entries).map(lure => <option key={lure} value={lure} />)}
           </datalist>
         </div>
         <div>
           paikka: <input
             list = "places"
-            value={props.state.newPlace}
-            onChange={props.handlePlaceChange}
+            type="text"
+            value={newValues.newPlace}
+            onChange={handleChange}
+            name="newPlace"
           />
           <datalist id="places">
-            {uniquePlaces(props.entries).map(place => <option key={place} value={place} />)}
+            {uniquePlaces(entries).map(place => <option key={place} value={place} />)}
           </datalist>
         </div>
         <div>
           pvm: <input
             type="date"
             required
-            value={props.state.newDate}
-            onChange={props.handleDateChange}
+            value={newValues.newDate}
+            onChange={handleChange}
+            name="newDate"
           />
         </div>
         <div>
@@ -72,23 +81,26 @@ const InputForm = (props) => {
             type="time"
             //step="600" ei ilmeisesti toimi uusimmassa chromessa
             required
-            value={props.state.newTime}
-            onChange={props.handleTimeChange}
+            value={newValues.newTime}
+            onChange={handleChange}
+            name="newTime"
           />
         </div>
         <div>
           saaja: <input
             list="persons"
-            value={props.state.newPerson}
-            onChange={props.handlePersonChange}
+            type="text"
+            value={newValues.newPerson}
+            onChange={handleChange}
+            name="newPerson"
           />
           <datalist id="persons">
-            {uniquePersons(props.entries).map(person => <option key={person} value={person} />)}
+            {uniquePersons(entries).map(person => <option key={person} value={person} />)}
           </datalist>
         </div>
         <div>
           <label htmlFor="locationCheckbox">käytä GPS-sijaintia</label>
-          <input id="locationCheckbox" name="locationCheckbox" type="checkbox" onChange={props.togglelocationCheckbox}></input>
+          <input id="locationCheckbox" name="locationCheckbox" type="checkbox" onChange={togglelocationCheckbox}></input>
         </div>
         <div>
           <button type="submit" className="button" id="submitButton">lisää saalis</button>

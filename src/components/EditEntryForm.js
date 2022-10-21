@@ -3,91 +3,102 @@ import { uniquePersons, uniqueLures, uniquePlaces } from "../utils/EntriesFuncti
 
 const EditEntryForm = (props) => {
   return (
-    <form className='editEntryForm' onSubmit={(event) => {
+    <form className='editEntryForm'
+      onSubmit={(event) => {
         event.preventDefault();
-        props.editEntry(); 
-        props.closeModal();}} >
+        props.editEntry();
+        props.closeModal();
+      }}>
       <div>
-        laji: <input 
+        laji: <input
           list="fishSpecies"
-          value={props.state.editFish}
-          onChange={props.handleFishChange}
+          onChange={props.handleChange}
+          value={props.editValues.editFish}
+          name="editFish"
         />
         <datalist id="fishSpecies">
-          <option value="hauki"/>
-          <option value="kuha"/>
-          <option value="ahven"/>
+          <option value="hauki" />
+          <option value="kuha" />
+          <option value="ahven" />
         </datalist>
       </div>
       <div>
-        pituus: <input 
+        pituus: <input
           type="number"
           placeholder="cm"
           step="0.1"
           min="0"
-          value={props.state.editLength}
-          onChange={props.handleLengthChange}
+          value={props.editValues.editLength}
+          onChange={props.handleChange}
+          name="editLength"
         />
       </div>
       <div>
-        paino: <input 
+        paino: <input
           type="number"
           placeholder="kg"
           step="0.01"
           min="0"
-          value={props.state.editWeight}
-          onChange={props.handleWeightChange}
+          value={props.editValues.editWeight}
+          onChange={props.handleChange}
+          name="editWeight"
         />
       </div>
       <div>
-        viehe: <input 
+        viehe: <input
           list="lures"
-          value={props.state.editLure}
-          onChange={props.handleLureChange}
+          value={props.editValues.editLure}
+          onChange={props.handleChange}
+          name="editLure"
         />
         <datalist id="lures">
           {uniqueLures(props.entries).map(lure => <option key={lure} value={lure} />)}
         </datalist>
       </div>
       <div>
-        paikka: <input 
-          list = "places"
-          value={props.state.editPlace}
-          onChange={props.handlePlaceChange}
+        paikka: <input
+          list="places"
+          value={props.editValues.editPlace}
+          onChange={props.handleChange}
+          name="editPlace"
         />
         <datalist id="places">
           {uniquePlaces(props.entries).map(place => <option key={place} value={place} />)}
         </datalist>
       </div>
       <div>
-        sijainti: <input 
+        sijainti: <input
           placeholder="xx.xxxx, yy.yyyy"
-          value={props.state.editCoordinates}
-          onChange={props.handleCoordinatesChange}
+          value={props.editValues.editCoordinates}
+          onChange={props.handleChange}
+          name="editCoordinates"
         />
       </div>
       <div>
         pvm: <input
-          type="date" 
+          type="date"
           required
-          value={props.state.editDate}
-          onChange={props.handleDateChange}
+          value={props.editValues.editDate}
+          onChange={props.handleChange}
+          name="editDate"
         />
       </div>
       <div>
-        aika: <input 
+        aika: <input
           type="time"
           //step="600" ei ilmeisesti toimi uusimmassa chromessa
           required
-          value={props.state.editTime}
-          onChange={props.handleTimeChange}
+          value={props.editValues.editTime}
+          onChange={props.handleChange}
+          name="editTime"
         />
       </div>
       <div>
-        saaja: <input 
+        saaja: <input
           list="persons"
-          value={props.state.editPerson}
-          onChange={props.handlePersonChange}
+          value={props.editValues.editPerson}
+          onChange={props.handleChange}
+          name="editPerson"
         />
         <datalist id="persons">
           {uniquePersons(props.entries).map(person => <option key={person} value={person} />)}

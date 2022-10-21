@@ -2,10 +2,14 @@
 const ignored = self.__WB_MANIFEST;
 
 // Files to cache
-const cacheName = 'kalapaivakirja-v4';
+const cacheName = 'kalapaivakirja-v2';
 const contentToCache = [
   '/',
-  '/index.html'
+  '/index.html',
+  '/app-icon-maskable.png',
+  '/app-icon.png',
+  '/app-icon-round.png',
+  '/favicon.ico'
 ];
 
 // Installing Service Worker
