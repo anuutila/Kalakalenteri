@@ -1,12 +1,12 @@
 import React from "react"
 import CountUp from 'react-countup';
 
-import BarChartHours from "./charts/BarChartHours"
-import BarChartHoursMobile from "./charts/BarChartHoursMobile"
-import BarChartRankings from "./charts/BarChartRankings"
-import BarChartRankingsMobile from "./charts/BarChartRankingsMobile"
-import DoughnutChartSpecies from "./charts/DoughnutChartSpecies"
-import DoughnutChartSpeciesMobile from "./charts/DoughnutChartSpeciesMobile"
+import BarChartHours from "./Charts/BarChartHours"
+import BarChartHoursMobile from "./Charts/BarChartHoursMobile"
+import BarChartRankings from "./Charts/BarChartRankings"
+import BarChartRankingsMobile from "./Charts/BarChartRankingsMobile"
+import DoughnutChartSpecies from "./Charts/DoughnutChartSpecies"
+import DoughnutChartSpeciesMobile from "./Charts/DoughnutChartSpeciesMobile"
 
 const Statistics = ({ entries }) => {
   return (

@@ -452,7 +452,7 @@ input[type=time]:invalid {
 
 .radioContainer input {
   position: absolute;
-  opacity: 0;
+  display: none;
   cursor: pointer;
 }
 
@@ -532,6 +532,7 @@ input[type=time]:invalid {
   text-align: left;
   background-color: var(--theme-color);
   color: white;
+  text-shadow:0 0.0625rem 0 #000000;
 }
 
 .mapLinkContainer {
@@ -671,6 +672,24 @@ input[type=time]:invalid {
   bottom: 0;
   background-color: rgba(255, 255, 255, 0.75);
 }*/
+
+.tableFooter {
+  display: flex;
+  justify-content: center;
+}
+
+.activePaginationButton {
+  margin:0.5rem -0.0625rem;
+  font-size: 1.5rem;
+  background:linear-gradient(to bottom, #0073d8 5%, var(--theme-color) 100%);
+	background-color:#0073d8;
+  color: #00ff48;
+}
+
+.inactivePaginationButton {
+  margin:0.5rem -0.0625rem;
+  font-size: 1.5rem;
+}
 
 footer {
   /* background-color: #282828; */

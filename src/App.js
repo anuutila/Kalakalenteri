@@ -1,16 +1,16 @@
-import { React, useEffect, useState } from 'react';
+import { React, useEffect, useState } from 'react'
 
 import entryService from './services/entries'
-import InputForm from './components/InputForm';
-import EntryTable from './components/EntryTable';
-import Statistics from './components/Statistics';
-import StatsAndSortButtons from './components/StatsAndSortButtons';
-import RadioGroup from './components/RadioGroup';
-import { getDefaultDate, geolocationAvailable } from './utils/helpers';
+import InputForm from './components/InputForm'
+import EntryTable from './components/EntryTable'
+import Statistics from './components/Statistics'
+import StatsAndSortButtons from './components/StatsAndSortButtons'
+import RadioGroup from './components/RadioGroup'
+import { getDefaultDate, geolocationAvailable } from './utils/helpers'
 import {
   sortByFish, sortByLength, sortByWeight, sortByLure, sortByPlace,
   sortByDate, sortByTime, sortByPerson, defaultSort
-} from './utils/SortingUtils';
+} from './utils/SortingUtils'
 
 const App = () => {
   const initialNewValues = {
@@ -34,7 +34,7 @@ const App = () => {
     editDate: '',
     editTime: '',
     editPerson: ''
-  }  
+  }
   const [entries, setEntries] = useState([])
   const [newValues, setNewValues] = useState(initialNewValues)
   const [editValues, setEditValues] = useState(initialEditValues)
@@ -45,7 +45,7 @@ const App = () => {
 
   useEffect(() => {
     console.log('did mount')
-    
+
     entryService
       .getAll()
       .then(response => {
@@ -143,7 +143,7 @@ const App = () => {
   const handleNewValuesChange = (event) => {
     setNewValues({ ...newValues, [event.target.name]: event.target.value })
   }
-  
+
   const handleEditValuesChange = (event) => {
     setEditValues({ ...editValues, [event.target.name]: event.target.value })
   }
@@ -167,22 +167,23 @@ const App = () => {
   const getGeolocation = () => {
     const success = (position) => {
       console.log(position)
-      setNewValues({ ...newValues, newCoordinates: 
-        `${position.coords.latitude}, ${position.coords.longitude}`
+      setNewValues({
+        ...newValues, newCoordinates:
+          `${position.coords.latitude}, ${position.coords.longitude}`
       })
     }
-    
+
     function error() {
       alert('Sijaintitietojen hakeminen epäonnistui.')
       document.getElementById("locationCheckbox").checked = false;
     }
-    
+
     const options = {
       enableHighAccuracy: true,
       timeout: 10000,
       maximumAge: 0
     }
-  
+
     navigator.geolocation.getCurrentPosition(success, error, options)
   }
 
@@ -217,7 +218,7 @@ const App = () => {
   }
 
   const handleSortButtonClick = (event) => {
-    setEntries(defaultSort(entries))
+    setEntries(defaultSort([...entries]))
     if (radioGroupAnimation) {
       setRadioGroupAnimation(false)
       setTimeout(() => { setSortingIsHidden(true) }, 250)
@@ -259,15 +260,15 @@ const App = () => {
     }
   }
 
-  return (
-    console.log('render'),
+    return (
+      console.log('render'),
       <>
         <div className="img"></div>
         <div className='content'>
           <div className='topShade'></div>
           <h1 className='title1'>KALAPÄIVÄKIRJA</h1>
           <h1 className='title1-mobile'>
-            KALA<br/>PÄIVÄKIRJA
+            KALA<br />PÄIVÄKIRJA
           </h1>
           <div className='newEntryAndStatisticsContainer'>
             <div className='newEntryContainer'>
@@ -295,18 +296,19 @@ const App = () => {
               radioGroupAnimation={radioGroupAnimation} />}
             <EntryTable
               entries={entries}
+              rowsPerPage={50}
               removeEntry={removeEntry}
               editValues={editValues}
               editEntry={editEntry}
               initializeStateForEdit={initializeStateForEdit}
-              handleChange={handleEditValuesChange} />
+              handleChange={handleEditValuesChange} /> 
           </div>
           <footer>made with <span id='footerHeart' style={{ color: "#0096e7" }}>&#10084;</span> by Akseli</footer>
 
         </div>
       </>
-    
-  )
-}
 
-export default App
+    )
+  }
+
+  export default App
