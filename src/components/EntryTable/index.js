@@ -16,13 +16,14 @@ const EntryTable = ({ entries, removeEntry, editEntry, editValues,
         <thead>
           <tr>
             <th>laji</th>
-            <th>pituus cm</th>
-            <th>paino kg</th>
+            <th>pituus<br/>cm</th>
+            <th>paino<br/>kg</th>
             <th>viehe</th>
             <th>paikka</th>
             <th>pvm.</th>
             <th>aika</th>
             <th>saaja</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>

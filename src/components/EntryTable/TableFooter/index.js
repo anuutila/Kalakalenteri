@@ -13,7 +13,11 @@ const TableFooter = ({ range, setPage, page, slice }) => {
           key={index}
           className={`button ${
             page === pageNumber ? 'activePaginationButton' : 'inactivePaginationButton'
-          }`}
+          }${(range.length === 2 && pageNumber === 1) ? ' first' : ''}
+          ${(range.length === 2 && pageNumber === 2) ? ' last' : ''}
+          ${(range.length > 2 && pageNumber === 1) ? ' first' : ''}
+          ${(range.length > 2 && pageNumber > 1 && pageNumber < range.length) ? ' middle' : ''}
+          ${(range.length > 2 && pageNumber === range.length) ? ' last' : ''}`}
           onClick={() => setPage(pageNumber)}
         >
           {pageNumber}

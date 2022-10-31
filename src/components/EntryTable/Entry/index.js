@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import Modal from "react-modal"
+import { FaTrash, FaEdit } from 'react-icons/fa';
 import EditEntryForm from '../../EditEntryForm'
 Modal.setAppElement('#root')
 
@@ -56,8 +57,8 @@ const Entry = (props) => {
       <td>{props.entry.person}</td>
       <td >
         <div className="deleteAndEditButtonContainer">
-          <button className="button" id="deleteButton" onClick={props.removeEntry}>poista</button>
-          <button className="button" id="editButton" onClick={() => { openModal(); props.initializeStateForEdit() }}>muokkaa</button>
+          <button className="button" id="deleteButton" onClick={props.removeEntry}><FaTrash/></button>
+          <button className="button" id="editButton" onClick={() => { openModal(); props.initializeStateForEdit() }}><FaEdit/></button>
         </div>
         <Modal isOpen={modalIsOpen} shouldCloseOnOverlayClick={false} onRequestClose={() => setModalIsOpen(false)}
           style={{

@@ -105,7 +105,7 @@ const EditEntryForm = (props) => {
         </datalist>
       </div>
       <div>
-        <button type="submit" className="button" id="submitEditButton">hyväksy muutokset</button>
+        <button type="submit" className="button" id="submitEditButton">Hyväksy muutokset</button>
         <button className="button" id="cancelEditButton" onClick={props.closeModal}>Peruuta</button>
       </div>
     </form>

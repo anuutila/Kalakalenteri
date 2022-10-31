@@ -266,6 +266,7 @@ const App = () => {
         <div className="img"></div>
         <div className='content'>
           <div className='topShade'></div>
+          <div className='topShade-mobile'></div>
           <h1 className='title1'>KALAPÄIVÄKIRJA</h1>
           <h1 className='title1-mobile'>
             KALA<br />PÄIVÄKIRJA

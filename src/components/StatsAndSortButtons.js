@@ -23,14 +23,14 @@ const StatsAndSortButtons = (props) => {
       <div>
         <button className='button' id='showSortingButton' 
           onClick={props.handleSortButtonClick}>
-          {props.sortingIsHidden ? 'järjestä taulu' : 'palauta oletusjärjestys'}
+          {props.sortingIsHidden ? 'Järjestä taulu' : 'Palauta oletusjärjestys'}
         </button>
         <button className='button' id='showStatsButton' 
           onClick={() => {
             props.toggleStatsHidden();
             scrollToStats();
             }}>
-          {props.statsAreHidden ? 'näytä tilastot' : 'piilota tilastot'}
+          {props.statsAreHidden ? 'Näytä tilastot' : 'Piilota tilastot'}
         </button>
       </div>
     </div> 
