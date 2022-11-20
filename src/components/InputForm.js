@@ -1,6 +1,9 @@
 import React from "react";
 import { uniqueLures, uniquePersons, uniquePlaces } from "../utils/EntriesFunctions";
 
+/**
+ * A form component for adding a new entry.
+ */
 const InputForm = ({ entries, addEntry, newValues, handleChange, togglelocationCheckbox}) => {
   return (
     <div className='formContainer'>

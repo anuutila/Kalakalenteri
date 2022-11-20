@@ -8,15 +8,22 @@ import { chartColors2 } from '../../utils/ChartAssets';
 import { uniqueFishSpecies } from "../../utils/EntriesFunctions";
 import { sortByCustomAlphabet } from "../../utils/SortingUtils";
 
+/**
+ * Chart component built with Chart.js that shows the amount of fish caught per species. 
+ * The chart is also interactive and the user can tap on the legend to hide and show different datasets. 
+ * The chart also shows the total amount of fish caught in the middle of the chart.
+ * This version of the chart is designed for smaller mobile screens.
+ * @prop {Entry[]} entries - An array containing all the entries
+ */
 const DoughnutChartSpeciesMobile = ({ entries }) => {
 
   const [totalAmount, setTotalAmount] = useState(entries.length);
 
   const sortedFishSpecies = sortByCustomAlphabet(uniqueFishSpecies(entries));
-  // new fontsize based on screen width
+  // Chart fontsize based on screen width
   const fontSizeUnit = window.innerWidth/1000*(5/6)
 
-  const customDataset = {
+  const customDatasets = {
     label: '',
     data: sortedFishSpecies
       .map(fish => entries.filter(e => e.fish === fish).length),
@@ -38,7 +45,7 @@ const DoughnutChartSpeciesMobile = ({ entries }) => {
 
   const data = {
     labels: sortedFishSpecies,
-    datasets: [customDataset]
+    datasets: [customDatasets]
   };
 
   const options = {
@@ -116,6 +123,7 @@ const DoughnutChartSpeciesMobile = ({ entries }) => {
     }
   }
 
+  // Adjust the margin between the legend and the chart
   const legendMargin = {
     id: 'legendMargin',
     beforeInit(chart) {

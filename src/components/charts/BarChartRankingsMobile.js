@@ -9,7 +9,15 @@ import { fishCaughtByDiffPersons,
          uniquePersons } from '../../utils/EntriesFunctions';
 import { sortByCustomAlphabet, sortPersonsByAmountOfFish } from '../../utils/SortingUtils';
 
-
+/**
+ * Chart component built with Chart.js and react-chartjs-2 library.
+ * The chart shows the amount and species of fish caught by each person.
+ * The chart is responsive and the user can tap the bars to see the
+ * exact amount of different fish species caught by that person.
+ * The user can also tap on the legend to hide/show the data of a specific fish species.
+ * This version of the chart is designed for smaller mobile screens.
+ * @prop {Entry[]} entries - An array containing all the entries
+ */
 const BarChartRankingsMobile = ({ entries }) => {
 
   const sortedFishSpecies = sortByCustomAlphabet(uniqueFishSpecies(entries));
@@ -167,6 +175,7 @@ const BarChartRankingsMobile = ({ entries }) => {
     }
   }
 
+  // Adjust the margin between the legend and the chart
   const legendMargin = {
     id: 'legendMargin',
     beforeInit(chart) {
@@ -178,6 +187,7 @@ const BarChartRankingsMobile = ({ entries }) => {
     }
   }; 
 
+  // Show the total amount next to the bar
   const totalizer = {
     id: 'totalizer',
   

@@ -1,5 +1,8 @@
 import React from "react"
 
+/**
+ * A component displaying the radio buttons for sorting the entries.
+ */
 const RadioGroup = ({ sortEntries, radioGroupAnimation }) => {
   return (
   <div className={`radioGroupContainer${radioGroupAnimation ? ' appear' : ' disappear'}`}> 

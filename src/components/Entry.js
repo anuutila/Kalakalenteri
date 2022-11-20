@@ -1,9 +1,12 @@
 import React, { useState } from "react"
 import Modal from "react-modal"
 import { FaTrash, FaEdit } from 'react-icons/fa';
-import EditEntryForm from '../../EditEntryForm'
+import EditEntryForm from './EditEntryForm'
 Modal.setAppElement('#root')
 
+/**
+ * A component for displaying a single entry in the EntryTable.
+ */
 const Entry = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false)
 

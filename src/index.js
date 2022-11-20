@@ -2,8 +2,8 @@ import React from 'react';
 import App from './App'
 import { createRoot } from 'react-dom/client';
 
-import './index.css'
-import './index-mobile.css'
+import './styles/index.css'
+import './styles/index-mobile.css'
 import { register as registerServiceWorker } from './register-sw';
 
 

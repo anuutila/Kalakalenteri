@@ -8,6 +8,9 @@ import BarChartRankingsMobile from "./Charts/BarChartRankingsMobile"
 import DoughnutChartSpecies from "./Charts/DoughnutChartSpecies"
 import DoughnutChartSpeciesMobile from "./Charts/DoughnutChartSpeciesMobile"
 
+/**
+ * A component for displaying all the different charts and statistics.
+ */
 const Statistics = ({ entries }) => {
   return (
     <>

@@ -1,10 +1,20 @@
 import React from "react"
 
+/**
+ * A component containing the buttons for sorting the entries and displaying the statistics.
+ */
 const StatsAndSortButtons = (props) => {
 
+  // Scroll to the first statistic when the statistics button is clicked.
   function scrollToStats() {
-    const element = document.getElementById("statisticsContainer");
-    element.scrollIntoView({behavior: "smooth", block: "start"});
+    
+    if (props.statsAreHidden) {
+      const element = document.getElementById("statisticsContainer");
+      element.scrollIntoView({behavior: "smooth", block: "start"});
+    } else {
+      const element = document.getElementsByClassName("title2")[0];
+      element.scrollIntoView({behavior: "smooth", block: "start"});
+    }
     // if (window.innerWidth < 1000) {
     //   window.scrollTo({
     //     top: window.innerHeight*0.8,

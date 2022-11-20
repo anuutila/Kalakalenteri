@@ -6,9 +6,18 @@ import { chartColors2, halfOfHours } from '../../utils/ChartAssets';
 import { fishAmountAtDiffHours, uniqueFishSpecies } from '../../utils/EntriesFunctions';
 import { sortByCustomAlphabet } from '../../utils/SortingUtils';
 
-
+/**
+ * Chart component built with Chart.js and react-chartjs-2 library.
+ * The chart shows the amount of fish caught at different hours of the day. 
+ * The chart is responsive and the user can hover tap the bars to see the 
+ * exact amount of different fish species caught at that hour. 
+ * The user can also tap on the legend to hide/show the data of a specific fish species. 
+ * This version of the chart is designed for smaller mobile screens.
+ * @prop {Entry[]} entries - An array containing all the entries
+ */
 const BarChartHoursMobile = ({ entries }) => {
 
+  // Put the fish species in specific order
   const sortedFishSpecies = sortByCustomAlphabet(uniqueFishSpecies(entries));
   // new fontsize based on screen width
   const fontSizeUnit = window.innerWidth/1000*(5/6)
@@ -151,6 +160,7 @@ const BarChartHoursMobile = ({ entries }) => {
     }
   };
 
+  // Adjust the margin between the legend and the chart
   const legendMargin = {
     id: 'legendMargin',
     beforeInit(chart) {

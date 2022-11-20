@@ -1,14 +1,17 @@
 import React, { useState } from "react"
 
-import useTable from "../../hooks/useTable"
+import useTable from "../hooks/useTable"
 import Entry from "./Entry"
 import TableFooter from "./TableFooter"
 
+/**
+ * A component for displaying a table of entries.
+ */
 const EntryTable = ({ entries, removeEntry, editEntry, editValues,
   initializeStateForEdit, handleChange, rowsPerPage }) => {
 
-  const [page, setPage] = useState(1)
-  const { slice, range } = useTable(entries, page, rowsPerPage)
+  const [pageNumber, setPageNumber] = useState(1)
+  const { slice, range } = useTable(entries, pageNumber, rowsPerPage)
 
   return (
     <>
@@ -42,7 +45,7 @@ const EntryTable = ({ entries, removeEntry, editEntry, editValues,
         </tbody>
       </table>
       <div className='tableFooter'>
-        {range.length > 1 && <TableFooter range={range} slice={slice} setPage={setPage} page={page}/>}
+        {range.length > 1 && <TableFooter range={range} slice={slice} setPageNumber={setPageNumber} pageNumber={pageNumber}/>}
       </div>
     </>
   )

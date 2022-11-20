@@ -1,6 +1,9 @@
 import React from "react";
 import { uniquePersons, uniqueLures, uniquePlaces } from "../utils/EntriesFunctions";
 
+/**
+ * A form component for editing an existing entry.
+ */
 const EditEntryForm = (props) => {
   return (
     <form className='editEntryForm'

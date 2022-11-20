@@ -1,3 +1,7 @@
+/**
+ * Returns the current date
+ * @returns {string} - Date in format YYYY-MM-DD
+ */
 export function getDefaultDate() {
   const date = new Date();
   const currentDate = date.getDate();
@@ -6,6 +10,10 @@ export function getDefaultDate() {
   return defaultDate;
 }
 
+/**
+ * Checks if geolocation is available in the browser
+ * @returns {boolean} - True if geolocation is available, false if not
+ */
 export function geolocationAvailable() {
   if ("geolocation" in navigator) {
     return true

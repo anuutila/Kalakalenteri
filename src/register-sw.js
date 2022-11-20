@@ -1,3 +1,6 @@
+/**
+ * Registers the service worker if it's supported by the browser.
+ */
 export function register() {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {

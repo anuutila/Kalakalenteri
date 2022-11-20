@@ -43,6 +43,9 @@ const App = () => {
   const [sortingIsHidden, setSortingIsHidden] = useState(true)
   const [radioGroupAnimation, setRadioGroupAnimation] = useState(false)
 
+  /**
+   * Fetch all entries from the backend and set them to the state when the component is mounted
+   */
   useEffect(() => {
     console.log('did mount')
 
@@ -57,9 +60,13 @@ const App = () => {
       })
   }, [])
 
+  /**
+   * Sends a new entry to the backend based on the values in the state
+   */
   const addEntry = (event) => {
     event.preventDefault()
 
+    // Frontend input validation
     if (!newValues.newFish || !newValues.newDate || !newValues.newPerson) {
       return window.alert('kalalaji, päivämäärä tai saajan nimi puuttuu')
     }
@@ -81,7 +88,9 @@ const App = () => {
       .then(response => {
         console.log('entry added')
         setEntries(defaultSort(entries.concat(response)))
+        // Reset the input fields
         setNewValues(initialNewValues)
+        // Reset the geolocation checkbox
         document.getElementById("locationCheckbox").checked = false;
       })
       .catch(error => {
@@ -89,10 +98,13 @@ const App = () => {
       })
   }
 
+  /**
+   * Sends a request to the backend to delete an entry with the given id
+   */
   const removeEntry = (id) => {
     return () => {
       const entry = entries.find(e => e.id === id)
-
+      // Ask for confirmation before deleting
       if (window.confirm(`Poistetaanko ${entry.fish}, jonka ${entry.person} nappasi ${entry.date}?`)) {
         entryService
           .remove(id)
@@ -109,6 +121,10 @@ const App = () => {
     }
   }
 
+  /**
+   * Sends a request to the backend to edit an entry with the given id
+   * and sets the edited entry to the state
+   */
   const editEntry = (id) => {
     return () => {
       const editedEntry = {
@@ -131,6 +147,7 @@ const App = () => {
         })
         .catch(error => {
           console.log(error)
+          // Show an error message from the backend if the edit fails
           if (error.response) {
             const errorMessage = error.response.data.error
             console.log(errorMessage)
@@ -140,14 +157,25 @@ const App = () => {
     }
   }
 
+  /**
+   * Handles the input changes in the input fields of the InputForm component
+   */
   const handleNewValuesChange = (event) => {
     setNewValues({ ...newValues, [event.target.name]: event.target.value })
   }
 
+  /**
+   * Handles the input changes in the input fields of the EditEntryForm component
+   */
   const handleEditValuesChange = (event) => {
     setEditValues({ ...editValues, [event.target.name]: event.target.value })
   }
 
+  /**
+   * Initializes the input fields of the EditEntryForm component with the values of the entry
+   * that is being edited
+   * @param {Object} entry - The entry that is being edited
+   */
   const initializeStateForEdit = (entry) => {
     return () => {
       setEditValues({
@@ -164,6 +192,9 @@ const App = () => {
     }
   }
 
+  /**
+   * Get the geolocation of the user and set the coordinates to the state
+   */
   const getGeolocation = () => {
     const success = (position) => {
       console.log(position)
@@ -187,6 +218,10 @@ const App = () => {
     navigator.geolocation.getCurrentPosition(success, error, options)
   }
 
+  /**
+   * Set users geolocation to the state if the geolocation is available and the checkbox is checked
+   * and remove it if the checkbox is unchecked
+   */
   const togglelocationCheckbox = () => {
     if (!geolocationAvailable()) {
       return window.alert('Sijaintitiedot eivät ole saatavilla')
@@ -203,6 +238,9 @@ const App = () => {
     }
   }
 
+  /**
+   * TODO: comment
+   */
   const toggleStatsHidden = () => {
     if (statsWindowAnimation) {
       setStatsWindowAnimation(false)
@@ -217,6 +255,9 @@ const App = () => {
     setStatsWindowAnimation(true)
   }
 
+  /**
+   * TODO: comment, tarkista toiminta
+   */
   const handleSortButtonClick = (event) => {
     setEntries(defaultSort([...entries]))
     if (radioGroupAnimation) {
@@ -228,7 +269,11 @@ const App = () => {
     setRadioGroupAnimation(true)
   }
 
+  /**
+   * Sorts the entries by the given property
+   */
   const sortEntries = (event) => {
+    // Get the property to sort by from the value of the clicked radio button
     const sort = event.target.value
     switch (sort) {
       case 'FISH':
@@ -266,10 +311,10 @@ const App = () => {
         <div className="img"></div>
         <div className='content'>
           <div className='topShade'></div>
-          <div className='topShade-mobile'></div>
+          <div className='topShade2'></div>
           <h1 className='title1'>KALAPÄIVÄKIRJA</h1>
           <h1 className='title1-mobile'>
-            KALA<br />PÄIVÄKIRJA
+          —KALA—<br />PÄIVÄKIRJA
           </h1>
           <div className='newEntryAndStatisticsContainer'>
             <div className='newEntryContainer'>
@@ -308,7 +353,6 @@ const App = () => {
 
         </div>
       </>
-
     )
   }
 
