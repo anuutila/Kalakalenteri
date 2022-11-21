@@ -239,11 +239,13 @@ const App = () => {
   }
 
   /**
-   * TODO: comment
+   * Handle showing and hiding the statistics
    */
   const toggleStatsHidden = () => {
     if (statsWindowAnimation) {
       setStatsWindowAnimation(false)
+      // delay the hiding of the stats window to allow the animation to finish
+      // TODO: make a better animation
       if (window.matchMedia("(max-width: 768px)").matches) {
         setTimeout(() => { setStatsAreHidden(true) }, 440)
       } else {
@@ -256,7 +258,7 @@ const App = () => {
   }
 
   /**
-   * TODO: comment, tarkista toiminta
+   * Handle showing and hiding the radio buttons for sorting the entries
    */
   const handleSortButtonClick = (event) => {
     setEntries(defaultSort([...entries]))
@@ -310,12 +312,10 @@ const App = () => {
       <>
         <div className="img"></div>
         <div className='content'>
-          <div className='topShade'></div>
-          <div className='topShade2'></div>
+          <div className='topShade-mobile'></div>
           <h1 className='title1'>KALAPÄIVÄKIRJA</h1>
           <h1 className='title1-mobile'>
-          —KALA—<br />PÄIVÄKIRJA
-          </h1>
+          —KALA—<br />PÄIVÄKIRJA</h1>
           <div className='newEntryAndStatisticsContainer'>
             <div className='newEntryContainer'>
               <h2 className='title2'>UUSI SAALIS</h2>
