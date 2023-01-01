@@ -102,7 +102,7 @@ const InputForm = ({ entries, addEntry, newValues, handleChange, togglelocationC
           </datalist>
         </div>
         <div>
-          <label htmlFor="locationCheckbox">Käytä GPS-sijaintia</label>
+          <label htmlFor="locationCheckbox">GPS-sijainti</label>
           <input id="locationCheckbox" name="locationCheckbox" type="checkbox" onChange={togglelocationCheckbox}></input>
         </div>
         <div>

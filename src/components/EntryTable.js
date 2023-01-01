@@ -3,12 +3,13 @@ import React, { useState } from "react"
 import useTable from "../hooks/useTable"
 import Entry from "./Entry"
 import TableFooter from "./TableFooter"
+import { formatDate } from "../utils/helpers";
 
 /**
  * A component for displaying a table of entries.
  */
 const EntryTable = ({ entries, removeEntry, editEntry, editValues,
-  initializeStateForEdit, handleChange, rowsPerPage }) => {
+  initializeStateForEdit, handleChange, rowsPerPage, startDate, endDate }) => {
 
   const [pageNumber, setPageNumber] = useState(1)
   const { slice, range } = useTable(entries, pageNumber, rowsPerPage)
@@ -19,8 +20,8 @@ const EntryTable = ({ entries, removeEntry, editEntry, editValues,
         <thead>
           <tr>
             <th>laji</th>
-            <th>pituus<br/>cm</th>
-            <th>paino<br/>kg</th>
+            <th>pituus<br />cm</th>
+            <th>paino<br />kg</th>
             <th>viehe</th>
             <th>paikka</th>
             <th>pvm.</th>
@@ -30,7 +31,9 @@ const EntryTable = ({ entries, removeEntry, editEntry, editValues,
           </tr>
         </thead>
         <tbody>
-          {slice.map(entry =>
+          {slice.length > 0 
+            ? 
+            slice.map(entry =>
             <Entry
               key={entry.id}
               entry={entry}
@@ -39,13 +42,18 @@ const EntryTable = ({ entries, removeEntry, editEntry, editValues,
               editValues={editValues}
               editEntry={editEntry(entry.id)}
               initializeStateForEdit={initializeStateForEdit(entry)}
-              handleChange={handleChange}
-            />
-          )}
+              handleChange={handleChange} />) 
+            : 
+            <tr>
+                <td className='noEntriesMessage' colSpan='9'>
+                  Ei merkattuja saaliita aikavälillä {formatDate(startDate)}–{formatDate(endDate)}
+                </td>
+            </tr>
+          }
         </tbody>
       </table>
       <div className='tableFooter'>
-        {range.length > 1 && <TableFooter range={range} slice={slice} setPageNumber={setPageNumber} pageNumber={pageNumber}/>}
+        {range.length > 1 && <TableFooter range={range} slice={slice} setPageNumber={setPageNumber} pageNumber={pageNumber} />}
       </div>
     </>
   )

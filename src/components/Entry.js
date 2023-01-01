@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import Modal from "react-modal"
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import EditEntryForm from './EditEntryForm'
+import { formatDate } from "../utils/helpers";
 Modal.setAppElement('#root')
 
 /**
@@ -12,24 +13,18 @@ const Entry = (props) => {
 
   const openModal = () => {
     setModalIsOpen(true)
-    // Disables Background Scrolling while the Modal is open
-    //document.body.style.overflow = 'hidden';
-    //document.body.style.backgroundAttachment = 'scroll';
-
+    // Disables Background Scrolling while the Modal is open on small screens
+    if (window.innerWidth < 1024) {
+      document.body.style.overflow = 'hidden';
+    }
   }
 
   const closeModal = () => {
     setModalIsOpen(false)
-    // Enables Background Scrolling after the Modal is closed
-    //document.body.style.overflow = 'unset';
-    //document.body.style.backgroundAttachment = 'fixed';
-  }
-
-  function formatDate(date) {
-    const year = date.substring(0, 4)
-    const month = date.substring(5, 7)
-    const day = date.substring(8)
-    return (`${day}.${month}.${year}`)
+    // Enables Background Scrolling after the Modal is closed on small screens
+    if (window.innerWidth < 1024) {
+      document.body.style.overflow = 'unset';
+    }
   }
 
   function getLatitude() {
@@ -41,6 +36,8 @@ const Entry = (props) => {
     const longitude = props.entry.coordinates.split(', ')[1]
     return longitude
   }
+
+  const borderRadius = window.innerWidth < 1024 ? '2rem' : '1rem'
 
   return (
     <tr>
@@ -60,30 +57,34 @@ const Entry = (props) => {
       <td>{props.entry.person}</td>
       <td >
         <div className="deleteAndEditButtonContainer">
-          <button className="button" id="deleteButton" onClick={props.removeEntry}><FaTrash/></button>
-          <button className="button" id="editButton" onClick={() => { openModal(); props.initializeStateForEdit() }}><FaEdit/></button>
+          <button className="button" id="deleteButton" onClick={props.removeEntry}><FaTrash /></button>
+          <button className="button" id="editButton" onClick={() => { openModal(); props.initializeStateForEdit() }}><FaEdit /></button>
         </div>
-        <Modal isOpen={modalIsOpen} shouldCloseOnOverlayClick={false} onRequestClose={() => setModalIsOpen(false)}
+        <Modal isOpen={modalIsOpen} shouldCloseOnOverlayClick={false} closeTimeoutMS={200} onRequestClose={() => setModalIsOpen(false)}
           style={{
             overlay: {
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: 'rgba(111, 111, 111, 0.8)',
-              Zindex: 10
+              position: "fixed",
+              display: "flex",
+              justifyContent: "center",
+              top: "0",
+              left: "0",
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0,0,0, .8)",
+              zIndex: "1000",
+              overflowY: "auto"
             },
             content: {
-              position: 'fixed',
+              position: 'absolute',
+              zIndex: '1000',
               height: 'fit-content',
               margin: 'auto',
               width: 'fit-content',
-              border: '0.2rem solid #000',
-              background: '#6a6a6a',
+              border: '0.2rem solid #888',
+              background: '#2a2a2a',
               overflow: 'auto',
               /*WebkitOverflowScrolling: 'touch',*/
-              borderRadius: '0.5rem',
+              borderRadius: borderRadius,
               outline: 'none',
               padding: '2rem'
             }

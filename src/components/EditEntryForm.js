@@ -107,7 +107,7 @@ const EditEntryForm = (props) => {
           {uniquePersons(props.entries).map(person => <option key={person} value={person} />)}
         </datalist>
       </div>
-      <div>
+      <div className="editEntryFormButtons">
         <button type="submit" className="button" id="submitEditButton">Hyväksy muutokset</button>
         <button className="button" id="cancelEditButton" onClick={props.closeModal}>Peruuta</button>
       </div>
