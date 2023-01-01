@@ -4,9 +4,9 @@ import entryService from './services/entries'
 import InputForm from './components/InputForm'
 import EntryTable from './components/EntryTable'
 import Statistics from './components/Statistics'
-import StatsAndSortButtons from './components/StatsAndSortButtons'
+import TableUtilities from './components/TableUtilities'
 import RadioGroup from './components/RadioGroup'
-import { getDefaultDate, geolocationAvailable } from './utils/helpers'
+import { getCurrentDate, getInitialYear, geolocationAvailable } from './utils/helpers'
 import {
   sortByFish, sortByLength, sortByWeight, sortByLure, sortByPlace,
   sortByDate, sortByTime, sortByPerson, defaultSort
@@ -20,7 +20,7 @@ const App = () => {
     newLure: '',
     newPlace: '',
     newCoordinates: '',
-    newDate: getDefaultDate(),
+    newDate: getCurrentDate(),
     newTime: '',
     newPerson: '',
   }
@@ -35,8 +35,11 @@ const App = () => {
     editTime: '',
     editPerson: ''
   }
-  const [entries, setEntries] = useState([])
+  const [allEntries, setAllEntries] = useState([])
+  const [filteredEntries, setFilteredEntries] = useState([])
   const [newValues, setNewValues] = useState(initialNewValues)
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
   const [editValues, setEditValues] = useState(initialEditValues)
   const [statsAreHidden, setStatsAreHidden] = useState(true)
   const [statsWindowAnimation, setStatsWindowAnimation] = useState(false)
@@ -53,12 +56,20 @@ const App = () => {
       .getAll()
       .then(response => {
         console.log('promise fulfilled')
-        setEntries(defaultSort(response))
+        const sortedEntries = defaultSort(response)
+        setAllEntries(sortedEntries)
+        setStartDate(`${getInitialYear(sortedEntries)}-01-01`)
+        setEndDate(`${getInitialYear(sortedEntries)}-12-31`)
       })
       .catch(error => {
         console.log('fail')
       })
   }, [])
+
+  useEffect(() => {
+    setFilteredEntries(filterEntriesByDateRange(allEntries))
+    console.log('filtered entries updated')
+  }, [startDate, endDate, allEntries])
 
   /**
    * Sends a new entry to the backend based on the values in the state
@@ -87,7 +98,7 @@ const App = () => {
       .create(entryObject)
       .then(response => {
         console.log('entry added')
-        setEntries(defaultSort(entries.concat(response)))
+        setAllEntries(defaultSort(allEntries.concat(response)))
         // Reset the input fields
         setNewValues(initialNewValues)
         // Reset the geolocation checkbox
@@ -103,14 +114,14 @@ const App = () => {
    */
   const removeEntry = (id) => {
     return () => {
-      const entry = entries.find(e => e.id === id)
+      const entry = allEntries.find(e => e.id === id)
       // Ask for confirmation before deleting
       if (window.confirm(`Poistetaanko ${entry.fish}, jonka ${entry.person} nappasi ${entry.date}?`)) {
         entryService
           .remove(id)
           .then(response => {
             console.log('entry removed')
-            setEntries(entries.filter(e => e.id !== id))
+            setAllEntries(allEntries.filter(e => e.id !== id))
           })
           .catch(error => {
             console.log(error)
@@ -143,7 +154,7 @@ const App = () => {
         .edit(id, editedEntry)
         .then(response => {
           console.log('entry edited')
-          setEntries(entries.map(entry => entry.id === id ? response : entry))
+          setAllEntries(allEntries.map(entry => entry.id === id ? response : entry))
         })
         .catch(error => {
           console.log(error)
@@ -172,9 +183,33 @@ const App = () => {
   }
 
   /**
+   * Handles the changes in the start date input field
+   */
+  const handleStartDateChange = (date) => {
+    setStartDate(date)
+  }
+
+  /**
+   * Handles the changes in the end date input field
+   */
+  const handleEndDateChange = (date) => {
+    setEndDate(date)
+  } 
+
+  /**
+   * Filters the entries by the date range selected by the user
+   * @param {Entry[]} entries - The entries to be filtered
+   */
+  const filterEntriesByDateRange = (entries) => {
+    return entries.filter(entry => 
+      entry.date.split('-').join('') >= startDate.split('-').join('') &&
+      entry.date.split('-').join('') <= endDate.split('-').join(''))
+  }
+
+  /**
    * Initializes the input fields of the EditEntryForm component with the values of the entry
    * that is being edited
-   * @param {Object} entry - The entry that is being edited
+   * @param {Entry} entry - The entry that is being edited
    */
   const initializeStateForEdit = (entry) => {
     return () => {
@@ -261,7 +296,7 @@ const App = () => {
    * Handle showing and hiding the radio buttons for sorting the entries
    */
   const handleSortButtonClick = (event) => {
-    setEntries(defaultSort([...entries]))
+    setAllEntries(defaultSort([...allEntries]))
     if (radioGroupAnimation) {
       setRadioGroupAnimation(false)
       setTimeout(() => { setSortingIsHidden(true) }, 250)
@@ -279,28 +314,28 @@ const App = () => {
     const sort = event.target.value
     switch (sort) {
       case 'FISH':
-        setEntries(sortByFish([...entries]))
+        setAllEntries(sortByFish([...allEntries]))
         break
       case 'DATE':
-        setEntries(sortByDate([...entries]))
+        setAllEntries(sortByDate([...allEntries]))
         break
       case 'LENGTH':
-        setEntries(sortByLength([...entries]))
+        setAllEntries(sortByLength([...allEntries]))
         break
       case 'WEIGHT':
-        setEntries(sortByWeight([...entries]))
+        setAllEntries(sortByWeight([...allEntries]))
         break
       case 'LURE':
-        setEntries(sortByLure([...entries]))
+        setAllEntries(sortByLure([...allEntries]))
         break
       case 'PLACE':
-        setEntries(sortByPlace([...entries]))
+        setAllEntries(sortByPlace([...allEntries]))
         break
       case 'TIME':
-        setEntries(sortByTime([...entries]))
+        setAllEntries(sortByTime([...allEntries]))
         break
       case 'PERSON':
-        setEntries(sortByPerson([...entries]))
+        setAllEntries(sortByPerson([...allEntries]))
         break
       default:
         break
@@ -321,33 +356,45 @@ const App = () => {
               <h2 className='title2'>UUSI SAALIS</h2>
               <InputForm
                 newValues={newValues}
-                entries={entries}
+                entries={allEntries}
                 addEntry={addEntry}
                 handleChange={handleNewValuesChange}
                 togglelocationCheckbox={togglelocationCheckbox} />
             </div>
-            <div className='statisticsContainer' id='statisticsContainer'>
+            <div className='statisticsContainer'>
               {!statsAreHidden &&
-                <Statistics entries={entries} /*statsWindowAnimation={statsWindowAnimation}*/ />}
+                <Statistics 
+                  entries={filteredEntries}
+                  startDate={startDate}
+                  endDate={endDate}
+                 /*statsWindowAnimation={statsWindowAnimation}*/ />}
             </div>
           </div>
           <div className='tableContainer'>
-            <StatsAndSortButtons
+              <TableUtilities
+              entries={allEntries}
               handleSortButtonClick={handleSortButtonClick}
               toggleStatsHidden={toggleStatsHidden}
               sortingIsHidden={sortingIsHidden}
-              statsAreHidden={statsAreHidden} />
+              statsAreHidden={statsAreHidden} 
+              startDate={startDate}
+              endDate={endDate} 
+              handleStartDateChange={handleStartDateChange}
+              handleEndDateChange={handleEndDateChange}/> 
             {!sortingIsHidden && <RadioGroup
               sortEntries={sortEntries}
-              radioGroupAnimation={radioGroupAnimation} />}
+              radioGroupAnimation={radioGroupAnimation} />
+            } 
             <EntryTable
-              entries={entries}
+              entries={filteredEntries}
               rowsPerPage={50}
               removeEntry={removeEntry}
               editValues={editValues}
               editEntry={editEntry}
               initializeStateForEdit={initializeStateForEdit}
-              handleChange={handleEditValuesChange} /> 
+              handleChange={handleEditValuesChange}
+              startDate={startDate}
+              endDate={endDate} /> 
           </div>
           <footer>made with <span id='footerHeart' style={{ color: "#0096e7" }}>&#10084;</span> by Akseli</footer>
 

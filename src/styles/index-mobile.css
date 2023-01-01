@@ -17,7 +17,7 @@
   .topShade-mobile {
     width: 100%;
     margin-left: 0rem;
-    position: fixed;
+    position: absolute;
     opacity: 0.85;
     z-index: -1;
     height: 100rem;
@@ -51,6 +51,8 @@
   }
 
   .newEntryContainer,
+  .dateRangeMessageContainer,
+  .showStatsButtonContainer,
   .barChartHoursMobileContainer,
   .countUpContainer,
   .radioGroupContainer,
@@ -64,12 +66,11 @@
 
   .newEntryContainer {
     width: 100%;
-    margin-bottom: 8rem;
+    margin-bottom: 6rem;
     margin-top: 0rem;
     padding: 5rem;
     padding-top: 4rem;
     padding-bottom: 4rem;
-
   }
 
   .title2 {
@@ -80,18 +81,33 @@
   }
 
   .formContainer {
-    line-height: 8rem;
+    line-height: 8.4rem;
     padding: 0 0.3rem;
   }
 
   .entryForm input {
+    min-height: 1.3em;
+    box-sizing: content-box;
     margin-left: 0.8rem;
     font-size: 4rem;
     border-radius: .7rem;
     padding: 0.7rem;
     border-width: 0.25rem;
-    width: 43rem;
+    width: 41.1rem;
   }
+
+  /*
+  //tarvitaan min-padding-left jos halutaan varmistaa sama padding kaikille inputeille
+  .entryForm input[type="date"], input[type="time"] {
+    padding-left: 0;
+    width: 41.8rem;
+  }
+
+  .entryForm input:not([type="date"], [type="time"]) {
+    padding-left: 0.8rem;
+    width: 40.9rem;
+  }
+  */
 
   input#locationCheckbox {
     width: 5rem;
@@ -100,6 +116,54 @@
     margin-right: 0;
     margin-top: 2.5rem;
     transform: translate(0, 1.3rem);
+  }
+
+  .editEntryForm {
+    width: fit-content;
+    text-align: end;
+    font-size: 3.5rem;
+    color: #ffffff;
+    padding: 2rem;
+    font-family: 'Noto Sans', sans-serif;
+    line-height: 7.25rem;
+  }
+  
+  #editEntryTitle {
+    color: whitesmoke;
+    padding-bottom: 1.5rem;
+    padding-top: 2rem;
+    font-size: 4rem;
+    width: fit-content;
+    margin: auto;
+  }
+  
+  .editEntryForm input {
+    margin-left: 0.8rem;
+    font-size: 3.5rem;
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 0.7rem;
+    padding: 0.7rem;
+    border-width: 0.25rem;
+    border-color: rgb(0, 0, 0);
+    width: 35rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  #submitEditButton {
+    font-size: 3.5rem;
+    margin-top: 2.5rem;
+  }
+
+  #cancelEditButton {
+    font-size: 3.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .dateRangeMessageContainer {
+    width: 100%;
+    font-size: 4rem;
+    margin-bottom: 4rem;
   }
 
   .statisticsContainer1 {
@@ -117,7 +181,7 @@
 
   .statisticsContainer3 {
     margin: 0;
-    margin-bottom: 8rem;
+    margin-bottom: 6rem;
     width: 100%;
   }
 
@@ -185,6 +249,7 @@
     color: #ffffff;
     padding: 1.2rem 3rem;
     border-radius: 1rem;
+    
   }
 
   .button:hover {
@@ -199,27 +264,131 @@
 
   #submitButton {
     margin-top: 2.5rem;
-    width: 43rem;
     font-size: 4rem;
     font-weight: bold;
   }
 
-  #showStatsButton,
-  #showSortingButton {
-    margin-bottom: 1rem;
-    width: max-content;
-    font-size: 2.5rem;
-    font-weight: bold;
+  .statAndSortButtonContainer {
+    flex-direction: column-reverse;
+    align-items: flex-start;
   }
 
-  #showSortingButton {
-    margin-right: 1.3rem;
+  #showStatsButton,
+  #showSortingButton,
+  #showDatePickerButton {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+
+  #showStatsButton {
+    font-size: 4rem;
+    width: 100%;
+  }
+
+  .showStatsButtonContainer {
+    margin-left: 3rem;
+    margin-right: 3rem;
+    margin-bottom: 6rem;
+    padding: 4rem 5rem;
+  }
+
+  #showSortingButton, #showDatePickerButton {
+    width: 49%;
+    box-shadow: 1rem 1rem 2rem rgba(0, 0, 0, 0.2);
+  }
+
+  .tableUtilityContainer {
+    flex-direction: column;
+  }
+
+  .sortAndDatePickerButtonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .datePicker {
+    display: flex;
+    flex-direction: column;
+    padding: 4rem;
+    text-align: center;
+    font-size: 3.5rem;
+    margin: 0;
+    background-color: transparent;
+  }
+
+  .datePickerTitle {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+
+  .datePickerContent1 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .datePickerContent1 label {
+    width: fit-content;
+  }
+
+  .datePickerDash {
+    display: none;
+  }
+
+  .datePickerInput {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .datePickerLabel {
+    display: block;
+  }
+
+  .datePicker input {
+    font-size: 3.5rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #eeeeee;
+    border-radius: 0.7rem;
+    margin: 0.5rem;
+    margin-left: 1.5rem;
+    padding: 0.7rem;
+    border-width: 0.25rem;
+    border-style: inset;
+    border-color: rgb(0, 0, 0);
+    border-image: initial;
+    width: 35rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  #yearButton {
+    font-size: 3.5rem;
+    /* padding: 0.4rem 1rem; */
+    padding: 0.8rem 1.5rem;
+    margin-top: 1rem;
+  }
+
+  #maxDateRangeButton {
+    font-size: 3.5rem;
+    /* padding: 0.4rem 1rem; */
+    padding: 0.8rem 1.5rem;
+    margin-top: 2rem;
+  }
+
+  #okButton {
+    font-size: 3.5rem;
+    margin-top: 4rem;
   }
 
   .radioGroupContainer {
     border-radius: 1rem;
     box-shadow: 1rem 0.2rem 2rem 0 rgba(0, 0, 0, 0.2);
     height: 6rem;
+    margin-bottom: 1rem;
   }
 
   .radioGroupContainer2 {
@@ -238,20 +407,27 @@
 
   .tableContainer {
     width: fit-content;
-    max-width: 100%;
+    width: 100%;
     margin: auto;
-    font-size: 1.75rem;
     margin-bottom: 82vh;
   }
 
   .entries {
+    font-size: 1.75rem;
+    /* font-weight: 500; */
     backdrop-filter: blur(5rem);
     font-family: Arial, Helvetica, sans-serif;
+    box-shadow: 1rem 1rem 2rem rgba(0, 0, 0, 0.3);
+
   }
 
   .entries td {
     border-bottom: 0.1rem solid rgb(89, 89, 89);
     border-top: 0.1rem solid rgb(89, 89, 89);
+  }
+
+  .noEntriesMessage {
+    font-size: 2rem;
   }
 
   #deleteButton,
@@ -267,7 +443,12 @@
 
   #cancelEditButton {
     padding: 1.2rem 0rem;
+  }
 
+  .tableFooter {
+    position: relative;
+    border-radius: 1rem;
+    box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);
   }
 
   .activePaginationButton {
@@ -294,11 +475,11 @@
 
 @media (display-mode: standalone) and (max-width: 750px) {
   .title1-mobile {
-    margin-top: 8rem;
+    margin-top: 6rem;
   }
 
   .newEntryContainer {
-    margin-bottom: 10rem;
-    margin-top: 8rem;
+    /* margin-bottom: 10rem; */
+    margin-top: 6rem;
   }
 }

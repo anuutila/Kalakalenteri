@@ -5,13 +5,15 @@ import React, { useEffect } from "react";
  * The footer contains buttons for navigating between the table's pages.
  */
 const TableFooter = ({ range, setPageNumber, pageNumber, slice }) => {
+  // If the current page becomes empty, go to the previous page.
   useEffect(() => {
     if (slice.length < 1 && pageNumber !== 1) {
       setPageNumber(pageNumber - 1);
     }
   }, [slice, pageNumber, setPageNumber]);
+
   return (
-    <>
+    <div className="mmm">
       {range.map((pNumber, index) => (
         <button 
           key={index}
@@ -28,7 +30,7 @@ const TableFooter = ({ range, setPageNumber, pageNumber, slice }) => {
           {pNumber}
         </button>
       ))}
-    </>
+    </div>
   );
 };
 

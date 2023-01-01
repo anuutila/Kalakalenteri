@@ -50,7 +50,7 @@ body {
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, .9) 10%,
+    rgba(0, 0, 0, 0.9) 5%,
     transparent 100%
   );
   color: rgb(255, 255, 255);
@@ -60,6 +60,29 @@ body {
 
 .title1-mobile {
   display: none;
+}
+
+.button {
+	text-shadow:0 0.0625rem 0 #000000;
+  background: var(--theme-color);
+	border-radius:0.5rem;
+	/* border:0.0625rem solid #0b0e07; */
+  border: none;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	padding:0.6rem 1.5rem;
+	text-decoration:none;
+	font-weight: bold;
+  font-family: Noto Sans, sans-serif;
+}
+.button:hover {
+	/* background:linear-gradient(to bottom, #0073d8 5%, var(--theme-color) 100%); */
+	background-color:#0073d8;
+}
+.button:active {
+	position:relative;
+	top: 0.1875rem;
 }
 
 .newEntryAndStatisticsContainer {
@@ -73,8 +96,8 @@ body {
   letter-spacing: 0.0625rem;
 }
 
-.newEntryContainer, .barChartHoursContainer, .countUpContainer,
-.radioGroupContainer, .barChartRankingsContainer, .doughnutChartSpeciesContainer {
+.newEntryContainer, .dateRangeMessageContainer, .barChartHoursContainer, .countUpContainer,
+.radioGroupContainer, .datePicker, .barChartRankingsContainer, .doughnutChartSpeciesContainer {
   background-color: rgba(0, 0, 0, 0.5);  /*0.43*/
   box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);
   border-radius: 1rem;
@@ -85,7 +108,7 @@ body {
   width: 30.7rem;
   margin: auto;
   margin-bottom: 4rem;
-  margin-top: 4rem;
+  margin-top: 4.5rem;
   padding: 3rem;
   padding-top: 1.5rem;
   padding-bottom: 2rem;
@@ -104,13 +127,18 @@ body {
 }
 
 .formContainer {
-  line-height: 3rem;
+  line-height: 3.1rem;
   width: fit-content;
   margin: auto;
   overflow: auto;
   white-space: nowrap;
   padding: 0 0.0625rem;
 }
+
+/* TODO: entryformin inputeille sama luokka ja leveys jossa säätövaraa.
+ * tee labelit joilla sama luokka ja leveys fit-content.
+ * ja sitte divit joissa label ja input on niin saa leveyden 100%.
+ */
 
 .entryForm {
   width: fit-content;
@@ -120,6 +148,8 @@ body {
 .entryForm input{
   margin-left: 0.4rem;
   font-size: 1.5rem;
+  min-height: 1.3em;
+  box-sizing:content-box;
   background-color: rgba(0, 0, 0, 0.3);
   color: #eeeeee;
   border-radius: 0.3rem;
@@ -128,8 +158,12 @@ body {
   border-style: inset;
   border-color: rgb(74, 74, 74);
   border-image: initial;
-  width: 18rem;
+  width: 17.275rem;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
 }
 
 input#locationCheckbox {
@@ -148,7 +182,7 @@ input#locationCheckbox:hover {
 .editFormContainer {
   width: fit-content;
   line-height: 3rem;
-  background-color: #6a6a6a;
+  background-color: #2a2a2a;
 }
 
 .editEntryForm {
@@ -171,13 +205,15 @@ input#locationCheckbox:hover {
 .editEntryForm input {
   margin-left: 0.4rem;
   font-size: 1.5rem;
+  min-height: 1.3em;
+  box-sizing:content-box;
   color: #ffffff;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 0.3rem;
   padding: 0.3rem;
   border-width: 0.0625rem;
   border-color: rgb(0, 0, 0);
-  width: 18rem;
+  width: 17.275rem;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
@@ -199,6 +235,19 @@ input[type=time]:invalid {
   width: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.dateRangeMessageContainer {
+  width: fit-content;
+  min-width: 30.7rem;
+  margin: auto;
+  margin-bottom: 3rem;
+  text-align: center;
+  padding: 2rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  font-size: 2rem;
+  font-weight: bold;
 }
 
 .statisticsContainer1 {
@@ -384,6 +433,84 @@ input[type=time]:invalid {
   display: none;
 }
 
+.tableUtilityContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.tableUtilityContent1 {
+  margin: auto;
+  width: fit-content;
+}
+
+.statAndSortButtonContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.datePickerContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.datePicker {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+  padding: 1rem;
+  color: #fff;
+  font-family: 'Noto Sans', 'sans-serif';
+}
+
+.datePicker input {
+  font-size: 1.25rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #eeeeee;
+  border-radius: 0.3rem;
+  padding: 0.2rem;
+  border-width: 0.0625rem;
+  border-style: inset;
+  border-color: rgb(74, 74, 74);
+  border-image: initial;
+  width: 10.5rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.datePickerLabel {
+  display: none;
+}
+
+.datePickerDash {
+  margin: 0 0.25rem;
+}
+
+.datePickerTitle {
+  letter-spacing: 0.0625rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+#yearButton {
+  font-size: 1.3rem;
+  padding: 0.4rem 1rem;
+}
+
+.datePickerContent1 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.datePickerContent2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .radioGroupContainer {
   color: #eeeeee;
   border-radius: 1rem;
@@ -500,19 +627,21 @@ input[type=time]:invalid {
 
 .tableContainer {
   margin: auto;
-  font-size: clamp(1.2rem, 1.5rem, 1.5rem);
   margin-bottom: 86vh;
   margin-left: 2rem;
   margin-right: 2rem;
-  max-width: 85rem;
+  width: 85rem;
 }
 
 .entries {
+  width: 100%;
   border-spacing: 0;
   color: white;
   background-color: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(2.5rem);
   border-radius: 1rem;
+  box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);
+  font-size: clamp(1.2rem, 1.5rem, 1.5rem);
   font-family: Noto Sans, sans-serif;
   /* border: 0.0625rem solid rgb(0, 0, 0); */
 }
@@ -524,7 +653,6 @@ input[type=time]:invalid {
 
 .entries th:first-child, td:first-child {
   padding-left: 2rem;
-  
 }
 
 .entries td {
@@ -550,6 +678,12 @@ input[type=time]:invalid {
   text-shadow:0 0.0625rem 0 #000000;
 }
 
+.noEntriesMessage {
+  font-weight: 500;
+  text-align: center;
+  padding: 5rem;
+}
+
 .mapLinkContainer {
   padding-top: .8rem;
 }
@@ -567,29 +701,6 @@ input[type=time]:invalid {
   background-color: #ffffff;
 }
 
-.button {
-	text-shadow:0 0.0625rem 0 #000000;
-  background: var(--theme-color);
-	border-radius:0.5rem;
-	/* border:0.0625rem solid #0b0e07; */
-  border: none;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	padding:0.6rem 1.5rem;
-	text-decoration:none;
-	font-weight: bold;
-  font-family: Noto Sans, sans-serif;
-}
-.button:hover {
-	/* background:linear-gradient(to bottom, #0073d8 5%, var(--theme-color) 100%); */
-	background-color:#0073d8;
-}
-.button:active {
-	position:relative;
-	top: 0.1875rem;
-}
-
 #deleteButton, #editButton {
   font-size: 1.1rem;
   padding: 0.4rem 1rem;
@@ -602,6 +713,12 @@ input[type=time]:invalid {
 
 #editButton:hover {
 	background-color:#ffa500;
+}
+
+.editEntryFormButtons {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 #cancelEditButton {
@@ -627,7 +744,7 @@ input[type=time]:invalid {
 
 #submitButton, #submitEditButton {
   margin-top: 1rem;
-  width: 18rem;
+  width: 100%; /* 18rem; */
   font-size: 1.5rem;
 }
 
@@ -637,18 +754,18 @@ input[type=time]:invalid {
 
 #submitEditButton {
   width: 100%;
-}  
+}
 
 #showStatsButton, #showSortingButton {
   margin-bottom: 0.5rem;
   width: max-content;
   font-size: 1.5rem;
   font-weight: bold;
+  height: fit-content;
 }
 
 #showSortingButton {
   margin-right: 0.8rem;
-  
 }
 
 /*.editModal {
@@ -679,16 +796,19 @@ input[type=time]:invalid {
 .tableFooter {
   display: flex;
   justify-content: center;
+  margin: auto;
+  margin-top: 0.5rem;
+  width: fit-content;
+  border-radius: 0.5rem;
+  box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);
 }
 
 .activePaginationButton {
-  margin:0.5rem -0.0625rem;
   font-size: 1.5rem;
 	background-color:#0073d8;
 }
 
 .inactivePaginationButton {
-  margin:0.5rem -0.0625rem;
   font-size: 1.5rem;
 }
 
@@ -732,4 +852,20 @@ footer::before {
   border-radius: 1rem;
   box-shadow: 0rem 0rem 1.2rem 1rem rgba(135, 135, 135, 0.5);
   z-index: -1;
+}
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 200ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open{
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.ReactModal__Overlay--before-close{
+  opacity: 0;
+  transform: translateY(10px);
 }
