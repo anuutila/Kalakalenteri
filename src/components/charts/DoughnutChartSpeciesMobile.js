@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS} from "chart.js/auto";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -19,7 +19,13 @@ const DoughnutChartSpeciesMobile = ({ entries }) => {
 
   const [totalAmount, setTotalAmount] = useState(entries.length);
 
+  useEffect(() => {
+    setTotalAmount(entries.length);
+  } , [entries]);
+
+  // Put the fish species in specific order
   const sortedFishSpecies = sortByCustomAlphabet(uniqueFishSpecies(entries));
+
   // Chart fontsize based on screen width
   const fontSizeUnit = window.innerWidth/1000*(5/6)
 
