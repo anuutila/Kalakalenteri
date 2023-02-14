@@ -649,7 +649,7 @@ input[type=time]:invalid {
 
 .tableContainer {
   margin: auto;
-  margin-bottom: 86vh;
+  margin-bottom: 5rem;
   margin-left: 2rem;
   margin-right: 2rem;
   width: 85rem;
@@ -859,7 +859,8 @@ footer {
   font-size: 1.5rem;
   margin: auto;
   margin-top: 1rem;
-  margin-bottom: 14vh;
+  /* margin-bottom: 14vh; */
+  margin-bottom: 4rem;
   position: relative;
 }
 
@@ -874,7 +875,9 @@ footer::before {
   transform: translate(-50%, -50%);
   background-color: rgba(135, 135, 135, 0.3);
   border-radius: 1rem;
-  box-shadow: 0rem 0rem 1.2rem 1rem rgba(135, 135, 135, 0.5);
+  /* box-shadow: 0rem 0rem 1.2rem 1rem rgba(135, 135, 135, 0.5); */
+  box-shadow: 0rem 0rem 2rem 1rem rgba(165, 165, 165, 0.5);
+
   z-index: -1;
 }
 
