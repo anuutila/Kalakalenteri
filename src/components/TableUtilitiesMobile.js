@@ -130,7 +130,7 @@ const TableUtilitiesMobile = (props) => {
                 onClick={() => {
                   props.handleStartDateChange(props.entries.at(-1).date)
                   props.handleEndDateChange(props.entries.at(0).date)
-                }}>Näytä kaikki</button>
+                }}>Koko historia</button>
               <button className='button' id='okButton' onClick={closeModal}>OK</button>
             </div>
           </div>

@@ -75,7 +75,9 @@ body {
 	text-decoration:none;
 	font-weight: bold;
   font-family: Noto Sans, sans-serif;
+  font-size: 1.5rem;
 }
+
 .button:hover {
 	/* background:linear-gradient(to bottom, #0073d8 5%, var(--theme-color) 100%); */
 	background-color:#0073d8;
@@ -166,6 +168,10 @@ body {
   filter: invert(1);
 }
 
+/* I want to change the color of the checkbox background to red */
+input[type="checkbox"] {
+  background-color: #ff0000;
+}
 input#locationCheckbox {
   width: 2rem;
   height: 2rem;
@@ -175,8 +181,12 @@ input#locationCheckbox {
   cursor: pointer;
 }
 
-input#locationCheckbox:hover {
-  color: #ccc;
+#locationCheckboxLabel{
+  cursor: pointer;
+}
+
+input#locationCheckbox:hover:not(:checked) {
+  filter: invert(25%);
 }
 
 .editFormContainer {
@@ -449,7 +459,7 @@ input[type=time]:invalid {
   align-items: flex-end;
 }
 
-.datePickerContainer {
+.datePickerButtonContainer {
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -458,14 +468,16 @@ input[type=time]:invalid {
 .datePicker {
   display: flex;
   flex-direction: column;
-  margin-bottom: 0.5rem;
-  padding: 1rem;
+  text-align: center;
+  margin: 0;
+  background-color: transparent;
+  padding: 2rem;
   color: #fff;
   font-family: 'Noto Sans', 'sans-serif';
 }
 
 .datePicker input {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   background-color: rgba(0, 0, 0, 0.3);
   color: #eeeeee;
   border-radius: 0.3rem;
@@ -474,7 +486,7 @@ input[type=time]:invalid {
   border-style: inset;
   border-color: rgb(74, 74, 74);
   border-image: initial;
-  width: 10.5rem;
+  /* width: 10.5rem; */
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
@@ -483,23 +495,32 @@ input[type=time]:invalid {
 }
 
 .datePickerDash {
+  font-size: 1.5rem;
   margin: 0 0.25rem;
 }
 
 .datePickerTitle {
   letter-spacing: 0.0625rem;
-  font-size: 1.5rem;
-  font-weight: 500;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
 }
 
 #yearButton {
-  font-size: 1.3rem;
-  padding: 0.4rem 1rem;
+  font-size: 1.5rem;
+  /* padding: 0.4rem 1rem; */
+  padding-top: 0.5rem;
+}
+
+#maxDateRangeButton {
+  margin-top: 1rem;
+}
+
+#okButton {
+  margin-top: 2rem;
 }
 
 .datePickerContent1 {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -509,6 +530,7 @@ input[type=time]:invalid {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-top: 1rem;
 }
 
 .radioGroupContainer {
@@ -756,7 +778,9 @@ input[type=time]:invalid {
   width: 100%;
 }
 
-#showStatsButton, #showSortingButton {
+#showStatsButton, 
+#showSortingButton,
+#showDatePickerButton {
   margin-bottom: 0.5rem;
   width: max-content;
   font-size: 1.5rem;
