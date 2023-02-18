@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import useTable from "../hooks/useTable"
 import Entry from "./Entry"
 import TableFooter from "./TableFooter"
-import { formatDate } from "../utils/helpers";
+import { formatDate } from "../utils/utils";
 
 /**
  * A component for displaying a table of entries.

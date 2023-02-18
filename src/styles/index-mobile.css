@@ -402,8 +402,8 @@
   }
 
   .tableContainer {
-    width: fit-content;
     width: 100%;
+    max-width: 100%;
     margin: auto;
     margin-bottom: 8rem;
   }

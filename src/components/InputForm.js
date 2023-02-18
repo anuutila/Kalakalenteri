@@ -13,6 +13,7 @@ const InputForm = ({ entries, addEntry, newValues, handleChange, togglelocationC
             list="fishSpecies"
             value={newValues.newFish}
             type="text"
+            required
             onChange={handleChange}
             name="newFish"
           />
@@ -93,6 +94,7 @@ const InputForm = ({ entries, addEntry, newValues, handleChange, togglelocationC
           saaja: <input
             list="persons"
             type="text"
+            required
             value={newValues.newPerson}
             onChange={handleChange}
             name="newPerson"

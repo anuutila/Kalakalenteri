@@ -1,7 +1,7 @@
 import React from "react"
 import CountUp from 'react-countup';
 
-import { formatDate } from "../utils/helpers";
+import { formatDate } from "../utils/utils";
 import BarChartHours from "./Charts/BarChartHours"
 import BarChartHoursMobile from "./Charts/BarChartHoursMobile"
 import BarChartRankings from "./Charts/BarChartRankings"

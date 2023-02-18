@@ -6,7 +6,7 @@ import EntryTable from './components/EntryTable'
 import Statistics from './components/Statistics'
 import TableUtilities from './components/TableUtilities'
 import RadioGroup from './components/RadioGroup'
-import { getCurrentDate, getInitialYear, geolocationAvailable } from './utils/helpers'
+import { getCurrentDate, getInitialYear, geolocationAvailable, devLog } from './utils/utils'
 import {
   sortByFish, sortByLength, sortByWeight, sortByLure, sortByPlace,
   sortByDate, sortByTime, sortByPerson, defaultSort
@@ -50,54 +50,58 @@ const App = () => {
    * Fetch all entries from the backend and set them to the state when the component is mounted
    */
   useEffect(() => {
-    console.log('did mount')
-
+    devLog('did mount')
     entryService
       .getAll()
       .then(response => {
-        console.log('promise fulfilled')
+        devLog('promise fulfilled')
         const sortedEntries = defaultSort(response)
         setAllEntries(sortedEntries)
         setStartDate(`${getInitialYear(sortedEntries)}-01-01`)
         setEndDate(`${getInitialYear(sortedEntries)}-12-31`)
       })
       .catch(error => {
-        console.log('fail')
+        window.alert(error.response.data.error)
+        console.error(error)
       })
   }, [])
 
+  /**
+   * Filter the entries and set the filtered entries to the state if the user changes the date range
+   */
   useEffect(() => {
     setFilteredEntries(filterEntriesByDateRange(allEntries))
-    console.log('filtered entries updated')
+    devLog('filtered entries updated')
   }, [startDate, endDate, allEntries])
 
   /**
-   * Sends a new entry to the backend based on the values in the state
+   * Sends a new entry to the backend based on the user inputted values in the form
    */
   const addEntry = (event) => {
     event.preventDefault()
 
-    // Frontend input validation
-    if (!newValues.newFish || !newValues.newDate || !newValues.newPerson) {
-      return window.alert('kalalaji, päivämäärä tai saajan nimi puuttuu')
+    // Ensure that the user has entered all the required fields
+    if (!newValues.newFish || !newValues.newDate || !newValues.newTime || !newValues.newPerson) {
+      return window.alert('Virhe: kalalaji, päivämäärä, kellonaika tai saajan nimi puuttuu')
     }
 
     const entryObject = {
-      fish: newValues.newFish,
+      fish: newValues.newFish.trim(),
       date: newValues.newDate,
       length: newValues.newLength,
       weight: newValues.newWeight,
-      lure: newValues.newLure,
-      place: newValues.newPlace,
-      coordinates: newValues.newCoordinates,
+      lure: newValues.newLure.trim(),
+      place: newValues.newPlace.trim(),
+      coordinates: newValues.newCoordinates.trim(),
       time: newValues.newTime,
-      person: newValues.newPerson
+      person: newValues.newPerson.trim()
     }
 
     entryService
       .create(entryObject)
       .then(response => {
-        console.log('entry added')
+        devLog('entry added')
+        console.log(response)
         setAllEntries(defaultSort(allEntries.concat(response)))
         // Reset the input fields
         setNewValues(initialNewValues)
@@ -105,7 +109,7 @@ const App = () => {
         document.getElementById("locationCheckbox").checked = false;
       })
       .catch(error => {
-        console.log('fail')
+        console.error('Uuden saaliin lisäämisessä tapahtui virhe: ', error)
       })
   }
 
@@ -125,7 +129,7 @@ const App = () => {
           })
           .catch(error => {
             console.log(error)
-            alert("Poisto epäonnistui.")
+            window.alert("Poisto epäonnistui.")
           })
       }
 
@@ -153,7 +157,7 @@ const App = () => {
       entryService
         .edit(id, editedEntry)
         .then(response => {
-          console.log('entry edited')
+          devLog('entry edited')
           setAllEntries(allEntries.map(entry => entry.id === id ? response : entry))
         })
         .catch(error => {
@@ -162,7 +166,7 @@ const App = () => {
           if (error.response) {
             const errorMessage = error.response.data.error
             console.log(errorMessage)
-            alert(`Muokkaus epäonnistui\n${errorMessage}`)
+            window.alert(`Muokkaus epäonnistui\n${errorMessage}`)
           }
         })
     }
@@ -240,7 +244,7 @@ const App = () => {
     }
 
     function error() {
-      alert('Sijaintitietojen hakeminen epäonnistui.')
+      window.alert('Sijaintitietojen hakeminen epäonnistui.')
       document.getElementById("locationCheckbox").checked = false;
     }
 

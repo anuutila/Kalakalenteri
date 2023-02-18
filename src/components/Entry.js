@@ -1,8 +1,9 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Modal from "react-modal"
 import { FaTrash, FaEdit } from 'react-icons/fa';
+import { hyphenate } from "hyphen/fi";
 import EditEntryForm from './EditEntryForm'
-import { formatDate } from "../utils/helpers";
+import { devLog, formatDate, hyphenateString } from "../utils/utils";
 Modal.setAppElement('#root')
 
 /**
@@ -10,6 +11,38 @@ Modal.setAppElement('#root')
  */
 const Entry = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [hyphenatedLure, setHyphenatedLure] = useState("");
+  const [hyphenatedPlace, setHyphenatedPlace] = useState("");
+  const MIN_WORD_LENGTH = 10;
+
+  /**
+   * Hyphenates the words in the given string if they are longer than the given minimum length.
+   * @param {string[]} words - An array of words
+   * @param {number} minLength - The minimum length of a word to be hyphenated
+   * @returns {string} - The hyphenated string
+   */
+  const hyphenateWords = async (words, minLength) => {
+    const hyphenatedWords = await Promise.all(words.map(async (word) => {
+      if (word.length > minLength) {
+        return await hyphenate(word)
+      } else {
+        return word
+      }
+    }))
+    return hyphenatedWords.join(' ')
+  }
+
+  useEffect(() => {
+    hyphenateWords(props.entry.lure.split(' '), MIN_WORD_LENGTH).then(result => {
+      setHyphenatedLure(result)
+    })
+  }, [props.entry.lure]);
+
+  useEffect(() => {
+    hyphenateWords(props.entry.place.split(' '), MIN_WORD_LENGTH).then(result => {
+      setHyphenatedPlace(result)
+    })
+  }, [props.entry.place]);
 
   const openModal = () => {
     setModalIsOpen(true)
@@ -44,8 +77,8 @@ const Entry = (props) => {
       <td>{props.entry.fish}</td>
       <td>{props.entry.length}</td>
       <td>{props.entry.weight}</td>
-      <td>{props.entry.lure}</td>
-      <td>{props.entry.place}
+      <td>{hyphenatedLure}</td>
+      <td>{hyphenatedPlace}
         <br></br>
         {props.entry.coordinates === '-' ? '' :
           <div className="mapLinkContainer">

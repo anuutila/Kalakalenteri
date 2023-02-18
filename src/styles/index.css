@@ -653,9 +653,11 @@ input[type=time]:invalid {
   margin-left: 2rem;
   margin-right: 2rem;
   width: 85rem;
+  max-width: 85rem;
 }
 
 .entries {
+  /* table-layout: fixed; */
   width: 100%;
   border-spacing: 0;
   color: white;
@@ -680,6 +682,13 @@ input[type=time]:invalid {
 .entries td {
   border-bottom: 0.0625rem solid rgb(89, 89, 89);
   border-top: 0.0625rem solid rgb(89, 89, 89);
+}
+
+table td:nth-child(4),
+table td:nth-child(5) {
+  width: 50%;
+  hyphens: auto;
+  white-space: pre-line;
 }
 
 .entries thead th:last-child {border-top-right-radius: 1rem;}
