@@ -6,7 +6,7 @@ import EntryTable from './components/EntryTable'
 import Statistics from './components/Statistics'
 import TableUtilities from './components/TableUtilities'
 import RadioGroup from './components/RadioGroup'
-import { getCurrentDate, getInitialYear, geolocationAvailable, devLog } from './utils/utils'
+import { getCurrentDate, getInitialYear, geolocationAvailable, devLog, validateEntryInput } from './utils/utils'
 import {
   sortByFish, sortByLength, sortByWeight, sortByLure, sortByPlace,
   sortByDate, sortByTime, sortByPerson, defaultSort
@@ -75,15 +75,21 @@ const App = () => {
   }, [startDate, endDate, allEntries])
 
   /**
+   * Displays an error message in the console and in a window alert
+   * @param {string} messageStart - The beginning of the error message
+   * @returns {function} - A function that takes an error object as a parameter
+   */
+  const createErrorHandler = messageStart => error => {
+    const errorMessage = error.response?.data?.error || error.toString()
+    console.error(`${messageStart}${errorMessage}`)
+    window.alert(`${messageStart}${errorMessage}`)
+  }
+
+  /**
    * Sends a new entry to the backend based on the user inputted values in the form
    */
   const addEntry = (event) => {
     event.preventDefault()
-
-    // Ensure that the user has entered all the required fields
-    if (!newValues.newFish || !newValues.newDate || !newValues.newTime || !newValues.newPerson) {
-      return window.alert('Virhe: kalalaji, päivämäärä, kellonaika tai saajan nimi puuttuu')
-    }
 
     const entryObject = {
       fish: newValues.newFish.trim(),
@@ -97,20 +103,24 @@ const App = () => {
       person: newValues.newPerson.trim()
     }
 
+    // Validate the user inputted values
+    const isValid = validateEntryInput(entryObject);
+    if (!isValid) {
+      return;
+    }
+
     entryService
       .create(entryObject)
       .then(response => {
         devLog('entry added')
-        console.log(response)
+        devLog(response)
         setAllEntries(defaultSort(allEntries.concat(response)))
         // Reset the input fields
         setNewValues(initialNewValues)
         // Reset the geolocation checkbox
         document.getElementById("locationCheckbox").checked = false;
       })
-      .catch(error => {
-        console.error('Uuden saaliin lisäämisessä tapahtui virhe: ', error)
-      })
+      .catch(createErrorHandler("Uuden saaliin lisäämisessä tapahtui virhe: "))
   }
 
   /**
@@ -124,51 +134,47 @@ const App = () => {
         entryService
           .remove(id)
           .then(response => {
-            console.log('entry removed')
+            devLog('entry removed')
+            devLog(response)
             setAllEntries(allEntries.filter(e => e.id !== id))
           })
-          .catch(error => {
-            console.log(error)
-            window.alert("Poisto epäonnistui.")
-          })
+          .catch(createErrorHandler("Saaliin poistamisessa tapahtui virhe: "))
       }
-
     }
   }
 
   /**
    * Sends a request to the backend to edit an entry with the given id
-   * and sets the edited entry to the state
+   * and updates the edited entry to the state
    */
   const editEntry = (id) => {
     return () => {
-      const editedEntry = {
-        fish: editValues.editFish,
+      const editedEntryObject = {
+        fish: editValues.editFish.trim(),
         date: editValues.editDate,
         length: editValues.editLength,
         weight: editValues.editWeight,
-        lure: editValues.editLure,
-        place: editValues.editPlace,
-        coordinates: editValues.editCoordinates,
+        lure: editValues.editLure.trim(),
+        place: editValues.editPlace.trim(),
+        coordinates: editValues.editCoordinates.trim(),
         time: editValues.editTime,
-        person: editValues.editPerson
+        person: editValues.editPerson.trim()
+      }
+
+      // Validate the user inputted values
+      const isValid = validateEntryInput(editedEntryObject);
+      if (!isValid) {
+        return false;
       }
 
       entryService
-        .edit(id, editedEntry)
+        .edit(id, editedEntryObject)
         .then(response => {
           devLog('entry edited')
+          devLog(response)
           setAllEntries(allEntries.map(entry => entry.id === id ? response : entry))
         })
-        .catch(error => {
-          console.log(error)
-          // Show an error message from the backend if the edit fails
-          if (error.response) {
-            const errorMessage = error.response.data.error
-            console.log(errorMessage)
-            window.alert(`Muokkaus epäonnistui\n${errorMessage}`)
-          }
-        })
+        .catch(createErrorHandler("Saaliin muokkaamisessa tapahtui virhe: "))
     }
   }
 
@@ -198,14 +204,14 @@ const App = () => {
    */
   const handleEndDateChange = (date) => {
     setEndDate(date)
-  } 
+  }
 
   /**
    * Filters the entries by the date range selected by the user
    * @param {Entry[]} entries - The entries to be filtered
    */
   const filterEntriesByDateRange = (entries) => {
-    return entries.filter(entry => 
+    return entries.filter(entry =>
       entry.date.split('-').join('') >= startDate.split('-').join('') &&
       entry.date.split('-').join('') <= endDate.split('-').join(''))
   }
@@ -346,65 +352,65 @@ const App = () => {
     }
   }
 
-    return (
-      console.log('render'),
-      <>
-        <div className="img"></div>
-        <div className='content'>
-          <div className='topShade-mobile'></div>
-          <h1 className='title1'>KALAPÄIVÄKIRJA</h1>
-          <h1 className='title1-mobile'>
+  return (
+    devLog('render'),
+    <>
+      <div className="img"></div>
+      <div className='content'>
+        <div className='topShade-mobile'></div>
+        <h1 className='title1'>KALAPÄIVÄKIRJA</h1>
+        <h1 className='title1-mobile'>
           —KALA—<br />PÄIVÄKIRJA</h1>
-          <div className='newEntryAndStatisticsContainer'>
-            <div className='newEntryContainer'>
-              <h2 className='title2'>UUSI SAALIS</h2>
-              <InputForm
-                newValues={newValues}
-                entries={allEntries}
-                addEntry={addEntry}
-                handleChange={handleNewValuesChange}
-                togglelocationCheckbox={togglelocationCheckbox} />
-            </div>
-            <div className='statisticsContainer'>
-              {!statsAreHidden &&
-                <Statistics 
-                  entries={filteredEntries}
-                  startDate={startDate}
-                  endDate={endDate}
-                 /*statsWindowAnimation={statsWindowAnimation}*/ />}
-            </div>
-          </div>
-          <div className='tableContainer'>
-              <TableUtilities
+        <div className='newEntryAndStatisticsContainer'>
+          <div className='newEntryContainer'>
+            <h2 className='title2'>UUSI SAALIS</h2>
+            <InputForm
+              newValues={newValues}
               entries={allEntries}
-              handleSortButtonClick={handleSortButtonClick}
-              toggleStatsHidden={toggleStatsHidden}
-              sortingIsHidden={sortingIsHidden}
-              statsAreHidden={statsAreHidden} 
-              startDate={startDate}
-              endDate={endDate} 
-              handleStartDateChange={handleStartDateChange}
-              handleEndDateChange={handleEndDateChange}/> 
-            {!sortingIsHidden && <RadioGroup
-              sortEntries={sortEntries}
-              radioGroupAnimation={radioGroupAnimation} />
-            } 
-            <EntryTable
-              entries={filteredEntries}
-              rowsPerPage={50}
-              removeEntry={removeEntry}
-              editValues={editValues}
-              editEntry={editEntry}
-              initializeStateForEdit={initializeStateForEdit}
-              handleChange={handleEditValuesChange}
-              startDate={startDate}
-              endDate={endDate} /> 
+              addEntry={addEntry}
+              handleChange={handleNewValuesChange}
+              togglelocationCheckbox={togglelocationCheckbox} />
           </div>
-          <footer>made with <span id='footerHeart' style={{ color: "#0096e7" }}>&#10084;</span> by Akseli</footer>
-
+          <div className='statisticsContainer'>
+            {!statsAreHidden &&
+              <Statistics
+                entries={filteredEntries}
+                startDate={startDate}
+                endDate={endDate}
+                 /*statsWindowAnimation={statsWindowAnimation}*/ />}
+          </div>
         </div>
-      </>
-    )
-  }
+        <div className='tableContainer'>
+          <TableUtilities
+            entries={allEntries}
+            handleSortButtonClick={handleSortButtonClick}
+            toggleStatsHidden={toggleStatsHidden}
+            sortingIsHidden={sortingIsHidden}
+            statsAreHidden={statsAreHidden}
+            startDate={startDate}
+            endDate={endDate}
+            handleStartDateChange={handleStartDateChange}
+            handleEndDateChange={handleEndDateChange} />
+          {!sortingIsHidden && <RadioGroup
+            sortEntries={sortEntries}
+            radioGroupAnimation={radioGroupAnimation} />
+          }
+          <EntryTable
+            entries={filteredEntries}
+            rowsPerPage={50}
+            removeEntry={removeEntry}
+            editValues={editValues}
+            editEntry={editEntry}
+            initializeStateForEdit={initializeStateForEdit}
+            handleChange={handleEditValuesChange}
+            startDate={startDate}
+            endDate={endDate} />
+        </div>
+        <footer>made with <span id='footerHeart' style={{ color: "#0096e7" }}>&#10084;</span> by Akseli</footer>
 
-  export default App
+      </div>
+    </>
+  )
+}
+
+export default App

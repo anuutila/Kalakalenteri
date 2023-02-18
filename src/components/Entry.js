@@ -3,7 +3,7 @@ import Modal from "react-modal"
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import { hyphenate } from "hyphen/fi";
 import EditEntryForm from './EditEntryForm'
-import { devLog, formatDate, hyphenateString } from "../utils/utils";
+import { formatDate } from "../utils/utils";
 Modal.setAppElement('#root')
 
 /**

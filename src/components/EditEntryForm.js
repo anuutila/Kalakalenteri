@@ -9,7 +9,9 @@ const EditEntryForm = (props) => {
     <form className='editEntryForm'
       onSubmit={(event) => {
         event.preventDefault();
-        props.editEntry();
+        if (props.editEntry() === false) {
+          return;
+        }
         props.closeModal();
       }}>
       <div>
@@ -18,6 +20,7 @@ const EditEntryForm = (props) => {
           onChange={props.handleChange}
           value={props.editValues.editFish}
           name="editFish"
+          required
         />
         <datalist id="fishSpecies">
           <option value="hauki" />
@@ -31,6 +34,7 @@ const EditEntryForm = (props) => {
           placeholder="cm"
           step="0.1"
           min="0"
+          max="999"
           value={props.editValues.editLength}
           onChange={props.handleChange}
           name="editLength"
@@ -42,6 +46,7 @@ const EditEntryForm = (props) => {
           placeholder="kg"
           step="0.01"
           min="0"
+          max="999"
           value={props.editValues.editWeight}
           onChange={props.handleChange}
           name="editWeight"
@@ -102,6 +107,7 @@ const EditEntryForm = (props) => {
           value={props.editValues.editPerson}
           onChange={props.handleChange}
           name="editPerson"
+          required
         />
         <datalist id="persons">
           {uniquePersons(props.entries).map(person => <option key={person} value={person} />)}
@@ -109,7 +115,7 @@ const EditEntryForm = (props) => {
       </div>
       <div className="editEntryFormButtons">
         <button type="submit" className="button" id="submitEditButton">Hyväksy muutokset</button>
-        <button className="button" id="cancelEditButton" onClick={props.closeModal}>Peruuta</button>
+        <button type="button" className="button" id="cancelEditButton" onClick={props.closeModal}>Peruuta</button>
       </div>
     </form>
   )
