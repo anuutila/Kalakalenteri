@@ -69,7 +69,6 @@ body {
 	/* border:0.0625rem solid #0b0e07; */
   border: none;
 	display:inline-block;
-	cursor:pointer;
 	color:#ffffff;
 	padding:0.6rem 1.5rem;
 	text-decoration:none;
@@ -78,11 +77,12 @@ body {
   font-size: 1.5rem;
 }
 
-.button:hover {
+.button:hover:not([disabled]) {
 	/* background:linear-gradient(to bottom, #0073d8 5%, var(--theme-color) 100%); */
 	background-color:#0073d8;
+  cursor:pointer;
 }
-.button:active {
+.button:active:not([disabled]) {
 	position:relative;
 	top: 0.1875rem;
 }
@@ -691,6 +691,23 @@ table td:nth-child(5) {
   white-space: pre-line;
 }
 
+table th:nth-child(4),
+table th:nth-child(5) {
+  width: 20%;
+}
+
+table th:nth-child(6) {
+  width: 11%;
+}
+
+table th:nth-child(8) {
+  width: 9%;
+}
+
+table th:nth-child(9) {
+  width: 8%;
+}
+
 .entries thead th:last-child {border-top-right-radius: 1rem;}
 .entries thead th:first-child {border-top-left-radius: 1rem;}
 .entries tbody tr:last-child td:first-child {border-bottom-left-radius: 1rem;}
@@ -709,7 +726,7 @@ table td:nth-child(5) {
   text-shadow:0 0.0625rem 0 #000000;
 }
 
-.noEntriesMessage {
+.EntriesMessage {
   font-weight: 500;
   text-align: center;
   padding: 5rem;
@@ -781,6 +798,31 @@ table td:nth-child(5) {
 
 #submitButton {
   margin-bottom: 0.1875rem;
+}
+
+.submitContainer {
+  position: relative;
+}
+
+.spinnerContainer {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+  scale: 1.5;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.submitButtonText.hidden {
+  opacity: 0;
 }
 
 #submitEditButton {

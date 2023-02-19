@@ -46,11 +46,15 @@ const App = () => {
   const [sortingIsHidden, setSortingIsHidden] = useState(true)
   const [radioGroupAnimation, setRadioGroupAnimation] = useState(false)
 
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [entriesLoading, setEntriesLoading] = useState(false);
+
   /**
    * Fetch all entries from the backend and set them to the state when the component is mounted
    */
   useEffect(() => {
     devLog('did mount')
+    setEntriesLoading(true)
     entryService
       .getAll()
       .then(response => {
@@ -63,6 +67,9 @@ const App = () => {
       .catch(error => {
         window.alert(error.response.data.error)
         console.error(error)
+      })
+      .finally(() => {
+        setEntriesLoading(false)
       })
   }, [])
 
@@ -109,6 +116,7 @@ const App = () => {
       return;
     }
 
+    setSubmitLoading(true);
     entryService
       .create(entryObject)
       .then(response => {
@@ -121,6 +129,9 @@ const App = () => {
         document.getElementById("locationCheckbox").checked = false;
       })
       .catch(createErrorHandler("Uuden saaliin lisäämisessä tapahtui virhe: "))
+      .finally(() => {
+        setSubmitLoading(false);
+      })
   }
 
   /**
@@ -369,7 +380,8 @@ const App = () => {
               entries={allEntries}
               addEntry={addEntry}
               handleChange={handleNewValuesChange}
-              togglelocationCheckbox={togglelocationCheckbox} />
+              togglelocationCheckbox={togglelocationCheckbox}
+              loading={submitLoading} />
           </div>
           <div className='statisticsContainer'>
             {!statsAreHidden &&
@@ -404,7 +416,8 @@ const App = () => {
             initializeStateForEdit={initializeStateForEdit}
             handleChange={handleEditValuesChange}
             startDate={startDate}
-            endDate={endDate} />
+            endDate={endDate}
+            loading={entriesLoading} />
         </div>
         <footer>made with <span id='footerHeart' style={{ color: "#0096e7" }}>&#10084;</span> by Akseli</footer>
 

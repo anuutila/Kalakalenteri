@@ -1,10 +1,12 @@
 import React from "react";
+import { CgSpinner } from 'react-icons/cg';
+import { BiLoaderAlt } from 'react-icons/bi';
 import { uniqueLures, uniquePersons, uniquePlaces } from "../utils/EntriesFunctions";
 
 /**
  * A form component for adding a new entry.
  */
-const InputForm = ({ entries, addEntry, newValues, handleChange, togglelocationCheckbox}) => {
+const InputForm = ({ entries, addEntry, newValues, handleChange, togglelocationCheckbox, loading }) => {
   return (
     <div className='formContainer'>
       <form onSubmit={addEntry} className='entryForm'>
@@ -16,11 +18,12 @@ const InputForm = ({ entries, addEntry, newValues, handleChange, togglelocationC
             required
             onChange={handleChange}
             name="newFish"
+            disabled={loading}
           />
           <datalist id="fishSpecies">
-            <option value="hauki"/>
-            <option value="kuha"/>
-            <option value="ahven"/>
+            <option value="hauki" />
+            <option value="kuha" />
+            <option value="ahven" />
           </datalist>
         </div>
         <div>
@@ -33,6 +36,7 @@ const InputForm = ({ entries, addEntry, newValues, handleChange, togglelocationC
             value={newValues.newLength}
             onChange={handleChange}
             name="newLength"
+            disabled={loading}
           />
         </div>
         <div>
@@ -45,6 +49,7 @@ const InputForm = ({ entries, addEntry, newValues, handleChange, togglelocationC
             value={newValues.newWeight}
             onChange={handleChange}
             name="newWeight"
+            disabled={loading}
           />
         </div>
         <div>
@@ -54,6 +59,7 @@ const InputForm = ({ entries, addEntry, newValues, handleChange, togglelocationC
             value={newValues.newLure}
             onChange={handleChange}
             name="newLure"
+            disabled={loading}
           />
           <datalist id="lures">
             {uniqueLures(entries).map(lure => <option key={lure} value={lure} />)}
@@ -61,11 +67,12 @@ const InputForm = ({ entries, addEntry, newValues, handleChange, togglelocationC
         </div>
         <div>
           paikka: <input
-            list = "places"
+            list="places"
             type="text"
             value={newValues.newPlace}
             onChange={handleChange}
             name="newPlace"
+            disabled={loading}
           />
           <datalist id="places">
             {uniquePlaces(entries).map(place => <option key={place} value={place} />)}
@@ -78,6 +85,7 @@ const InputForm = ({ entries, addEntry, newValues, handleChange, togglelocationC
             value={newValues.newDate}
             onChange={handleChange}
             name="newDate"
+            disabled={loading}
           />
         </div>
         <div>
@@ -88,6 +96,7 @@ const InputForm = ({ entries, addEntry, newValues, handleChange, togglelocationC
             value={newValues.newTime}
             onChange={handleChange}
             name="newTime"
+            disabled={loading}
           />
         </div>
         <div>
@@ -98,6 +107,7 @@ const InputForm = ({ entries, addEntry, newValues, handleChange, togglelocationC
             value={newValues.newPerson}
             onChange={handleChange}
             name="newPerson"
+            disabled={loading}
           />
           <datalist id="persons">
             {uniquePersons(entries).map(person => <option key={person} value={person} />)}
@@ -105,10 +115,17 @@ const InputForm = ({ entries, addEntry, newValues, handleChange, togglelocationC
         </div>
         <div>
           <label htmlFor="locationCheckbox" id="locationCheckboxLabel">GPS-sijainti</label>
-          <input id="locationCheckbox" name="locationCheckbox" type="checkbox" onChange={togglelocationCheckbox}></input>
+          <input id="locationCheckbox" name="locationCheckbox" type="checkbox" onChange={togglelocationCheckbox} disabled={loading}></input>
         </div>
         <div>
-          <button type="submit" className="button" id="submitButton">Lisää saalis</button>
+          <button type="submit" className="button" id="submitButton" disabled={loading}>
+            <div className="submitContainer">
+              <div className="spinnerContainer">
+                {loading && <CgSpinner className='spinner'/>}
+              </div>
+              <span className={`submitButtonText ${loading ? 'hidden' : ''}`}>Lisää saalis</span>
+            </div>
+          </button>
         </div>
       </form>
     </div>

@@ -9,10 +9,46 @@ import { formatDate } from "../utils/utils";
  * A component for displaying a table of entries.
  */
 const EntryTable = ({ entries, removeEntry, editEntry, editValues,
-  initializeStateForEdit, handleChange, rowsPerPage, startDate, endDate }) => {
+  initializeStateForEdit, handleChange, rowsPerPage, startDate, endDate, loading }) => {
 
   const [pageNumber, setPageNumber] = useState(1)
   const { slice, range } = useTable(entries, pageNumber, rowsPerPage)
+
+  function renderEntriesOrMessage() {
+    const numColumns = 9
+    const noEntriesMessage = (
+      <tr>
+        <td className='EntriesMessage' colSpan={numColumns}>
+          Ei merkattuja saaliita aikavälillä {formatDate(startDate)}–{formatDate(endDate)}
+        </td>
+      </tr>
+    )
+    const loadingMessage = (
+      <tr>
+        <td className='EntriesMessage' colSpan={numColumns}>
+          Ladataan...
+        </td>
+      </tr>
+    )
+    if (loading) {
+      return loadingMessage;
+    } else if (slice.length > 0) {
+      return slice.map(entry => (
+        <Entry
+          key={entry.id}
+          entry={entry}
+          entries={entries}
+          removeEntry={removeEntry(entry.id)}
+          editValues={editValues}
+          editEntry={editEntry(entry.id)}
+          initializeStateForEdit={initializeStateForEdit(entry)}
+          handleChange={handleChange}
+        />
+      ));
+    } else {
+      return noEntriesMessage;
+    }
+  }
 
   return (
     <>
@@ -31,25 +67,7 @@ const EntryTable = ({ entries, removeEntry, editEntry, editValues,
           </tr>
         </thead>
         <tbody>
-          {slice.length > 0 
-            ? 
-            slice.map(entry =>
-            <Entry
-              key={entry.id}
-              entry={entry}
-              entries={entries}
-              removeEntry={removeEntry(entry.id)}
-              editValues={editValues}
-              editEntry={editEntry(entry.id)}
-              initializeStateForEdit={initializeStateForEdit(entry)}
-              handleChange={handleChange} />) 
-            : 
-            <tr>
-                <td className='noEntriesMessage' colSpan='9'>
-                  Ei merkattuja saaliita aikavälillä {formatDate(startDate)}–{formatDate(endDate)}
-                </td>
-            </tr>
-          }
+          {renderEntriesOrMessage()}
         </tbody>
       </table>
       <div className='tableFooter'>
