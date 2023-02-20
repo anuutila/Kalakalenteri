@@ -829,6 +829,10 @@ table th:nth-child(9) {
   width: 100%;
 }
 
+.submitEditButtonText.hidden {
+  opacity: 0;
+}
+
 #showStatsButton, 
 #showSortingButton,
 #showDatePickerButton {

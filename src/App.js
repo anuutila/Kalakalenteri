@@ -47,6 +47,7 @@ const App = () => {
   const [radioGroupAnimation, setRadioGroupAnimation] = useState(false)
 
   const [submitLoading, setSubmitLoading] = useState(false);
+  const [submitEditLoading, setSubmitEditLoading] = useState(false);
   const [entriesLoading, setEntriesLoading] = useState(false);
 
   /**
@@ -90,6 +91,7 @@ const App = () => {
     const errorMessage = error.response?.data?.error || error.toString()
     console.error(`${messageStart}${errorMessage}`)
     window.alert(`${messageStart}${errorMessage}`)
+    throw error
   }
 
   /**
@@ -111,12 +113,15 @@ const App = () => {
     }
 
     // Validate the user inputted values
-    const isValid = validateEntryInput(entryObject);
-    if (!isValid) {
-      return;
+    const errorMessage = validateEntryInput(entryObject);
+    const errorMessageStart = "Uuden saaliin lisäämisessä tapahtui virhe: "
+    if (errorMessage) {
+      console.error(`${errorMessageStart}${errorMessage}`)
+      window.alert(`${errorMessageStart}${errorMessage}`)
+      return
     }
 
-    setSubmitLoading(true);
+    setSubmitLoading(true)
     entryService
       .create(entryObject)
       .then(response => {
@@ -126,11 +131,15 @@ const App = () => {
         // Reset the input fields
         setNewValues(initialNewValues)
         // Reset the geolocation checkbox
-        document.getElementById("locationCheckbox").checked = false;
+        document.getElementById("locationCheckbox").checked = false
       })
-      .catch(createErrorHandler("Uuden saaliin lisäämisessä tapahtui virhe: "))
+      .catch(error => {
+        const errorMessage = error.response?.data?.error || error.toString()
+        console.error(`${errorMessageStart}${errorMessage}`)
+        window.alert(`${errorMessageStart}${errorMessage}`)
+      })
       .finally(() => {
-        setSubmitLoading(false);
+        setSubmitLoading(false)
       })
   }
 
@@ -173,19 +182,35 @@ const App = () => {
       }
 
       // Validate the user inputted values
-      const isValid = validateEntryInput(editedEntryObject);
-      if (!isValid) {
-        return false;
+      const errorMessage = validateEntryInput(editedEntryObject);
+      const errorMessageStart = "Saaliin muokkaamisessa tapahtui virhe: "
+      if (errorMessage) {
+        console.error(`${errorMessageStart}${errorMessage}`)
+        window.alert(`${errorMessageStart}${errorMessage}`)
+        return Promise.reject(new Error(errorMessage))
       }
 
-      entryService
-        .edit(id, editedEntryObject)
-        .then(response => {
-          devLog('entry edited')
-          devLog(response)
-          setAllEntries(allEntries.map(entry => entry.id === id ? response : entry))
-        })
-        .catch(createErrorHandler("Saaliin muokkaamisessa tapahtui virhe: "))
+      setSubmitEditLoading(true)
+
+      return new Promise((resolve, reject) => {
+        entryService
+          .edit(id, editedEntryObject)
+          .then(response => {
+            devLog('entry edited')
+            devLog(response)
+            setAllEntries(allEntries.map(entry => entry.id === id ? response : entry))
+            resolve(response)
+          })
+          .catch(error => {
+            const errorMessage = error.response?.data?.error || error.toString()
+            console.error(`${errorMessageStart}${errorMessage}`)
+            window.alert(`${errorMessageStart}${errorMessage}`)
+            reject(error)
+          })
+          .finally(() => {
+            setSubmitEditLoading(false)
+          })
+      })
     }
   }
 
@@ -417,7 +442,8 @@ const App = () => {
             handleChange={handleEditValuesChange}
             startDate={startDate}
             endDate={endDate}
-            loading={entriesLoading} />
+            entriesLoading={entriesLoading}
+            submitEditLoading={submitEditLoading} />
         </div>
         <footer>made with <span id='footerHeart' style={{ color: "#0096e7" }}>&#10084;</span> by Akseli</footer>
 

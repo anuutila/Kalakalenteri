@@ -24,8 +24,8 @@ const Statistics = ({ entries, startDate, endDate }) => {
       endDate.substring(5, 10) === '12-31') {
       return 'Vuoden ' + startDate.substring(0, 4) + ' tilastot:'
     } else {
-      return <text>Tilastot aikaväliltä<br/>
-      {formatDate(startDate)}–{formatDate(endDate)}:</text>
+      return <span>Tilastot aikaväliltä<br/>
+      {formatDate(startDate)}–{formatDate(endDate)}:</span>
     }
   }
 

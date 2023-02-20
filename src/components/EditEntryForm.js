@@ -1,4 +1,5 @@
 import React from "react";
+import { CgSpinner } from 'react-icons/cg';
 import { uniquePersons, uniqueLures, uniquePlaces } from "../utils/EntriesFunctions";
 
 /**
@@ -7,12 +8,14 @@ import { uniquePersons, uniqueLures, uniquePlaces } from "../utils/EntriesFuncti
 const EditEntryForm = (props) => {
   return (
     <form className='editEntryForm'
-      onSubmit={(event) => {
+      onSubmit={async (event) => {
         event.preventDefault();
-        if (props.editEntry() === false) {
-          return;
+        try {
+          await props.editEntry();
+          props.closeModal();
+        } catch (error) {
+          console.error(error);
         }
-        props.closeModal();
       }}>
       <div>
         laji: <input
@@ -21,6 +24,7 @@ const EditEntryForm = (props) => {
           value={props.editValues.editFish}
           name="editFish"
           required
+          disabled={props.loading}
         />
         <datalist id="fishSpecies">
           <option value="hauki" />
@@ -38,6 +42,7 @@ const EditEntryForm = (props) => {
           value={props.editValues.editLength}
           onChange={props.handleChange}
           name="editLength"
+          disabled={props.loading}
         />
       </div>
       <div>
@@ -50,6 +55,7 @@ const EditEntryForm = (props) => {
           value={props.editValues.editWeight}
           onChange={props.handleChange}
           name="editWeight"
+          disabled={props.loading}
         />
       </div>
       <div>
@@ -58,6 +64,7 @@ const EditEntryForm = (props) => {
           value={props.editValues.editLure}
           onChange={props.handleChange}
           name="editLure"
+          disabled={props.loading}
         />
         <datalist id="lures">
           {uniqueLures(props.entries).map(lure => <option key={lure} value={lure} />)}
@@ -69,6 +76,7 @@ const EditEntryForm = (props) => {
           value={props.editValues.editPlace}
           onChange={props.handleChange}
           name="editPlace"
+          disabled={props.loading}
         />
         <datalist id="places">
           {uniquePlaces(props.entries).map(place => <option key={place} value={place} />)}
@@ -80,6 +88,7 @@ const EditEntryForm = (props) => {
           value={props.editValues.editCoordinates}
           onChange={props.handleChange}
           name="editCoordinates"
+          disabled={props.loading}
         />
       </div>
       <div>
@@ -89,6 +98,7 @@ const EditEntryForm = (props) => {
           value={props.editValues.editDate}
           onChange={props.handleChange}
           name="editDate"
+          disabled={props.loading}
         />
       </div>
       <div>
@@ -99,6 +109,7 @@ const EditEntryForm = (props) => {
           value={props.editValues.editTime}
           onChange={props.handleChange}
           name="editTime"
+          disabled={props.loading}
         />
       </div>
       <div>
@@ -108,13 +119,21 @@ const EditEntryForm = (props) => {
           onChange={props.handleChange}
           name="editPerson"
           required
+          disabled={props.loading}
         />
         <datalist id="persons">
           {uniquePersons(props.entries).map(person => <option key={person} value={person} />)}
         </datalist>
       </div>
       <div className="editEntryFormButtons">
-        <button type="submit" className="button" id="submitEditButton">Hyväksy muutokset</button>
+        <button type="submit" className="button" id="submitEditButton" disabled={props.loading}>
+          <div className="submitContainer">
+            <div className="spinnerContainer">
+              {props.loading && <CgSpinner className='spinner' />}
+            </div>
+            <span className={`submitEditButtonText ${props.loading ? 'hidden' : ''}`}>Hyväksy muutokset</span>
+          </div>
+        </button>
         <button type="button" className="button" id="cancelEditButton" onClick={props.closeModal}>Peruuta</button>
       </div>
     </form>

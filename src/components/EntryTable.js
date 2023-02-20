@@ -9,7 +9,7 @@ import { formatDate } from "../utils/utils";
  * A component for displaying a table of entries.
  */
 const EntryTable = ({ entries, removeEntry, editEntry, editValues,
-  initializeStateForEdit, handleChange, rowsPerPage, startDate, endDate, loading }) => {
+  initializeStateForEdit, handleChange, rowsPerPage, startDate, endDate, entriesLoading, submitEditLoading }) => {
 
   const [pageNumber, setPageNumber] = useState(1)
   const { slice, range } = useTable(entries, pageNumber, rowsPerPage)
@@ -30,7 +30,7 @@ const EntryTable = ({ entries, removeEntry, editEntry, editValues,
         </td>
       </tr>
     )
-    if (loading) {
+    if (entriesLoading) {
       return loadingMessage;
     } else if (slice.length > 0) {
       return slice.map(entry => (
@@ -43,6 +43,7 @@ const EntryTable = ({ entries, removeEntry, editEntry, editValues,
           editEntry={editEntry(entry.id)}
           initializeStateForEdit={initializeStateForEdit(entry)}
           handleChange={handleChange}
+          loading={submitEditLoading}
         />
       ));
     } else {

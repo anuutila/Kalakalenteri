@@ -131,6 +131,7 @@ const Entry = (props) => {
               editEntry={props.editEntry}
               handleChange={props.handleChange}
               closeModal={closeModal}
+              loading={props.loading}
             />
           </div>
         </Modal>
