@@ -73,7 +73,7 @@ export function validateEntryInput(entryObject) {
     return (`vieheen nimi saa olla enintään ${MAX_INPUT_LENGTH_BIG} merkkiä pitkä.`)
   } else if (!/^([^\s]+)+((\s)[^\s]+)*$|^$/.test(entryObject.lure)) {
     return ("erota vieheen nimen osat toisistaan vain yhdellä välilyönnillä.")
-  } else if (/[^aeiouyäöAEIOUYÄÖ]{10,}|(.)\1{4,}/g.test(entryObject.lure)) {
+  } else if (/[^aeiouyäöAEIOUYÄÖ\s]{10,}|(.)\1{4,}/g.test(entryObject.lure)) {
     return ("vieheen nimessä ei voi olla 10 konsonanttia tai 5 samaa merkkia peräkkäin.")
   }
 
@@ -83,7 +83,7 @@ export function validateEntryInput(entryObject) {
   } else if (!/^([^\s]+)+((\s)[^\s]+)*$|^$/.test(entryObject.place)) {
      return ("erota paikan nimen osat toisistaan vain yhdellä välilyönnillä.")
 
-  } else if (/[^aeiouyäöAEIOUYÄÖ]{10,}|(.)\1{4,}/g.test(entryObject.place)) {
+  } else if (/[^aeiouyäöAEIOUYÄÖ\s]{10,}|(.)\1{4,}/g.test(entryObject.place)) {
     return ("paikan nimessä ei voi olla 10 konsonanttia tai 5 samaa merkkia peräkkäin.")
   }
 

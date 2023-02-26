@@ -77,14 +77,22 @@ body {
   font-size: 1.5rem;
 }
 
-.button:hover:not([disabled]) {
-	/* background:linear-gradient(to bottom, #0073d8 5%, var(--theme-color) 100%); */
-	background-color:#0073d8;
-  cursor:pointer;
+@media (hover: hover) {
+  .button:hover:not([disabled]) {
+    /* background:linear-gradient(to bottom, #0073d8 5%, var(--theme-color) 100%); */
+    background-color:#0073d8;
+    cursor:pointer;
+  }
+  
+  .button:active:not([disabled]) {
+    position:relative;
+    top: 0.1875rem;
+  }
 }
-.button:active:not([disabled]) {
-	position:relative;
-	top: 0.1875rem;
+
+
+.button:disabled {
+  pointer-events: none;
 }
 
 .newEntryAndStatisticsContainer {
@@ -882,6 +890,19 @@ table th:nth-child(9) {
   box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);
 }
 
+.arrowForward, .arrowBack {
+  color: rgb(255, 255, 255);
+  position: absolute;
+  transform: translate(-50%, -50%);
+  height: 100%;
+  width: 100%;
+}
+
+.paginationButton {
+  min-width: 4.72rem;
+  z-index: 2;
+}
+
 .activePaginationButton {
   font-size: 1.5rem;
 	background-color:#0073d8;
@@ -891,18 +912,32 @@ table th:nth-child(9) {
   font-size: 1.5rem;
 }
 
-.activePaginationButton.first, .inactivePaginationButton.first {
+.paginationButton.first.arrow {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+  position: relative;
 }
 
-.activePaginationButton.middle, .inactivePaginationButton.middle {
+.paginationButton.middle {
   border-radius: 0;
 }
 
-.activePaginationButton.last, .inactivePaginationButton.last {
+.paginationButton.last.arrow {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  position: relative;
+}
+
+.visibility-hidden {
+  visibility: hidden;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
 }
 
 footer {

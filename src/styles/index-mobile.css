@@ -251,10 +251,6 @@
     
   }
 
-  .button:hover {
-    background-color: var(--theme-color);
-  }
-
   .button:active {
     background-color: #0073d8;
     position: relative;
@@ -447,6 +443,10 @@
     box-shadow: 1rem 1rem 2rem 0 rgba(0, 0, 0, 0.2);
   }
 
+  .paginationButton {
+    width: 6.71rem;
+  }
+
   .activePaginationButton {
     font-size: 2rem;
     padding: 1rem 2.5rem;
@@ -456,10 +456,6 @@
   .inactivePaginationButton {
     font-size: 2rem;
     padding: 1rem 2.5rem;
-  }
-
-  .activePaginationButton:hover {
-    background-color: #0073d8;
   }
 
   footer {

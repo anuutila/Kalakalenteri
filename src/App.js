@@ -101,7 +101,7 @@ const App = () => {
     event.preventDefault()
 
     const entryObject = {
-      fish: newValues.newFish.trim(),
+      fish: newValues.newFish.trim().toLowerCase(),
       date: newValues.newDate,
       length: newValues.newLength,
       weight: newValues.newWeight,
@@ -109,7 +109,7 @@ const App = () => {
       place: newValues.newPlace.trim(),
       coordinates: newValues.newCoordinates.trim(),
       time: newValues.newTime,
-      person: newValues.newPerson.trim()
+      person: (newValues.newPerson.charAt(0).toUpperCase() + newValues.newPerson.slice(1).toLowerCase()).trim()
     }
 
     // Validate the user inputted values
@@ -434,7 +434,7 @@ const App = () => {
           }
           <EntryTable
             entries={filteredEntries}
-            rowsPerPage={50}
+            rowsPerPage={5}
             removeEntry={removeEntry}
             editValues={editValues}
             editEntry={editEntry}
