@@ -193,8 +193,10 @@ input#locationCheckbox {
   cursor: pointer;
 }
 
-input#locationCheckbox:hover:not(:checked) {
-  filter: invert(25%);
+@media (hover: hover) {
+  input#locationCheckbox:hover:not(:checked) {
+    filter: invert(25%);
+  }
 }
 
 .editFormContainer {
@@ -748,8 +750,10 @@ table th:nth-child(9) {
   color: #35b8ff;
 }
 
-#mapLink:hover {
-  color: #ffffff;
+@media (hover: hover) {
+  #mapLink:hover {
+    color: #ffffff;
+  }
 }
 
 #mapLink:active {

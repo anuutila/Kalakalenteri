@@ -82,7 +82,7 @@ const Entry = (props) => {
         <br></br>
         {props.entry.coordinates === '-' ? '' :
           <div className="mapLinkContainer">
-            <a id="mapLink" href={`https://www.google.com/maps/search/?api=1&query=${getLatitude()}%2C${getLongitude()}&zoom12`}>kartta</a>
+            <a id="mapLink" href={`https://www.google.com/maps/search/?api=1&query=${getLatitude()}%2C${getLongitude()}&zoom12`} target="_blank">kartta</a>
           </div>}
       </td>
       <td>{formatDate(props.entry.date)}</td>
