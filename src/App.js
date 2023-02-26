@@ -434,7 +434,7 @@ const App = () => {
           }
           <EntryTable
             entries={filteredEntries}
-            rowsPerPage={5}
+            rowsPerPage={50}
             removeEntry={removeEntry}
             editValues={editValues}
             editEntry={editEntry}
