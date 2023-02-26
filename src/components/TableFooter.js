@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { RiArrowDropRightLine, RiArrowDropLeftLine } from "react-icons/ri";
 
 /**
@@ -14,15 +14,15 @@ const TableFooter = ({ range, setPageNumber, pageNumber, slice }) => {
     }
   }, [slice, pageNumber, setPageNumber]);
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [pageNumber]);
+  // useLayoutEffect(() => {
+  //   scrollToBottom();
+  // }, [pageNumber]);
 
-  function scrollToBottom() {
-    setTimeout(() => {
-      document.documentElement.scrollTop = document.documentElement.scrollHeight;
-    }, 0);
-  }
+  // function scrollToBottom() {
+  //   setTimeout(() => {
+  //     document.documentElement.scrollTop = document.documentElement.scrollHeight;
+  //   }, 0);
+  // }
 
   return (
     <div className="tableFooter">

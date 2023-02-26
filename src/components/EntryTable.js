@@ -14,12 +14,6 @@ const EntryTable = ({ entries, removeEntry, editEntry, editValues,
   const [pageNumber, setPageNumber] = useState(1)
   const { slice, range } = useTable(entries, pageNumber, rowsPerPage)
 
-  const previousPage = () => {
-    if (pageNumber > 1) {
-      setPageNumber(pageNumber - 1);
-    }
-  }
-
   function renderEntriesOrMessage() {
     const numColumns = 9
     const noEntriesMessage = (
@@ -84,7 +78,6 @@ const EntryTable = ({ entries, removeEntry, editEntry, editValues,
             slice={slice}
             setPageNumber={setPageNumber}
             pageNumber={pageNumber}
-            previousPage={previousPage}
           />}
       </div>
     </>
