@@ -1,4 +1,5 @@
 import { React, useEffect, useState } from 'react'
+import { FaUserAlt } from 'react-icons/fa';
 
 import entryService from './services/entries'
 import InputForm from './components/InputForm'
@@ -6,11 +7,15 @@ import EntryTable from './components/EntryTable'
 import Statistics from './components/Statistics'
 import TableUtilities from './components/TableUtilities'
 import RadioGroup from './components/RadioGroup'
-import { getCurrentDate, getInitialYear, geolocationAvailable, devLog, validateEntryInput } from './utils/utils'
+import { getCurrentDate, getInitialYear, geolocationAvailable, devLog, validateEntryInput, validateSignupInput } from './utils/utils'
 import {
   sortByFish, sortByLength, sortByWeight, sortByLure, sortByPlace,
   sortByDate, sortByTime, sortByPerson, defaultSort
 } from './utils/SortingUtils'
+import userService from './services/users'
+import loginService from './services/login'
+import LoginForm from './components/LoginForm'
+import SignInForm from './components/SignUpForm'
 
 const App = () => {
   const initialNewValues = {
@@ -45,6 +50,15 @@ const App = () => {
   const [statsWindowAnimation, setStatsWindowAnimation] = useState(false)
   const [sortingIsHidden, setSortingIsHidden] = useState(true)
   const [radioGroupAnimation, setRadioGroupAnimation] = useState(false)
+  const [newUsername, setNewUsername] = useState('') 
+  const [newEmail, setNewEmail] = useState('') 
+  const [newPassword, setNewPassword] = useState('') 
+  const [newPasswordAgain, setNewPasswordAgain] = useState('')
+  const [username, setUsername] = useState('') 
+  const [password, setPassword] = useState('') 
+  const [user, setUser] = useState(null)
+  const [privelege, setPrivelege] = useState(3) // 3 = not logged in, 2 = user, 1 = admin
+  const [userManagementVisible, setUserManagementVisible] = useState(false)
 
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitEditLoading, setSubmitEditLoading] = useState(false);
@@ -72,6 +86,15 @@ const App = () => {
       .finally(() => {
         setEntriesLoading(false)
       })
+  }, [])
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('KalapaivakirjaKayttaja')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      entryService.setToken(user.token)
+    }
   }, [])
 
   /**
@@ -112,6 +135,11 @@ const App = () => {
       person: (newValues.newPerson.charAt(0).toUpperCase() + newValues.newPerson.slice(1).toLowerCase()).trim()
     }
 
+    const message = {
+      entryObject: entryObject,
+      user: user
+    }
+
     // Validate the user inputted values
     const errorMessage = validateEntryInput(entryObject);
     const errorMessageStart = "Uuden saaliin lisäämisessä tapahtui virhe: "
@@ -123,7 +151,7 @@ const App = () => {
 
     setSubmitLoading(true)
     entryService
-      .create(entryObject)
+      .create(message)
       .then(response => {
         devLog('entry added')
         devLog(response)
@@ -149,16 +177,20 @@ const App = () => {
   const removeEntry = (id) => {
     return () => {
       const entry = allEntries.find(e => e.id === id)
-      // Ask for confirmation before deleting
       if (window.confirm(`Poistetaanko ${entry.fish}, jonka ${entry.person} nappasi ${entry.date}?`)) {
         entryService
-          .remove(id)
+          .remove(id, privelege)
           .then(response => {
             devLog('entry removed')
             devLog(response)
             setAllEntries(allEntries.filter(e => e.id !== id))
           })
-          .catch(createErrorHandler("Saaliin poistamisessa tapahtui virhe: "))
+          .catch(error => {
+            const errorMessage = error.response?.data?.error || error.toString()
+            const errorMessageStart = "Saaliin poistamisessa tapahtui virhe: "
+            console.error(`${errorMessageStart}${errorMessage}`)
+            window.alert(`${errorMessageStart}${errorMessage}`)
+          })
       }
     }
   }
@@ -194,7 +226,7 @@ const App = () => {
 
       return new Promise((resolve, reject) => {
         entryService
-          .edit(id, editedEntryObject)
+          .edit(id, editedEntryObject, privelege)
           .then(response => {
             devLog('entry edited')
             devLog(response)
@@ -212,6 +244,78 @@ const App = () => {
           })
       })
     }
+  }
+
+  /**
+     * Sends a new user to the backend based on the user inputted values in the form
+     */
+  const addUser = (event) => {
+    event.preventDefault()
+
+    const userObject = {
+      username: newUsername,
+      email: newEmail,
+      password: newPassword,
+      passwordAgain: newPasswordAgain
+    }
+
+    // Validate the user inputted values
+    const errorMessage = validateSignupInput(userObject);
+    const errorMessageStart = "Uuden käyttäjän luomisessa tapahtui virhe: "
+    if (errorMessage) {
+      console.error(`${errorMessageStart}${errorMessage}`)
+      window.alert(`${errorMessageStart}${errorMessage}`)
+      return
+    }
+
+    userService
+      .create(userObject)
+      .then(response => {
+        devLog('user added')
+        devLog(response)
+        setNewUsername('')
+        setNewEmail('')
+        setNewPassword('')
+        setNewPasswordAgain('')
+      })
+      .catch(error => {
+        const errorMessage = error.response?.data?.error || error.toString()
+        console.error(`${errorMessageStart} ${errorMessage}`)
+        window.alert(`${errorMessageStart} ${errorMessage}`)
+      })
+  }
+
+  /**
+   * Sends a login request to the backend based on the user inputted values in the form
+   */
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    try {
+      const user = await loginService.login({
+        username, password,
+      })
+      window.localStorage.setItem(
+        'KalapaivakirjaKayttaja', JSON.stringify(user)
+      ) 
+      entryService.setToken(user.token)
+      setUser(user)
+      setPrivelege(user.privilege)
+      setUsername('')
+      setPassword('')
+      toggleUserManagement()
+    } catch (exception) {
+      window.alert('Virheellinen käyttäjätunnus tai salasana')
+    }
+  }
+
+  const handleLogout = () => {
+    window.localStorage.removeItem('KalapaivakirjaKayttaja')
+    setUser(null)
+    setPrivelege(3)
+  }
+
+  const toggleUserManagement = () => {
+    setUserManagementVisible(!userManagementVisible)
   }
 
   /**
@@ -278,7 +382,7 @@ const App = () => {
    */
   const getGeolocation = () => {
     const success = (position) => {
-      console.log(position)
+      devLog(position)
       setNewValues({
         ...newValues, newCoordinates:
           `${position.coords.latitude}, ${position.coords.longitude}`
@@ -393,6 +497,32 @@ const App = () => {
     <>
       <div className="img"></div>
       <div className='content'>
+        <div className='userIcon' onClick={toggleUserManagement}><FaUserAlt/></div>
+        { userManagementVisible && <div className='userManagement'>
+          {!user && <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleSubmit={handleLogin}
+          />}
+          {!user && <SignInForm
+            username={newUsername}
+            email={newEmail}
+            password={newPassword}
+            passwordAgain={newPasswordAgain}
+            handleUsernameChange={({ target }) => setNewUsername(target.value)}
+            handleEmailChange={({ target }) => setNewEmail(target.value)}
+            handlePasswordChange={({ target }) => setNewPassword(target.value)}
+            handlePasswordAgainChange={({ target }) => setNewPasswordAgain(target.value)}
+            handleSubmit={addUser}
+          />}
+          {user && 
+          <div className='loggedInContainer'>
+            <p>{user.username} kirjautunut sisään</p>
+            <button className='logoutButton' onClick={handleLogout}>Kirjaudu ulos</button>
+          </div> }
+        </div> }
         <div className='topShade-mobile'></div>
         <h1 className='title1'>KALAPÄIVÄKIRJA</h1>
         <h1 className='title1-mobile'>

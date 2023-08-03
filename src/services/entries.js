@@ -1,6 +1,11 @@
 import axios from 'axios'
 const baseUrl = 'api/entries'
 
+let token = null
+
+const setToken = newToken => {
+  token = `Bearer ${newToken}`
+}
 
 /**
  * HTTP GET request to the backend to get all entries
@@ -13,23 +18,32 @@ const getAll = () => {
 /**
  * HTTP POST request to the backend to add a new entry 
  */
-const create = (newObject) => {
-  const request = axios.post(baseUrl, newObject)
+const create = (message) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  const request = axios.post(baseUrl, message, config)
   return request.then(response => response.data)
 }
 
 /**
  * HTTP DELETE request to the backend to delete an entry with the given id
  */
-const remove = (id) => {
-  return axios.delete(`${baseUrl}/${id}`)
+const remove = (id, userPrivilege) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  return axios.delete(`${baseUrl}/${id}?userPrivilege=${userPrivilege}`, config)
 }
 
 /**
  * HTTP PUT request to the backend to edit an entry with the given id
  */
-const edit = (id, editedEntry) => {
-  const request = axios.put(`${baseUrl}/${id}`, editedEntry)
+const edit = (id, editedEntry, userPrivilege) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  const request = axios.put(`${baseUrl}/${id}?userPrivilege=${userPrivilege}`, editedEntry, config)
   return request.then(response => response.data)
 }
 
@@ -40,7 +54,8 @@ const entryService = {
   getAll,
   create,
   remove,
-  edit
+  edit,
+  setToken 
 }
 
 export default entryService

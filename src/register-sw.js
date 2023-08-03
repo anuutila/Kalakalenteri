@@ -1,3 +1,5 @@
+import { devLog } from "./utils/utils";
+
 /**
  * Registers the service worker if it's supported by the browser.
  */
@@ -6,10 +8,10 @@ export function register() {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./service-worker.js')
         .then((registration) => {
-          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          devLog('ServiceWorker registration successful with scope: ', registration.scope);
         })
         .catch((error) => {
-          console.error(`ServiceWorker registration failed with ${error}`)
+          devLog(`ServiceWorker registration failed with ${error}`)
         });
     });
   }

@@ -9,6 +9,25 @@
     background-size: cover;
   }
 
+  .userIcon {
+    top: 1rem;
+    right: 1rem;
+    font-size: xx-large;
+    color: whitesmoke;
+  }
+
+  .userManagement, .userManagement input {
+    font-size: x-large;
+  }
+  
+  .signUpForm, .loginForm {
+    line-height: 4rem;
+  }
+
+  .signUpForm input, .loginForm input{
+    max-width: 35rem;
+  }
+
   .content {
     padding-left: 2rem;
     padding-right: 2rem;

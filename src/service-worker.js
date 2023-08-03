@@ -1,3 +1,5 @@
+import { devLog } from "./utils/utils";
+
 // eslint-disable-next-line no-restricted-globals
 const ignored = self.__WB_MANIFEST;
 
@@ -11,10 +13,10 @@ const contentToCache = [
 // Installing Service Worker
 // eslint-disable-next-line no-restricted-globals
 self.addEventListener('install', (e) => {
-  console.log('[Service Worker] Install');
+  devLog('[Service Worker] Install');
   e.waitUntil((async () => {
     const cache = await caches.open(cacheName);
-    console.log('[Service Worker] Caching all: app shell and content');
+    devLog('[Service Worker] Caching all: app shell and content');
     await cache.addAll(contentToCache);
   })());
 });
@@ -39,15 +41,16 @@ self.addEventListener('fetch', (e) => {
   // if request is made for web page url must contains http.
   if (!(e.request.url.indexOf('http') === 0)) return; // skip the request. if request is not made with http protocol
   if (e.request.url.includes('entries')) return;
+  if (e.request.url.includes('users')) return;
   // && e.request.method !== "GET"
 
   e.respondWith((async () => {
     const r = await caches.match(e.request);
-    console.log(`[Service Worker] Fetching resource: ${e.request.url}`);
+    devLog(`[Service Worker] Fetching resource: ${e.request.url}`);
     if (r) return r;
     const response = await fetch(e.request);
     const cache = await caches.open(cacheName);
-    console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
+    devLog(`[Service Worker] Caching new resource: ${e.request.url}`);
     cache.put(e.request.url, response.clone());
     return response;
   })());

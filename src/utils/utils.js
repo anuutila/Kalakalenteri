@@ -65,7 +65,7 @@ export function validateEntryInput(entryObject) {
   const MAX_INPUT_LENGTH_BIG = 100;
   const MAX_INPUT_LENGTH_SMALL = 10;
 
-  if (!entryObject.date || !entryObject.time || !entryObject.person) {
+  if (!entryObject.fish || !entryObject.date || !entryObject.time || !entryObject.person) {
     return ('kalalaji, päivämäärä, kellonaika tai saajan nimi puuttuu')
   }
 
@@ -105,6 +105,28 @@ export function validateEntryInput(entryObject) {
 
   if (!/^\-?[0-9]{1,2}\.[0-9]{2,10},\s\-?[0-9]{1,3}\.[0-9]{2,10}$|^$/.test(entryObject.coordinates)) {
     return ('koordinaattien formaatti virheellinen\nOikea muoto: "xx.xxxxxxx, yy.yyyyyyy" tai tyhjä\n(huomaa välilyönti)')
+  }
+
+  return false
+}
+
+export function validateSignupInput(inputObject) {
+  const MAX_INPUT_LENGTH = 30;
+
+  if (!inputObject.username || !inputObject.email ||  !inputObject.password || !inputObject.passwordAgain) {
+    return ("Kaikkia kenttiä ei ole täytetty")
+  }
+
+  if (inputObject.username.length > MAX_INPUT_LENGTH) {
+    return (`käyttäjänimi saa olla enintään ${MAX_INPUT_LENGTH} merkkiä pitkä.`)
+  }
+
+  if (inputObject.password.length > MAX_INPUT_LENGTH) {
+    return (`salasana saa olla enintään ${MAX_INPUT_LENGTH} merkkiä pitkä.`)
+  }
+
+  if (inputObject.password !== inputObject.passwordAgain) {
+    return ("salasanat eivät täsmää")
   }
 
   return false

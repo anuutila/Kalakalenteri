@@ -30,6 +30,53 @@ body {
   z-index: -1;
 }
 
+.userIcon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: x-large;
+  cursor: pointer;
+  color: rgb(179, 179, 179);
+  z-index: 2;
+}
+
+.userManagement {
+  font-size: xx-large;
+}
+
+.signUpForm, .loginForm {
+  line-height: 3rem;
+}
+
+.loginForm {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.signUpForm input, .loginForm input{
+  margin-left: 1rem;
+}
+
+.loginButton, .signUpButton, .logoutButton {
+  font-size: large;
+  padding: 0.5rem;
+  width: fit-content;
+}
+
+.logoutButton {
+  margin-top: 1rem;
+}
+
+.userManagement input{
+  font-size: xx-large;
+}
+
+.loggedInContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .content {
   position: absolute;
   display: flex;
