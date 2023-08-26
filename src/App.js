@@ -57,7 +57,7 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
-  const [privelege, setPrivelege] = useState(3) // 3 = not logged in, 2 = user, 1 = admin
+  const [privilege, setPrivilege] = useState(3) // 3 = not logged in, 2 = user, 1 = admin
   const [userManagementVisible, setUserManagementVisible] = useState(false)
 
   const [submitLoading, setSubmitLoading] = useState(false);
@@ -91,9 +91,10 @@ const App = () => {
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('KalapaivakirjaKayttaja')
     if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      entryService.setToken(user.token)
+      const parsedUser = JSON.parse(loggedUserJSON)
+      setUser(parsedUser)
+      setPrivilege(parsedUser.privilege)
+      entryService.setToken(parsedUser.token)
     }
   }, [])
 
@@ -179,7 +180,7 @@ const App = () => {
       const entry = allEntries.find(e => e.id === id)
       if (window.confirm(`Poistetaanko ${entry.fish}, jonka ${entry.person} nappasi ${entry.date}?`)) {
         entryService
-          .remove(id, privelege)
+          .remove(id, privilege)
           .then(response => {
             devLog('entry removed')
             devLog(response)
@@ -226,7 +227,7 @@ const App = () => {
 
       return new Promise((resolve, reject) => {
         entryService
-          .edit(id, editedEntryObject, privelege)
+          .edit(id, editedEntryObject, privilege)
           .then(response => {
             devLog('entry edited')
             devLog(response)
@@ -291,15 +292,15 @@ const App = () => {
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      const user = await loginService.login({
+      const userData = await loginService.login({
         username, password,
       })
       window.localStorage.setItem(
-        'KalapaivakirjaKayttaja', JSON.stringify(user)
+        'KalapaivakirjaKayttaja', JSON.stringify(userData)
       ) 
-      entryService.setToken(user.token)
-      setUser(user)
-      setPrivelege(user.privilege)
+      entryService.setToken(userData.token)
+      setUser(userData)
+      setPrivilege(userData.privilege)
       setUsername('')
       setPassword('')
       toggleUserManagement()
@@ -311,7 +312,7 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('KalapaivakirjaKayttaja')
     setUser(null)
-    setPrivelege(3)
+    setPrivilege(3)
   }
 
   const toggleUserManagement = () => {
