@@ -9,13 +9,6 @@
     background-size: cover;
   }
 
-  .userIcon {
-    top: 1rem;
-    right: 1rem;
-    font-size: xx-large;
-    color: whitesmoke;
-  }
-
   .userManagement, .userManagement input {
     font-size: x-large;
   }

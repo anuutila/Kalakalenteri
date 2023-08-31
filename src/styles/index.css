@@ -30,17 +30,7 @@ body {
   z-index: -1;
 }
 
-.userIcon {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: x-large;
-  cursor: pointer;
-  color: rgb(179, 179, 179);
-  z-index: 2;
-}
-
-.userManagement {
+/* .userManagement {
   font-size: xx-large;
 }
 
@@ -75,7 +65,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
+} */
 
 .content {
   position: absolute;

@@ -1,5 +1,4 @@
 import { React, useEffect, useState } from 'react'
-import { FaUserAlt } from 'react-icons/fa';
 
 import entryService from './services/entries'
 import InputForm from './components/InputForm'
@@ -14,8 +13,8 @@ import {
 } from './utils/SortingUtils'
 import userService from './services/users'
 import loginService from './services/login'
-import LoginForm from './components/LoginForm'
-import SignInForm from './components/SignUpForm'
+import UserManagement from './components/UserManagement/UserManagement';
+
 
 const App = () => {
   const initialNewValues = {
@@ -50,12 +49,12 @@ const App = () => {
   const [statsWindowAnimation, setStatsWindowAnimation] = useState(false)
   const [sortingIsHidden, setSortingIsHidden] = useState(true)
   const [radioGroupAnimation, setRadioGroupAnimation] = useState(false)
-  const [newUsername, setNewUsername] = useState('') 
-  const [newEmail, setNewEmail] = useState('') 
-  const [newPassword, setNewPassword] = useState('') 
+  const [newUsername, setNewUsername] = useState('')
+  const [newEmail, setNewEmail] = useState('')
+  const [newPassword, setNewPassword] = useState('')
   const [newPasswordAgain, setNewPasswordAgain] = useState('')
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [privilege, setPrivilege] = useState(3) // 3 = not logged in, 2 = user, 1 = admin
   const [userManagementVisible, setUserManagementVisible] = useState(false)
@@ -293,24 +292,25 @@ const App = () => {
     event.preventDefault()
     try {
       const userData = await loginService.login({
-        username, password,
+        email, password,
       })
       window.localStorage.setItem(
         'KalapaivakirjaKayttaja', JSON.stringify(userData)
-      ) 
+      )
       entryService.setToken(userData.token)
       setUser(userData)
       setPrivilege(userData.privilege)
-      setUsername('')
+      setEmail('')
       setPassword('')
       toggleUserManagement()
     } catch (exception) {
-      window.alert('Virheellinen käyttäjätunnus tai salasana')
+      window.alert('Virheellinen sähköposti tai salasana')
     }
   }
 
   const handleLogout = () => {
     window.localStorage.removeItem('KalapaivakirjaKayttaja')
+    setUserManagementVisible(false)
     setUser(null)
     setPrivilege(3)
   }
@@ -498,32 +498,29 @@ const App = () => {
     <>
       <div className="img"></div>
       <div className='content'>
-        <div className='userIcon' onClick={toggleUserManagement}><FaUserAlt/></div>
-        { userManagementVisible && <div className='userManagement'>
-          {!user && <LoginForm
-            username={username}
+        <div className='userManagement'>
+          <UserManagement
+            user={user}
+            toggleUserManagement={toggleUserManagement}
+            userManagementVisible={userManagementVisible}
+            setUserManagementVisible={setUserManagementVisible}
+            email={email}
             password={password}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            handleSubmit={handleLogin}
-          />}
-          {!user && <SignInForm
-            username={newUsername}
-            email={newEmail}
-            password={newPassword}
-            passwordAgain={newPasswordAgain}
-            handleUsernameChange={({ target }) => setNewUsername(target.value)}
-            handleEmailChange={({ target }) => setNewEmail(target.value)}
-            handlePasswordChange={({ target }) => setNewPassword(target.value)}
-            handlePasswordAgainChange={({ target }) => setNewPasswordAgain(target.value)}
-            handleSubmit={addUser}
-          />}
-          {user && 
-          <div className='loggedInContainer'>
-            <p>{user.username} kirjautunut sisään</p>
-            <button className='logoutButton' onClick={handleLogout}>Kirjaudu ulos</button>
-          </div> }
-        </div> }
+            newUsername={newUsername}
+            newEmail={newEmail}
+            newPassword={newPassword}
+            newPasswordAgain={newPasswordAgain}
+            setEmail={setEmail}
+            setPassword={setPassword}
+            setNewUsername={setNewUsername}
+            setNewEmail={setNewEmail}
+            setNewPassword={setNewPassword}
+            setNewPasswordAgain={setNewPasswordAgain}
+            handleLogin={handleLogin}
+            addUser={addUser}
+            handleLogout={handleLogout}
+          />
+        </div>
         <div className='topShade-mobile'></div>
         <h1 className='title1'>KALAPÄIVÄKIRJA</h1>
         <h1 className='title1-mobile'>
